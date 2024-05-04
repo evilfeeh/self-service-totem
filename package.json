@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon src/Adapters/Primary/Api/app.ts"
+    "start": "npx ts-node ./src/Adapters/Primary/Api/app.ts",
+    "dev": "nodemon -r dotenv/config ./src/Adapters/Primary/Api/app.ts"
   },
   "keywords": [],
   "author": "",
