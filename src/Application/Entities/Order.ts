@@ -16,9 +16,7 @@ export default class Order {
     this.products = products;
     this.customer = customer;
     this.closed = closed;
-    if (!this.isValid()) {
-      throw new Error("Invalid order");
-    }
+    this.validator()
   }
 
   addProduct(product: Product): void {
@@ -42,22 +40,18 @@ export default class Order {
   }
 
   closeOrder(): void {
-    if(this.products.length === 0) {
-      throw new Error("Order without products cannot be closed");
-    }
     this.closed = true;
+    this.validator()
   }
 
-  private isValid(): boolean {
+  private validator(): void {
     if (this.closed === true && this.products.length === 0) {
-      return false;
+      throw new Error("Order without products cannot be closed");
     }
 
     if (!this.customer) {
-      return false;
+      throw new Error("Invalid customer");
     }
-
-    return true;
   }
 
   toJSON(): OrderOutputDTO {

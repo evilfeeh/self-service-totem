@@ -53,7 +53,7 @@ describe('Order entity', () => {
   });
 
   it('should not be able to validate an order', () => {
-    expect(() => new Order([product], undefined as unknown as Customer)).toThrow('Invalid order');
-    expect(() => new Order([], customer, true)).toThrow('Invalid order');
+    expect(() => new Order([product], undefined as unknown as Customer)).toThrow('Invalid customer');
+    expect(() => new Order([], customer, true)).toThrow('Order without products cannot be closed');
   });
 });
