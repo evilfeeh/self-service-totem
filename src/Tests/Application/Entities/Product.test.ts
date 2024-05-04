@@ -37,19 +37,19 @@ describe('Product entity', () => {
   })
 
   it('should not be able to create a product with invalid category', () => {
-    expect(() => new Product('1', 'Hamburguer', 'Invalid' as unknown as keyof typeof CategoryEnum, 10, 'Delicious hamburguer')).toThrow('Invalid product');
+    expect(() => new Product('1', 'Hamburguer', 'Invalid' as unknown as keyof typeof CategoryEnum, 10, 'Delicious hamburguer')).toThrow('Invalid category');
   });
 
   it('should not be able to create a product with invalid price', () => {
-    expect(() => new Product('1', 'Hamburguer', 'Sandwich', -10, 'Delicious hamburguer')).toThrow('Invalid product');
+    expect(() => new Product('1', 'Hamburguer', 'Sandwich', -10, 'Delicious hamburguer')).toThrow('Invalid price');
   });
 
   it('should not be able to create a product with invalid name', () => {
-    expect(() => new Product('1', '', 'Sandwich', 10, 'Delicious hamburguer')).toThrow('Invalid product');
+    expect(() => new Product('1', '', 'Sandwich', 10, 'Delicious hamburguer')).toThrow('Invalid name');
   });
 
   it('should not be able to create a product with invalid description', () => {
-    expect(() => new Product('1', 'Hamburguer', 'Sandwich', 10, '')).toThrow('Invalid product');
+    expect(() => new Product('1', 'Hamburguer', 'Sandwich', 10, '')).toThrow('Invalid description');
   });
 });
 

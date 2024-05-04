@@ -21,9 +21,7 @@ export default class Product {
     this.category = category;
     this.price = price;
     this.description = description;
-    if (!this.isValid()) {
-      throw new Error("Invalid product");
-    }
+    this.validator()
   }
 
   getId(): string {
@@ -48,38 +46,40 @@ export default class Product {
 
   setName(name: string): void {
     this.name = name;
+    this.validator()
   }
 
   setCategory(category: keyof typeof CategoryEnum): void {
     this.category = category;
+    this.validator()
   }
 
   setPrice(price: number): void {
     this.price = price;
+    this.validator()
   }
 
   setDescription(description: string): void {
     this.description = description;
+    this.validator()
   }
 
-  private isValid(): boolean {
+  private validator(): void {
     if (this.name.length < 3 || this.name.length > 50) {
-      return false;
+      throw new Error("Invalid name");
     }
 
     if (CategoryEnum[this.category] === undefined) {
-      return false;
+      throw new Error("Invalid category");
     }
 
     if (this.price <= 0) {
-      return false;
+      throw new Error("Invalid price");
     }
 
     if (this.description.length < 3 || this.description.length > 50) {
-      return false;
+      throw new Error("Invalid description");
     }
-
-    return true;
   }
 
   toJSON(): ProductOutputDTO {
