@@ -2,9 +2,8 @@
 
 Project about Tech Challenge from FIAP
 
-# Passos:
+# Rodar a aplicação
 
-- node version > 18
-- git clone
-- npm i
-- npm run dev
+```bash
+  docker compose up
+```
