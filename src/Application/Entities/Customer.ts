@@ -1,3 +1,4 @@
+import { Either } from "../../Shared/util/either";
 import CpfNotFoundException from "../Exceptions/CpfNotFoundException";
 import ICustomerService from "../Ports/Primary/ICustomerService";
 import ICustomerRepository from "../Ports/Secondary/ICustomerRepository";
@@ -39,10 +40,10 @@ export default class Customer implements ICustomerService {
     return !this.cpf;
   }
 
-  async saveOrUpdate(): Promise<void> {
-    this.repository.saveOrUpdate(this);
+  async saveOrUpdate(): Promise<Either<Error, string>>  {
+    return this.repository.saveOrUpdate(this);
   }
-  
+
   async findByCpf(cpf: string): Promise<void> {
     const CustomerSaved = await this.repository.findByCpf(cpf);
 

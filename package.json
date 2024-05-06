@@ -6,7 +6,7 @@
   "scripts": {    
     "build": "npx tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon src/Adapters/Primary/Api/app.ts",
+    "dev": "nodemon src/Adapters/Primary/Api/server.ts",
     "test": "jest"
   },
   "keywords": [],

@@ -1,16 +1,19 @@
 import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
-import routes from "./Routes";
+import HeathController from "./Controllers/HealthController";
+import CustomerController from "./Controllers/CustomerController";
+import CustomerRepositoryInMemory from "../../Secondary/DataInMemory/Repositories/CustomerRepositoryInMemory";
 
-dotenv.config();
+const getApiRoute = (name: String) => `/api/${name}`;
 
 const app: Express = express();
 app.use(express.json());
 
-app.use('/api', routes);
+const heathController = new HeathController();
 
-const port = process.env.PORT || 3000;
+const customerRepository = new CustomerRepositoryInMemory();
+const customerController = new CustomerController(customerRepository);
 
-app.listen(port, () => {
-  console.log(`[server]: Server is up and running at http://localhost:${port} 🚀`);
-});
+app.use(getApiRoute('health'), heathController.buildRouter());
+app.use(getApiRoute('customer'), customerController.buildRouter());
+
+export default app;

@@ -1,5 +1,6 @@
 import Customer from "../../../../Application/Entities/Customer";
 import ICustomerRepository from "../../../../Application/Ports/Secondary/ICustomerRepository";
+import { Either, Left, Right  } from "../../../../Shared/util/either";
 
 type CustomerType = {
   name: string,
@@ -12,12 +13,12 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository{
 
   constructor(){
     this.list  = [];
-  }  
+  }
 
-  async saveOrUpdate(customer: Customer): Promise<void> {
+  async saveOrUpdate(customer: Customer): Promise<Either<Error, string>>  {
     const existingCustomerIndex = this.list.findIndex(customerFind => customerFind.cpf === customer.getCpf());
-    
-    if (existingCustomerIndex !== -1) {      
+
+    if (existingCustomerIndex !== -1) {
       this.list[existingCustomerIndex] = {
         name: customer.getName(),
         cpf: customer.getCpf(),
@@ -30,12 +31,14 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository{
         email: customer.getEmail()
       });
     }
+
+    return Right(customer.getCpf()!);
   }
 
-  async findByCpf(cpf: string): Promise<Customer | undefined> {  
-    let customer = undefined;  
+  async findByCpf(cpf: string): Promise<Customer | undefined> {
+    let customer = undefined;
     const customerSaved = this.list.find(customerFind => customerFind.cpf === cpf);
-    
+
     if (customerSaved) {
       customer = new Customer(customerSaved.name, this);
 
@@ -43,12 +46,12 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository{
       if (customerSaved.email) customer.setEmail(customerSaved.email);
     }
 
-    return customer;    
+    return customer;
   }
 
   async delete(cpf: string): Promise<void> {
     const existingCustomerIndex = this.list.findIndex(customerFind => customerFind.cpf === cpf);
-    
+
     if (existingCustomerIndex !== -1) {
       this.list.splice(existingCustomerIndex, 1);
     }

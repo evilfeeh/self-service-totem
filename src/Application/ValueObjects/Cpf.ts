@@ -10,7 +10,7 @@ export default class Cpf {
     this.cpf = cpf;
   }
 
-  private isValid(cpf: string): boolean {    
+  private isValid(cpf: string): boolean {
     // Remover caracteres não numéricos
     cpf = cpf.replace(/\D/g, "");
 
