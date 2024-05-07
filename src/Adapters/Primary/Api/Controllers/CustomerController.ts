@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express'
-import ICustomerRepository from '../../../../Application/Ports/Secondary/ICustomerRepository'
-import Customer from '../../../../Application/Entities/Customer'
-import { isLeft } from '../../../../Shared/util/either'
+import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
+import Customer from '@Application/Entities/Customer'
+import { isLeft } from '@Shared/util/either'
 
 export default class CustomerController {
     constructor(readonly customerRepository: ICustomerRepository) {}

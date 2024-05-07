@@ -1,4 +1,4 @@
-import { Either } from '../../Shared/util/either'
+import { Either } from '@Shared/util/either'
 import CpfNotFoundException from '../Exceptions/CpfNotFoundException'
 import ICustomerService from '../Ports/Primary/ICustomerService'
 import ICustomerRepository from '../Ports/Secondary/ICustomerRepository'

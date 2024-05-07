@@ -1,6 +1,6 @@
-import Customer from '../../../../Application/Entities/Customer'
-import ICustomerRepository from '../../../../Application/Ports/Secondary/ICustomerRepository'
-import { Either, Left, Right } from '../../../../Shared/util/either'
+import Customer from '@Application/Entities/Customer'
+import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
+import { Either, Left, Right } from '@Shared/util/either'
 
 type CustomerType = {
     name: string

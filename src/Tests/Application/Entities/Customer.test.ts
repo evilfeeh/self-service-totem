@@ -1,11 +1,11 @@
-import CustomerRepositoryInMemory from '../../../Adapters/Secondary/DataInMemory/Repositories/CustomerRepositoryInMemory'
-import Customer from '../../../Application/Entities/Customer'
-import CpfNotFoundException from '../../../Application/Exceptions/CpfNotFoundException'
-import InvalidCpfException from '../../../Application/Exceptions/InvalidCpfException'
-import InvalidEmailException from '../../../Application/Exceptions/InvalidEmailException'
-import ICustomerRepository from '../../../Application/Ports/Secondary/ICustomerRepository'
-import Cpf from '../../../Application/ValueObjects/Cpf'
-import Email from '../../../Application/ValueObjects/Email'
+import CustomerRepositoryInMemory from '@Adapters/Secondary/DataInMemory/Repositories/CustomerRepositoryInMemory'
+import Customer from '@Application/Entities/Customer'
+import CpfNotFoundException from '@Application/Exceptions/CpfNotFoundException'
+import InvalidCpfException from '@Application/Exceptions/InvalidCpfException'
+import InvalidEmailException from '@Application/Exceptions/InvalidEmailException'
+import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
+import Cpf from '@Application/ValueObjects/Cpf'
+import Email from '@Application/ValueObjects/Email'
 
 describe('Customer Entity', () => {
     let customer: Customer
