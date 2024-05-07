@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Project about Tech Challenge from FIAP",
   "main": "src/app.ts",
-  "scripts": {    
+  "scripts": {
     "build": "npx tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon src/Adapters/Primary/Api/app.ts",
+    "start": "node ./dist/src/Adapters/Primary/Api/app.js",
+    "dev": "nodemon -r dotenv/config ./dist/src/Adapters/Primary/Api/app.ts",
     "test": "jest"
   },
   "keywords": [],
