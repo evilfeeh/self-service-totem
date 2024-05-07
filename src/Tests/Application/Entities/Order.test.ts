@@ -1,6 +1,7 @@
-import Order from '../../../../src/Application/Entities/Order'
-import Customer from '../../../Application/Entities/Customer'
-import Product from '../../../Application/Entities/Product'
+import Customer from "../../../Application/domain/Entities/Customer"
+import Order from "../../../Application/domain/Entities/Order"
+import Product from "../../../Application/domain/Entities/Product"
+
 
 describe('Order entity', () => {
     let customer: Customer

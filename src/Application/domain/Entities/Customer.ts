@@ -7,7 +7,7 @@ import Email from '../ValueObjects/Email'
 export default class Customer {
     private name: string
     private email?: Email
-    private cpf?: Cpf    
+    private cpf?: Cpf
 
     constructor(name: string) {
         this.name = name
@@ -22,7 +22,7 @@ export default class Customer {
     }
 
     setName(name: string): void {
-      this.name = name;
+        this.name = name
     }
 
     getName(): string {
