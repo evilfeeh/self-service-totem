@@ -1,10 +1,10 @@
 import { Request, Response, Router } from 'express'
 import ICustomerRepository from '../../../../Application/Ports/Secondary/ICustomerRepository'
-import Customer from '../../../../Application/Entities/Customer'
 import { isLeft } from '../../../../Shared/util/either'
+import ICustomerService from '../../../../Application/Ports/Primary/ICustomerService'
 
-export default class CustomerController {
-    constructor(readonly customerRepository: ICustomerRepository) {}
+export default class CustomerController {    
+    constructor(readonly customerService: ICustomerService) {}
 
     buildRouter(): Router {
         const router = Router()
@@ -14,10 +14,7 @@ export default class CustomerController {
 
     async registerCustomer(req: Request, res: Response): Promise<void> {
         const { name, email, cpf } = req.body
-        const customer = new Customer(name, this.customerRepository)
-        customer.setEmail(email)
-        customer.setCpf(cpf)
-        const result = await customer.saveOrUpdate()
+        const result = await this.customerService.registerCustomer(name, email, cpf);
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)

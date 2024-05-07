@@ -2,6 +2,8 @@ import express, { Express, Request, Response } from 'express'
 import HeathController from './Controllers/HealthController'
 import CustomerController from './Controllers/CustomerController'
 import CustomerRepositoryInMemory from '../../Secondary/DataInMemory/Repositories/CustomerRepositoryInMemory'
+import CustomerService from '../../../Application/services/CustomerService'
+import ICustomerRepository from '../../../Application/Ports/Secondary/ICustomerRepository'
 
 const getApiRoute = (name: String) => `/api/${name}`
 
@@ -10,8 +12,9 @@ app.use(express.json())
 
 const heathController = new HeathController()
 
-const customerRepository = new CustomerRepositoryInMemory()
-const customerController = new CustomerController(customerRepository)
+const customerRepository: ICustomerRepository = new CustomerRepositoryInMemory()
+const customerService = new CustomerService(customerRepository);
+const customerController = new CustomerController(customerService)
 
 app.use(getApiRoute('health'), heathController.buildRouter())
 app.use(getApiRoute('customer'), customerController.buildRouter())
