@@ -1,6 +1,6 @@
 export default class InvalidCpfException extends Error {
-  constructor(message: string = "Invalid Cpf") {
-    super(message);
-    this.name = "InvalidCpfException";
-  }
+    constructor(message: string = 'Invalid Cpf') {
+        super(message)
+        this.name = 'InvalidCpfException'
+    }
 }

@@ -1,3 +1,1 @@
-export default class OrderKitchen {
-  
-}
+export default class OrderKitchen {}
