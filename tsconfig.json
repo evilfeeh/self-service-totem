@@ -33,7 +33,8 @@
           "@Application/*": ["./src/Application/*"],
           "@Shared/*": ["./src/Shared/*"],
           "@Entities/*": ["./src/Application/domain/Entities/*"],
-          "@Adapters/*": ["./src/Adapters/*"]
+          "@Adapters/*": ["./src/Adapters/*"],
+          "@Exceptions/*": ["./src/Application/domain/Exceptions/*"]
       } /* Specify a set of entries that re-map imports to additional lookup locations. */,
       // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
       // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
