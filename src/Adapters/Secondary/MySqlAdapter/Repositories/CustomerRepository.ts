@@ -1,6 +1,6 @@
-import ICustomerRepository from '../../../../Application/Ports/Secondary/ICustomerRepository'
-import Customer from '../../../../Application/domain/Entities/Customer'
-import { Either } from '../../../../Shared/util/either'
+import Customer from '@Entities/Customer'
+import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
+import { Either } from '@Shared/util/either'
 
 export default class CustomerRepository implements ICustomerRepository {
     create(customer: Customer): Promise<Either<Error, string>> {
@@ -15,7 +15,7 @@ export default class CustomerRepository implements ICustomerRepository {
     delete(cpf: string): Promise<Either<Error, number>> {
         throw new Error('Method not implemented.')
     }
-    findByCpf(cpf: string): Promise<Either<Error, Customer>>{
+    findByCpf(cpf: string): Promise<Either<Error, Customer>> {
         throw new Error('Method not implemented.')
     }
 }

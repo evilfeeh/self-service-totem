@@ -1,8 +1,8 @@
-import ICustomerRepository from '../../../../Application/Ports/Secondary/ICustomerRepository'
-import Customer from '../../../../Application/domain/Entities/Customer'
-import CpfAlreadyRegistered from '../../../../Application/domain/Exceptions/CpfAlreadyRegistered'
-import CpfNotFoundException from '../../../../Application/domain/Exceptions/CpfNotFoundException'
-import { Either, Left, Right } from '../../../../Shared/util/either'
+import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
+import Customer from '@Application/domain/Entities/Customer'
+import CpfAlreadyRegistered from '@Application/domain/Exceptions/CpfAlreadyRegistered'
+import CpfNotFoundException from '@Application/domain/Exceptions/CpfNotFoundException'
+import { Either, Left, Right } from '@Shared/util/either'
 
 type CustomerType = {
     name: string
@@ -15,7 +15,7 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository {
 
     constructor() {
         this.list = []
-    }  
+    }
 
     async create(customer: Customer): Promise<Either<Error, string>> {
         const existingCustomerIndex = this.list.findIndex(
@@ -23,47 +23,47 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository {
         )
 
         if (existingCustomerIndex !== -1) {
-          return Left<Error>(new CpfAlreadyRegistered())
+            return Left<Error>(new CpfAlreadyRegistered())
         }
 
         this.list.push({
-          name: customer.getName(),
-          cpf: customer.getCpf(),
-          email: customer.getEmail(),
+            name: customer.getName(),
+            cpf: customer.getCpf(),
+            email: customer.getEmail(),
         })
 
         return Right(customer.getCpf()!)
     }
 
     async update(customer: Customer): Promise<Either<Error, string>> {
-      const existingCustomerIndex = this.list.findIndex(
-          (customerFind) => customerFind.cpf === customer.getCpf()
-      )
+        const existingCustomerIndex = this.list.findIndex(
+            (customerFind) => customerFind.cpf === customer.getCpf()
+        )
 
-      if (existingCustomerIndex <= -1) {
-        return Left<Error>(new CpfNotFoundException());
-      }
+        if (existingCustomerIndex <= -1) {
+            return Left<Error>(new CpfNotFoundException())
+        }
 
-      this.list[existingCustomerIndex] = {
-          name: customer.getName(),
-          cpf: customer.getCpf(),
-          email: customer.getEmail(),
-      }
+        this.list[existingCustomerIndex] = {
+            name: customer.getName(),
+            cpf: customer.getCpf(),
+            email: customer.getEmail(),
+        }
 
-      return Right(customer.getCpf()!)
+        return Right(customer.getCpf()!)
     }
 
     async delete(cpf: string): Promise<Either<Error, number>> {
-      const existingCustomerIndex = this.list.findIndex(
-          (customerFind) => customerFind.cpf === cpf
-      )
+        const existingCustomerIndex = this.list.findIndex(
+            (customerFind) => customerFind.cpf === cpf
+        )
 
-      if (existingCustomerIndex <= -1) {
-        Left<Error>(new CpfNotFoundException);
-      }
+        if (existingCustomerIndex <= -1) {
+            Left<Error>(new CpfNotFoundException())
+        }
 
-      this.list.splice(existingCustomerIndex, 1) 
-      return Right<number>(existingCustomerIndex);
+        this.list.splice(existingCustomerIndex, 1)
+        return Right<number>(existingCustomerIndex)
     }
 
     async findByCpf(cpf: string): Promise<Either<Error, Customer>> {
@@ -73,14 +73,14 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository {
         )
 
         if (customerSaved) {
-          customer = new Customer(customerSaved.name)
+            customer = new Customer(customerSaved.name)
 
-          if (customerSaved.cpf) customer.setCpf(customerSaved.cpf)
-          if (customerSaved.email) customer.setEmail(customerSaved.email)
+            if (customerSaved.cpf) customer.setCpf(customerSaved.cpf)
+            if (customerSaved.email) customer.setEmail(customerSaved.email)
 
-          return Right<Customer>(customer);
+            return Right<Customer>(customer)
         }
 
-        return Left<Error>(new CpfNotFoundException());
-    }    
+        return Left<Error>(new CpfNotFoundException())
+    }
 }
