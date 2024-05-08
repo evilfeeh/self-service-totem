@@ -1,4 +1,4 @@
-import Product from '@Application/domain/Entities/Product'
+import Product from '@Entities/Product'
 import { CategoryEnum } from '@Application/domain/Enums/CategoryEnum'
 
 describe('Product entity', () => {
