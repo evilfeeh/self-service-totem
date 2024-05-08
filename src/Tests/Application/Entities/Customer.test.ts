@@ -1,11 +1,11 @@
 import CustomerRepositoryInMemory from '../../../Adapters/Secondary/DataInMemory/Repositories/CustomerRepositoryInMemory'
-import Customer from '../../../Application/Entities/Customer'
-import CpfNotFoundException from '../../../Application/Exceptions/CpfNotFoundException'
-import InvalidCpfException from '../../../Application/Exceptions/InvalidCpfException'
-import InvalidEmailException from '../../../Application/Exceptions/InvalidEmailException'
 import ICustomerRepository from '../../../Application/Ports/Secondary/ICustomerRepository'
-import Cpf from '../../../Application/ValueObjects/Cpf'
-import Email from '../../../Application/ValueObjects/Email'
+import Customer from '../../../Application/domain/Entities/Customer'
+import CpfNotFoundException from '../../../Application/domain/Exceptions/CpfNotFoundException'
+import InvalidCpfException from '../../../Application/domain/Exceptions/InvalidCpfException'
+import InvalidEmailException from '../../../Application/domain/Exceptions/InvalidEmailException'
+import Cpf from '../../../Application/domain/ValueObjects/Cpf'
+import Email from '../../../Application/domain/ValueObjects/Email'
 
 describe('Customer Entity', () => {
     let customer: Customer
@@ -13,7 +13,7 @@ describe('Customer Entity', () => {
 
     beforeEach(() => {
         repositoryMock = new CustomerRepositoryInMemory()
-        customer = new Customer('John Doe', repositoryMock)
+        customer = new Customer('John Doe')
     })
 
     it('Should be able to validate CPF', () => {
@@ -58,30 +58,5 @@ describe('Customer Entity', () => {
         // When cpf is set
         customer.setCpf('123.456.789-09')
         expect(customer.isConsumerFinal()).toBe(false)
-    })
-
-    it('should save customer', async () => {
-        customer.setCpf('123.456.789-09')
-        await customer.saveOrUpdate()
-        await expect(
-            customer.findByCpf('123.456.789-09')
-        ).resolves.not.toThrow()
-    })
-
-    it('should throw CpfNotFoundException when cpf is not found', async () => {
-        await expect(customer.findByCpf('123.456.789-09')).rejects.toThrow(
-            CpfNotFoundException
-        )
-    })
-
-    it('should delete customer', async () => {
-        customer.setCpf('123.456.789-09')
-        await customer.saveOrUpdate()
-
-        await customer.delete()
-
-        await expect(customer.findByCpf('123.456.789-09')).rejects.toThrow(
-            CpfNotFoundException
-        )
     })
 })
