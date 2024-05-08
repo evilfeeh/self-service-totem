@@ -1,6 +1,5 @@
-import Customer from '@Application/Entities/Customer'
-import Product from '@Application/Entities/Product'
-import { CategoryEnum } from '@Application/Enums/CategoryEnum'
+import Product from '@Application/domain/Entities/Product'
+import { CategoryEnum } from '@Application/domain/Enums/CategoryEnum'
 
 describe('Product entity', () => {
     it('should be able to create an product', () => {

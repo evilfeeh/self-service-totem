@@ -1,5 +1,7 @@
-import Customer from '@Application/Entities/Customer'
 import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
+import Customer from '@Application/domain/Entities/Customer'
+import CpfAlreadyRegistered from '@Application/domain/Exceptions/CpfAlreadyRegistered'
+import CpfNotFoundException from '@Application/domain/Exceptions/CpfNotFoundException'
 import { Either, Left, Right } from '@Shared/util/either'
 
 type CustomerType = {
@@ -15,51 +17,70 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository {
         this.list = []
     }
 
-    async saveOrUpdate(customer: Customer): Promise<Either<Error, string>> {
+    async create(customer: Customer): Promise<Either<Error, string>> {
         const existingCustomerIndex = this.list.findIndex(
             (customerFind) => customerFind.cpf === customer.getCpf()
         )
 
         if (existingCustomerIndex !== -1) {
-            this.list[existingCustomerIndex] = {
-                name: customer.getName(),
-                cpf: customer.getCpf(),
-                email: customer.getEmail(),
-            }
-        } else {
-            this.list.push({
-                name: customer.getName(),
-                cpf: customer.getCpf(),
-                email: customer.getEmail(),
-            })
+            return Left<Error>(new CpfAlreadyRegistered())
+        }
+
+        this.list.push({
+            name: customer.getName(),
+            cpf: customer.getCpf(),
+            email: customer.getEmail(),
+        })
+
+        return Right(customer.getCpf()!)
+    }
+
+    async update(customer: Customer): Promise<Either<Error, string>> {
+        const existingCustomerIndex = this.list.findIndex(
+            (customerFind) => customerFind.cpf === customer.getCpf()
+        )
+
+        if (existingCustomerIndex <= -1) {
+            return Left<Error>(new CpfNotFoundException())
+        }
+
+        this.list[existingCustomerIndex] = {
+            name: customer.getName(),
+            cpf: customer.getCpf(),
+            email: customer.getEmail(),
         }
 
         return Right(customer.getCpf()!)
     }
 
-    async findByCpf(cpf: string): Promise<Customer | undefined> {
+    async delete(cpf: string): Promise<Either<Error, number>> {
+        const existingCustomerIndex = this.list.findIndex(
+            (customerFind) => customerFind.cpf === cpf
+        )
+
+        if (existingCustomerIndex <= -1) {
+            Left<Error>(new CpfNotFoundException())
+        }
+
+        this.list.splice(existingCustomerIndex, 1)
+        return Right<number>(existingCustomerIndex)
+    }
+
+    async findByCpf(cpf: string): Promise<Either<Error, Customer>> {
         let customer = undefined
         const customerSaved = this.list.find(
             (customerFind) => customerFind.cpf === cpf
         )
 
         if (customerSaved) {
-            customer = new Customer(customerSaved.name, this)
+            customer = new Customer(customerSaved.name)
 
             if (customerSaved.cpf) customer.setCpf(customerSaved.cpf)
             if (customerSaved.email) customer.setEmail(customerSaved.email)
+
+            return Right<Customer>(customer)
         }
 
-        return customer
-    }
-
-    async delete(cpf: string): Promise<void> {
-        const existingCustomerIndex = this.list.findIndex(
-            (customerFind) => customerFind.cpf === cpf
-        )
-
-        if (existingCustomerIndex !== -1) {
-            this.list.splice(existingCustomerIndex, 1)
-        }
+        return Left<Error>(new CpfNotFoundException())
     }
 }

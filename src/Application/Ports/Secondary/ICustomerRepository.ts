@@ -2,7 +2,8 @@ import { Either } from '@Shared/util/either'
 import Customer from '@Entities/Customer'
 
 export default interface ICustomerRepository {
-    saveOrUpdate(customer: Customer): Promise<Either<Error, string>>
-    delete(cpf: string): Promise<void>
-    findByCpf(cpf: string): Promise<Customer | undefined>
+    create(customer: Customer): Promise<Either<Error, string>>
+    update(customer: Customer): Promise<Either<Error, string>>
+    delete(cpf: string): Promise<Either<Error, number>>
+    findByCpf(cpf: string): Promise<Either<Error, Customer>>
 }
