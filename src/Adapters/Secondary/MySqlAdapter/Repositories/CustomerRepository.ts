@@ -1,4 +1,4 @@
-import Customer from '@Application/Entities/Customer'
+import Customer from '@Entities/Customer'
 import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
 import { Either } from '@Shared/util/either'
 
