@@ -5,9 +5,9 @@ import CpfNotFoundException from '../../../../Application/domain/Exceptions/CpfN
 import { Either, Left, Right } from '../../../../Shared/util/either'
 
 type CustomerType = {
-    name: string
-    email: string | undefined
-    cpf: string | undefined
+    name: string,
+    email: string,
+    cpf: string
 }
 
 export default class CustomerRepositoryInMemory implements ICustomerRepository {
@@ -53,7 +53,7 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository {
         return Right(customer.getCpf()!)
     }
 
-    async delete(cpf: string): Promise<Either<Error, number>> {
+    async delete(cpf: string): Promise<Either<Error, string>> {
         const existingCustomerIndex = this.list.findIndex(
             (customerFind) => customerFind.cpf === cpf
         )
@@ -63,7 +63,7 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository {
         }
 
         this.list.splice(existingCustomerIndex, 1)
-        return Right<number>(existingCustomerIndex)
+        return Right<string>("Customer removed")
     }
 
     async findByCpf(cpf: string): Promise<Either<Error, Customer>> {
@@ -73,10 +73,7 @@ export default class CustomerRepositoryInMemory implements ICustomerRepository {
         )
 
         if (customerSaved) {
-            customer = new Customer(customerSaved.name)
-
-            if (customerSaved.cpf) customer.setCpf(customerSaved.cpf)
-            if (customerSaved.email) customer.setEmail(customerSaved.email)
+            customer = new Customer(customerSaved.name, customerSaved.cpf, customerSaved.email)
 
             return Right<Customer>(customer)
         }

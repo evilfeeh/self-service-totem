@@ -12,6 +12,6 @@ export default interface ICustomerService {
         email: string,
         cpf: string
     ): Promise<Either<Error, string>>
-    deleteCustomer(cpf: string): Promise<Either<Error, number>>
+    deleteCustomer(cpf: string): Promise<Either<Error, string>>
     findByCpf(cpf: string): Promise<Either<Error, Customer>>
 }

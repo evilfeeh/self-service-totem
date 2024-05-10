@@ -16,11 +16,7 @@ export default class CustomerService implements ICustomerService {
         email: string,
         cpf: string
     ): Promise<Either<Error, string>> {
-        const customer = new Customer(name)
-
-        customer.setCpf(cpf)
-        customer.setEmail(email)
-
+        const customer = new Customer(name, cpf, email)
         return this.repository.create(customer)
     }
 
@@ -41,7 +37,7 @@ export default class CustomerService implements ICustomerService {
         return this.repository.create(customerSaved.value)
     }
 
-    async deleteCustomer(cpf: string): Promise<Either<Error, number>> {
+    async deleteCustomer(cpf: string): Promise<Either<Error, string>> {
         return this.repository.delete(cpf)
     }
 

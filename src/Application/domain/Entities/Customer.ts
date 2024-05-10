@@ -1,16 +1,15 @@
-import { Either } from '../../../Shared/util/either'
-import ICustomerRepository from '../../Ports/Secondary/ICustomerRepository'
-import CpfNotFoundException from '../Exceptions/CpfNotFoundException'
 import Cpf from '../ValueObjects/Cpf'
 import Email from '../ValueObjects/Email'
 
-export default class Customer {
+export default class Customer {    
     private name: string
-    private email?: Email
-    private cpf?: Cpf
+    private cpf: Cpf
+    private email: Email
 
-    constructor(name: string) {
+    constructor(name: string, cpf: string, email: string) {
         this.name = name
+        this.cpf = new Cpf(cpf)
+        this.email = new Email(email)
     }
 
     setCpf(cpf: string): void {
@@ -29,15 +28,11 @@ export default class Customer {
         return this.name
     }
 
-    getCpf(): string | undefined {
-        return this.cpf?.getValue()
+    getCpf(): string {
+        return this.cpf.getValue()
     }
 
-    getEmail(): string | undefined {
-        return this.email?.getValue()
-    }
-
-    isConsumerFinal(): boolean {
-        return !this.cpf
+    getEmail(): string {
+        return this.email.getValue()
     }
 }
