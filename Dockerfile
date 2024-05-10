@@ -4,10 +4,13 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install
+RUN npm ci \ 
+  && npm install
 
-RUN npm run build
+RUN npm run build --if-present
+
+COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "./dist/src/Adapters/Primary/Api/app.js"]
+CMD ["node", "/app/dist/src/Adapters/Primary/Api/server.js"]
