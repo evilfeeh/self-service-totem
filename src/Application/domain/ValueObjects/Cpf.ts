@@ -1,4 +1,4 @@
-import InvalidCpfException from '@Exceptions/InvalidCpfException'
+import InvalidCpfException from '../Exceptions/InvalidCpfException'
 
 export default class Cpf {
     private readonly cpf: string

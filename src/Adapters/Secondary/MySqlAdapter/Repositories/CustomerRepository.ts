@@ -1,6 +1,6 @@
-import Customer from '@Entities/Customer'
-import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
-import { Either } from '@Shared/util/either'
+import Customer from '../../../../Application/domain/Entities/Customer'
+import ICustomerRepository from '../../../../Application/Ports/Secondary/ICustomerRepository'
+import { Either } from '../../../../Shared/util/either'
 
 export default class CustomerRepository implements ICustomerRepository {
     create(customer: Customer): Promise<Either<Error, string>> {

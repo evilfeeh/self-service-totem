@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express'
-import { isLeft } from '@Shared/util/either'
-import ICustomerService from '@Application/Ports/Primary/ICustomerService'
+import { isLeft } from '../../../../Shared/util/either'
+import ICustomerService from '../../../../Application/Ports/Primary/ICustomerService'
 
 export default class CustomerController {
     constructor(readonly customerService: ICustomerService) {}
