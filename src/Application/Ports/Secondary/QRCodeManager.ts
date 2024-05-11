@@ -1,13 +1,7 @@
 export interface IQRCodeManager {
-    bearerToken: string
-    baseUrl: string
-    paymentStoreSponsorId: string
-    mercadoPagoUserId: string
-    mercadoPagoStoreId: string
-    mercadoPagoPosId: string
-    createPayment(): boolean
-    getPayment(): QRResponse
-    deletePayment(): void
+    createPayment(amount: number): Promise<boolean>
+    getPayment(): Promise<QRResponse>
+    deletePayment(): Promise<void>
 }
 
 export type QRResponse = BaseObj[]
