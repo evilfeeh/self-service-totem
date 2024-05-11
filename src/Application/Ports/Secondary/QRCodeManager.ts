@@ -5,7 +5,7 @@ export interface IQRCodeManager {
     mercadoPagoUserId: string
     mercadoPagoStoreId: string
     mercadoPagoPosId: string
-    createPayment(): void
+    createPayment(): boolean
     getPayment(): QRResponse
     deletePayment(): void
 }
