@@ -1,7 +1,7 @@
 export interface IQRCodeManager {
     createPayment(amount: number): Promise<boolean>
     getPayment(): Promise<QRResponse>
-    deletePayment(): Promise<void>
+    deletePayment(): Promise<boolean>
 }
 
 export type QRResponse = BaseObj[]
