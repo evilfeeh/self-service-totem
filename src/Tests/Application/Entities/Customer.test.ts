@@ -1,7 +1,4 @@
-import CustomerRepositoryInMemory from '@Adapters/Secondary/DataInMemory/Repositories/CustomerRepositoryInMemory'
-import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
 import Customer from '@Entities/Customer'
-import CpfNotFoundException from '@Exceptions/CpfNotFoundException'
 import InvalidCpfException from '@Exceptions/InvalidCpfException'
 import InvalidEmailException from '@Exceptions/InvalidEmailException'
 import Cpf from '@Application/domain/ValueObjects/Cpf'
@@ -9,11 +6,9 @@ import Email from '@Application/domain/ValueObjects/Email'
 
 describe('Customer Entity', () => {
     let customer: Customer
-    let repositoryMock: ICustomerRepository
 
     beforeEach(() => {
-        repositoryMock = new CustomerRepositoryInMemory()
-        customer = new Customer('John Doe')
+        customer = new Customer('John Doe', '123.456.789-09', 'validemail@example.com')
     })
 
     it('Should be able to validate CPF', () => {
@@ -49,14 +44,5 @@ describe('Customer Entity', () => {
 
     it('should get name correctly', () => {
         expect(customer.getName()).toBe('John Doe')
-    })
-
-    it('should check if consumer is final', () => {
-        // When cpf is not set
-        expect(customer.isConsumerFinal()).toBe(true)
-
-        // When cpf is set
-        customer.setCpf('123.456.789-09')
-        expect(customer.isConsumerFinal()).toBe(false)
     })
 })
