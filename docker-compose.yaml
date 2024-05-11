@@ -18,7 +18,7 @@ services:
           memory: 1GB
 
   mysql:
-    image: mysql:latest
+    image: mysql:8.4.0
     restart: on-failure
     ports:
       - 3306:3306
