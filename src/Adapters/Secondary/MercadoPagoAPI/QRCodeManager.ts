@@ -5,44 +5,32 @@ import {
 import { Either, Right, Left } from '../../../Shared/util/either'
 
 export class QRCodeManager implements IQRCodeManager {
-    constructor() {}
+    private externalApiDatabase: Map<number, any>
+    private readonly baseIdQuantity: number = 50000
+    constructor() {
+        this.externalApiDatabase = new Map()
+    }
 
-    async createPayment(amount: number): Promise<Either<Error, boolean>> {
+    async createPayment(payload: any): Promise<Either<Error, number>> {
         try {
-            return Right(true)
+            const orderId = Math.floor(Math.random() * this.baseIdQuantity)
+            this.externalApiDatabase.set(orderId, payload)
+            return Right(orderId)
         } catch (error) {
             return Left<Error>(error as Error)
         }
     }
-    async getPayment(): Promise<Either<Error, QRResponse>> {
-        return Right([
-            {
-                external_reference: '1',
-                total_amount: 10,
-                items: [
-                    {
-                        sku_number: '1',
-                        category: '1',
-                        title: 'Point',
-                        description: 'Point Mini',
-                        unit_measure: '1',
-                        quantity: 1,
-                        unit_price: 1,
-                        total_amount: 1,
-                    },
-                ],
-                title: '1',
-                description: '1',
-                sponsor: {
-                    id: 1,
-                },
-                expiration_date: '1',
-                notification_url: '1',
-            },
-        ])
-    }
-    async deletePayment(): Promise<Either<Error, boolean>> {
+    async getPayment(orderId: number): Promise<Either<Error, QRResponse>> {
         try {
+            const paymentOrder = this.externalApiDatabase.get(orderId)
+            return Right(paymentOrder)
+        } catch (error) {
+            return Left<Error>(error as Error)
+        }
+    }
+    async deletePayment(orderId: number): Promise<Either<Error, boolean>> {
+        try {
+            this.externalApiDatabase.delete(orderId)
             return Right(true)
         } catch (error) {
             return Left<Error>(error as Error)
