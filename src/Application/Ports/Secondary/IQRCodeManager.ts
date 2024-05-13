@@ -1,9 +1,9 @@
 import { Either } from '../../../Shared/util/either'
 
 export interface IQRCodeManager {
-    createPayment(amount: number): Promise<Either<Error, boolean>>
-    getPayment(): Promise<Either<Error, QRResponse>>
-    deletePayment(): Promise<Either<Error, boolean>>
+    createPayment(order: any): Promise<Either<Error, number>>
+    getPayment(orderId: number): Promise<Either<Error, QRResponse>>
+    deletePayment(orderId: number): Promise<Either<Error, boolean>>
 }
 
 export type QRResponse = BaseObj[]
