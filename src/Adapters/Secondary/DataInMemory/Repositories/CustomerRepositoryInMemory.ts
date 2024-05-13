@@ -1,8 +1,8 @@
-import ICustomerRepository from '@Application/Ports/Secondary/ICustomerRepository'
-import Customer from '@Application/domain/Entities/Customer'
-import CpfAlreadyRegistered from '@Application/domain/Exceptions/CpfAlreadyRegistered'
-import CpfNotFoundException from '@Application/domain/Exceptions/CpfNotFoundException'
-import { Either, Left, Right } from '@Shared/util/either'
+import ICustomerRepository from '../../../../Application/Ports/Secondary/ICustomerRepository'
+import Customer from '../../../../Application/domain/Entities/Customer'
+import CpfAlreadyRegistered from '../../../../Application/domain/Exceptions/CpfAlreadyRegistered'
+import CpfNotFoundException from '../../../../Application/domain/Exceptions/CpfNotFoundException'
+import { Either, Left, Right } from '../../../../Shared/util/either'
 
 type CustomerType = {
     name: string,

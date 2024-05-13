@@ -1,14 +1,18 @@
-import Customer from '@Entities/Customer'
-import InvalidCpfException from '@Exceptions/InvalidCpfException'
-import InvalidEmailException from '@Exceptions/InvalidEmailException'
-import Cpf from '@Application/domain/ValueObjects/Cpf'
-import Email from '@Application/domain/ValueObjects/Email'
+import Customer from '../../../Application/domain/Entities/Customer'
+import InvalidCpfException from '../../../Application/domain/Exceptions/InvalidCpfException'
+import InvalidEmailException from '../../../Application/domain/Exceptions/InvalidEmailException'
+import Cpf from '../../../Application/domain/ValueObjects/Cpf'
+import Email from '../../../Application/domain/ValueObjects/Email'
 
 describe('Customer Entity', () => {
     let customer: Customer
 
     beforeEach(() => {
-        customer = new Customer('John Doe', '123.456.789-09', 'validemail@example.com')
+        customer = new Customer(
+            'John Doe',
+            '123.456.789-09',
+            'validemail@example.com'
+        )
     })
 
     it('Should be able to validate CPF', () => {

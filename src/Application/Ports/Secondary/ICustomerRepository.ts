@@ -1,5 +1,5 @@
-import { Either } from '@Shared/util/either'
-import Customer from '@Entities/Customer'
+import { Either } from '../../../Shared/util/either'
+import Customer from '../../../Application/domain/Entities/Customer'
 
 export default interface ICustomerRepository {
     create(customer: Customer): Promise<Either<Error, string>>

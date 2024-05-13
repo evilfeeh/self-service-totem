@@ -6,8 +6,6 @@ services:
     restart: on-failure
     ports:
       - 3000:3000
-    volumes:
-      - .:/app
     depends_on:
       - mysql
     environment:
@@ -20,7 +18,7 @@ services:
           memory: 1GB
 
   mysql:
-    image: mysql:latest
+    image: mysql:5.7
     restart: on-failure
     ports:
       - 3306:3306
