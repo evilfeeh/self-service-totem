@@ -1,8 +1,8 @@
-import IProductRepository from '@Application/Ports/Secondary/IProductRepository'
-import Product from '@Application/domain/Entities/Product'
-import { Either, Left, Right } from '@Shared/util/either'
 import { randomUUID } from 'crypto'
 import NotFoundException from '../../../../Application/domain/Exceptions/NotFoundException'
+import IProductRepository from '../../../../Application/Ports/Secondary/IProductRepository'
+import { Either, Left, Right } from '../../../../Shared/util/either'
+import Product from '../../../../Application/domain/Entities/Product'
 
 type ProductType = {
     id: Product['id']
@@ -30,7 +30,7 @@ export default class ProductRepositoryInMemory implements IProductRepository {
             description: product.getDescription(),
         })
 
-        return Right<string>('Product has been created')
+        return Right<string>(`Product has been created, id: ${id}`)
     }
 
     async update(product: Product): Promise<Either<Error, string>> {
@@ -39,7 +39,9 @@ export default class ProductRepositoryInMemory implements IProductRepository {
         )
 
         if (existingProductIndex <= -1) {
-            return Left<Error>(new NotFoundException('Product: ' + product.getId()))
+            return Left<Error>(
+                new NotFoundException('Product: ' + product.getId())
+            )
         }
 
         this.list[existingProductIndex] = {
@@ -50,7 +52,9 @@ export default class ProductRepositoryInMemory implements IProductRepository {
             description: product.getDescription(),
         }
 
-        return Right('Product has been updated')
+        return Right(
+            `Product has been updated, ${this.list[existingProductIndex].name}`
+        )
     }
 
     async delete(id: string): Promise<Either<Error, string>> {
@@ -63,7 +67,7 @@ export default class ProductRepositoryInMemory implements IProductRepository {
         }
 
         this.list.splice(existingProductIndex, 1)
-        return Right<string>("Product removed")
+        return Right<string>(`Product removed, ${id}`)
     }
 
     async findByCategory(category: string): Promise<Either<Error, Product[]>> {
@@ -90,7 +94,6 @@ export default class ProductRepositoryInMemory implements IProductRepository {
         }
     }
 
-    
     findById(id: string): Promise<Either<Error, Product>> {
         let product = undefined
         const productSaved = this.list.find(
@@ -108,7 +111,9 @@ export default class ProductRepositoryInMemory implements IProductRepository {
 
             return Promise.resolve(Right<Product>(product))
         } else {
-            return Promise.resolve(Left<Error>(new NotFoundException('Product: ' + id)))
+            return Promise.resolve(
+                Left<Error>(new NotFoundException('Product: ' + id))
+            )
         }
     }
 }

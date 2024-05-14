@@ -47,7 +47,7 @@ export default class ProductService implements IProductService {
             return Right([])
         }
 
-        const products = productsFind.value.map(product => product.toJSON())
+        const products = productsFind.value.map((product: { toJSON: () => any }) => product.toJSON())
         return Right(products)
     }
 }

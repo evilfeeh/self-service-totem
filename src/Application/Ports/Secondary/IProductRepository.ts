@@ -1,5 +1,5 @@
-import { Either } from '@Shared/util/either'
-import Product from '@Entities/Product'
+import { Either } from "../../../Shared/util/either"
+import Product from "../../domain/Entities/Product"
 
 export default interface IProductRepository {
     create(product: Product): Promise<Either<Error, string>>
