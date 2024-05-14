@@ -1,4 +1,5 @@
-import { QRCodeManager } from '../../Adapters/Secondary/MercadoPagoAPI/QRCodeManager'
+import { IQRCodeManager } from '@Application/Ports/Secondary/IQRCodeManager'
+import IPaymentService from '@Application/Ports/Primary/IPaymentService'
 import { Payment } from '../domain/Entities/Payment'
 import { Either, Right, Left, isRight } from '../../Shared/util/either'
 import Product from '../../Application/domain/Entities/Product'
@@ -9,11 +10,8 @@ enum paymentStatus {
     DECLINED = 'Pagamento Recusado',
 }
 
-export class PaymentService {
-    private status: string
-    constructor(private readonly qrCodeManager: QRCodeManager) {
-        this.status = paymentStatus.INITIALIZED
-    }
+export class PaymentService implements IPaymentService {
+    private readonly qrCodeManager: IQRCodeManager
     async create(
         orderId: number,
         orderAmount: number,
