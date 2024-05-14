@@ -56,7 +56,7 @@ describe('Product entity', () => {
                     10,
                     'Delicious hamburguer'
                 )
-        ).toThrow('Invalid category')
+        ).toThrow('Product: category is invalid')
     })
 
     it('should not be able to create a product with invalid price', () => {
@@ -69,18 +69,18 @@ describe('Product entity', () => {
                     -10,
                     'Delicious hamburguer'
                 )
-        ).toThrow('Invalid price')
+        ).toThrow('Product: price is invalid')
     })
 
     it('should not be able to create a product with invalid name', () => {
         expect(
             () => new Product('1', '', 'Sandwich', 10, 'Delicious hamburguer')
-        ).toThrow('Invalid name')
+        ).toThrow('Product: name is invalid')
     })
 
     it('should not be able to create a product with invalid description', () => {
         expect(
             () => new Product('1', 'Hamburguer', 'Sandwich', 10, '')
-        ).toThrow('Invalid description')
+        ).toThrow('Product: description is invalid')
     })
 })
