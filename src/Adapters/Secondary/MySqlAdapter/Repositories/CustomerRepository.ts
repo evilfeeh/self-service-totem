@@ -5,6 +5,7 @@ import { Either, Left, Right } from '../../../../Shared/util/either'
 import { AppDataSource } from '../index'
 import { Customer as model } from '../models/Customer'
 import CpfNotFoundException from '../../../../Application/domain/Exceptions/CpfNotFoundException'
+import CpfAlreadyRegistered from '../../../../Application/domain/Exceptions/CpfAlreadyRegistered'
 
 export default class CustomerRepository implements ICustomerRepository {
     private repository: Repository<model>
@@ -15,6 +16,14 @@ export default class CustomerRepository implements ICustomerRepository {
 
     async create(customer: Customer): Promise<Either<Error, string>> {
         try {
+            const customerToUpdate = await this.repository.findOneBy({
+                cpf: customer.getCpf(),
+            })
+
+            if (customerToUpdate) {
+                return Left<Error>(new CpfAlreadyRegistered())
+            }
+
             const customerModel = new model()
             customerModel.name = customer.getName()
             customerModel.email = customer.getEmail()

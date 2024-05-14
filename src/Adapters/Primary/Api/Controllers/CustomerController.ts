@@ -23,7 +23,9 @@ export default class CustomerController {
             res.status(400).json(result.value.message)
         } else {
             res.setHeader('Location', `/customers/${result.value}`)
-            res.sendStatus(200)
+            res.status(201).json({
+              message: 'created successfully'
+            })
         }
     }
 }

@@ -7,7 +7,7 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - mysql
+      - mysql_self
     environment:
       DATABASE_URL: mysql://root:MfDZk"rTtn[f>j%@localhost:3306/self-attendence
       PORT: 3000
@@ -17,7 +17,7 @@ services:
           cpus: '1'
           memory: 1GB
 
-  mysql:
+  mysql_self:
     image: mysql:5.7
     restart: on-failure
     ports:
