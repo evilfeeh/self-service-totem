@@ -1,8 +1,8 @@
-import { IQRCodeManager } from '@Application/Ports/Secondary/IQRCodeManager'
-import IPaymentService from '@Application/Ports/Primary/IPaymentService'
+import { IQRCodeManager } from '../Ports/Secondary/IQRCodeManager'
+import IPaymentService from '../Ports/Primary/IPaymentService'
 import { Payment } from '../domain/Entities/Payment'
 import { Either, Right, Left, isRight } from '../../Shared/util/either'
-import Product from '../../Application/domain/Entities/Product'
+import Product from '../domain/Entities/Product'
 
 enum paymentStatus {
     INITIALIZED = 'Pagamento Iniciado',
