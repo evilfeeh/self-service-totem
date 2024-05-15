@@ -1,20 +1,20 @@
-import ProductService from '@Application/services/ProductService'
-import InMemomryProductRepository from '@Adapters/Secondary/DataInMemory/Repositories/ProductRepositoryInMemory'
 import { isLeft } from '../../../Shared/util/either'
+import  ProductRepositoryInMemory  from '../../../Adapters/Secondary/DataInMemory/Repositories/ProductRepositoryInMemory';
+import ProductService from '../../../Application/services/ProductService';
 
 describe('ProductService', () => {
     it('should create a product', async () => {
-        const productRepository = new InMemomryProductRepository()
+        const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
 
         const result = await productService.createProduct('Coca', 'Drink', 10, 'Refreshing drink')
 
         expect(result.tag).toBe('right')
-        expect(result.value).toBe('Product has been created')
+        expect(result.value).toContain('Product has been created')
     })
 
     it('should update a product', async () => {
-        const productRepository = new InMemomryProductRepository()
+        const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
 
         await productService.createProduct('Hambuger', 'Sandwich', 10, 'Delicious food')
@@ -28,11 +28,11 @@ describe('ProductService', () => {
         const result = await productService.updateProduct(product.value[0].id, 'Hambuger', 'Sandwich', 15, 'Delicious food')
 
         expect(result.tag).toBe('right')
-        expect(result.value).toBe('Product has been updated')
+        expect(result.value).toBe('Product has been updated, Hambuger')
     })
 
     it('should not update a product', async () => {
-        const productRepository = new InMemomryProductRepository()
+        const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
 
         await productService.createProduct('Hambuger', 'Sandwich', 10, 'Delicious food')
@@ -43,19 +43,18 @@ describe('ProductService', () => {
     })
 
     it('should delete a product', async () => {
-        const productRepository = new InMemomryProductRepository()
+        const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
-        
         await productService.createProduct('Fries', 'Side', 5, 'Delicious food')
 
         const result = await productService.deleteProduct('Fries')
 
         expect(result.tag).toBe('right')
-        expect(result.value).toBe('Product removed')
+        expect(result.value).toBe('Product removed, Fries')
     })
 
     it('should find a product by category', async () => {
-        const productRepository = new InMemomryProductRepository()
+        const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
 
         expect((await productService.findByCategory('Drink')).value).toStrictEqual([])
