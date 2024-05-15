@@ -1,11 +1,19 @@
 import { CategoryEnum } from '../Enums/CategoryEnum'
+import InvalidFieldException from '../Exceptions/InvalidFieldException'
+
+export interface ProductInputDTO {
+    name: Product['name']
+    category: Product['category']
+    price: Product['price']
+    description: Product['description']
+}
 
 export interface ProductOutputDTO {
-    id: string
-    name: string
+    id: Product['id']
+    name: Product['name']
     category: CategoryEnum
-    price: number
-    description: string
+    price: Product['price']
+    description: Product['description']
 }
 
 export default class Product {
@@ -30,7 +38,7 @@ export default class Product {
         this.validator()
     }
 
-    getId(): string {
+    getId(): string | undefined {
         return this.id
     }
 
@@ -72,19 +80,19 @@ export default class Product {
 
     private validator(): void {
         if (this.name.length < 3 || this.name.length > 50) {
-            throw new Error('Invalid name')
+            throw new InvalidFieldException('Product: name')
         }
 
         if (CategoryEnum[this.category] === undefined) {
-            throw new Error('Invalid category')
+            throw new InvalidFieldException('Product: category')
         }
 
         if (this.price <= 0) {
-            throw new Error('Invalid price')
+            throw new InvalidFieldException('Product: price')
         }
 
         if (this.description.length < 3 || this.description.length > 50) {
-            throw new Error('Invalid description')
+            throw new InvalidFieldException('Product: description')
         }
     }
 
