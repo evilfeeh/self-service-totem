@@ -5,8 +5,9 @@ import OrderItem from './OrderItem'
 import Product from './Product'
 
 export default class Order {
+    private id: string
     private items: OrderItem[]
-    private customer: Customer | string    
+    private customer: Customer | string
     private closed: boolean
 
     constructor(customer: Customer | string) {
@@ -18,36 +19,42 @@ export default class Order {
 
     addProduct(product: Product, quantity: number): void {
         if (this.items.length) {
-          const productFind = this.items.find(prod => prod.getProduct().getId() === product.getId())
+            const productFind = this.items.find(
+                (prod) => prod.getProduct().getId() === product.getId()
+            )
 
-          if (productFind) {
-            productFind.updateQuantity(quantity)
-          } else {
-            const item = new OrderItem(product, quantity);
-            this.items.push(item)
-          }
+            if (productFind) {
+                productFind.updateQuantity(quantity)
+            } else {
+                const item = new OrderItem(product, quantity)
+                this.items.push(item)
+            }
         } else {
-          const item = new OrderItem(product, quantity);
-          this.items.push(item)
+            const item = new OrderItem(product, quantity)
+            this.items.push(item)
         }
     }
 
     updateProduct(product: Product, quantity: number): void {
-      if (this.items.length) {
-        const productFind = this.items.find(prod => prod.getProduct().getId() === product.getId())
+        if (this.items.length) {
+            const productFind = this.items.find(
+                (prod) => prod.getProduct().getId() === product.getId()
+            )
 
-        if (productFind) {
-          productFind.updateQuantity(quantity)
-        } 
-      }
+            if (productFind) {
+                productFind.updateQuantity(quantity)
+            }
+        }
     }
 
     removeProduct(product: Product): void {
-      if (this.items.length) {
-        const index = this.items.findIndex(prod => prod.getProduct().getId() === product.getId())
+        if (this.items.length) {
+            const index = this.items.findIndex(
+                (prod) => prod.getProduct().getId() === product.getId()
+            )
 
-        this.items.splice(index, 1)
-      }
+            this.items.splice(index, 1)
+        }
     }
 
     getItems(): OrderItem[] {
@@ -59,7 +66,10 @@ export default class Order {
     }
 
     getTotalOrderValue(): number {
-      return this.items.reduce((total, currentItem) => total + currentItem.getTotalValue(), 0);
+        return this.items.reduce(
+            (total, currentItem) => total + currentItem.getTotalValue(),
+            0
+        )
     }
 
     isClosed(): boolean {

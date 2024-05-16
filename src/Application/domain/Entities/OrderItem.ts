@@ -3,6 +3,7 @@ import ProductQuantityGT0Exception from "../Exceptions/ProductQuantityGreaterTha
 import Product from "./Product";
 
 export default class OrderItem {
+  private id: string
   private product: Product
   private quantity: number
   private totalValue: number
@@ -11,6 +12,10 @@ export default class OrderItem {
     this.product = product
     this.quantity = quantity
     this.validator();
+  }
+
+  getId(): string {
+    return this.id
   }
 
   getProduct(): Product {
@@ -44,6 +49,7 @@ export default class OrderItem {
 
   toJson() {
     return {
+      id: this.id,
       product: this.product.toJSON(),
       quantity: this.quantity,
       total: this.totalValue
