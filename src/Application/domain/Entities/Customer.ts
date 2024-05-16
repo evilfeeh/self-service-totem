@@ -35,4 +35,12 @@ export default class Customer {
     getEmail(): string {
         return this.email.getValue()
     }
+
+    toJson() {
+      return {
+        name: this.name,
+        cpf: this.cpf.getValue(),
+        email: this.email.getValue()
+      }
+    }
 }
