@@ -5,16 +5,21 @@ import OrderItem from './OrderItem'
 import Product from './Product'
 
 export default class Order {
-    private id: string
+    private id: string | null
     private items: OrderItem[]
     private customer: Customer | string
     private closed: boolean
 
-    constructor(customer: Customer | string) {
+    constructor(customer: Customer | string, id: string | null = null) {
+        this.id = id
         this.items = []
         this.customer = customer
         this.closed = false
         this.validator()
+    }
+
+    addItem(item: OrderItem): void {
+        this.items.push(item)
     }
 
     addProduct(product: Product, quantity: number): void {
@@ -57,6 +62,10 @@ export default class Order {
         }
     }
 
+    getId(): string | null {
+        return this.id
+    }
+
     getItems(): OrderItem[] {
         return this.items
     }
@@ -93,6 +102,7 @@ export default class Order {
 
     toJSON() {
         return {
+            id: this.id,
             items: this.items.map((item) => item.toJson()),
             customer: this.customer,
             total: this.getTotalOrderValue(),

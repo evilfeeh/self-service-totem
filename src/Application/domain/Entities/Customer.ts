@@ -1,12 +1,19 @@
 import Cpf from '../ValueObjects/Cpf'
 import Email from '../ValueObjects/Email'
 
-export default class Customer {    
+export default class Customer {
+    private id: string | null
     private name: string
     private cpf: Cpf
     private email: Email
 
-    constructor(name: string, cpf: string, email: string) {
+    constructor(
+        name: string,
+        cpf: string,
+        email: string,
+        id: string | null = null
+    ) {
+        this.id = id
         this.name = name
         this.cpf = new Cpf(cpf)
         this.email = new Email(email)
@@ -24,6 +31,10 @@ export default class Customer {
         this.name = name
     }
 
+    getId(): string | null {
+        return this.id
+    }
+
     getName(): string {
         return this.name
     }
@@ -37,10 +48,11 @@ export default class Customer {
     }
 
     toJson() {
-      return {
-        name: this.name,
-        cpf: this.cpf.getValue(),
-        email: this.email.getValue()
-      }
+        return {
+            id: this.id,
+            name: this.name,
+            cpf: this.cpf.getValue(),
+            email: this.email.getValue(),
+        }
     }
 }

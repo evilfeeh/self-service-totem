@@ -5,6 +5,6 @@ export default interface IOrderRepository {
     create(order: Order): Promise<Either<Error, string>>
     update(order: Order): Promise<Either<Error, string>>
     delete(id: string): Promise<Either<Error, string>>
-    // get(id: Order['id']): Promise<Either<Error, Order>>
-    // getAll(): Promise<Either<Error, Order[]>>
+    get(id: string): Promise<Either<Error, Order>>
+    getAll(): Promise<Either<Error, Order[]>>
 }

@@ -1,24 +1,34 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn } from "typeorm";
-import { OrderItem } from "./OrderItem";
-import { Customer } from "./Customer";
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    OneToMany,
+    ManyToOne,
+    JoinColumn,
+} from 'typeorm'
+import { OrderItem } from './OrderItem'
+import { Customer } from './Customer'
 
 @Entity()
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
-  items: OrderItem[];
+    @Column()
+    nameCustomer: string
 
-  @ManyToOne(() => Customer, (customer) => customer.id, { nullable: true })
-  @JoinColumn({ name: "customerId" })
-  customer: Customer;
+    @Column({
+        default: false,
+    })
+    closed: boolean
 
-  @Column()
-  nameCustomer: string;
+    @ManyToOne(() => Customer, (customer) => customer.orders, {
+        nullable: true,
+    })
+    customer: Customer
 
-  @Column({
-    default: false
-  })
-  closed: boolean;
+    @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+        cascade: true,
+    })
+    orderItems: OrderItem[]
 }
