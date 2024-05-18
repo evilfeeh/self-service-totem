@@ -4,13 +4,14 @@ import { Customer } from './models/Customer'
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
-    host: 'mysql',
+    host: 'mysql_self',
     port: 3306,
     username: 'mcdonalds',
     password: 'MfDZk"rTtn[f>j%',
     database: 'self-attendence',
     logging: false,
     entities: [Customer],
+    synchronize: true
 })
 
 AppDataSource.initialize()

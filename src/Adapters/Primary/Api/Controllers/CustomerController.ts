@@ -8,7 +8,22 @@ export default class CustomerController {
     buildRouter(): Router {
         const router = Router()
         router.post('/', this.registerCustomer.bind(this))
+        router.post('/identify', this.identify.bind(this))
         return router
+    }
+
+    async identify(req: Request, res: Response): Promise<void> {        
+        const { cpf } = req.body
+        const result = await this.customerService.findByCpf(
+            cpf
+        )
+
+        if (isLeft(result)) {
+            res.status(400).json(result.value.message)
+        } else {
+            res.setHeader('Location', `/customers/${result.value}`)
+            res.status(201).json(result.value)
+        }
     }
 
     async registerCustomer(req: Request, res: Response): Promise<void> {
@@ -23,7 +38,9 @@ export default class CustomerController {
             res.status(400).json(result.value.message)
         } else {
             res.setHeader('Location', `/customers/${result.value}`)
-            res.sendStatus(200)
+            res.status(201).json({
+              message: 'created successfully'
+            })
         }
     }
 }
