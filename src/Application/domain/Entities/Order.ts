@@ -8,15 +8,18 @@ export interface OrderOutputDTO {
 }
 
 export default class Order {
+    private id: string
     private products: Product[] = []
     private customer: Customer
     private closed: boolean
 
     constructor(
+        id: string,
         products: Product[],
         customer: Customer,
         closed: boolean = false
     ) {
+        this.id = id
         this.products = products
         this.customer = customer
         this.closed = closed
@@ -33,6 +36,9 @@ export default class Order {
         )
     }
 
+    getId(): string | undefined {
+        return this.id
+    }
     getProducts(): Product[] {
         return this.products
     }
