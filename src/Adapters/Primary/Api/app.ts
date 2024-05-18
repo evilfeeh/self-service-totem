@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express'
-import swaggerUi from 'swagger-ui-express';
+import swaggerUi from 'swagger-ui-express'
+import swaggerDocument from '../../../../swagger.json' 
 import HeathController from './Controllers/HealthController'
 import CustomerController from './Controllers/CustomerController'
 import CustomerService from '../../../Application/services/CustomerService'
@@ -15,7 +16,7 @@ const getApiRoute = (name: String) => `/api/${name}`
 const app: Express = express()
 app.use(express.json())
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup())
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 const heathController = new HeathController()
 
 const customerRepository: ICustomerRepository = new CustomerRepository()
