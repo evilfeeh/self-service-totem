@@ -13,7 +13,7 @@ enum paymentStatus {
 export class PaymentService implements IPaymentService {
     private readonly qrCodeManager: IQRCodeManager
     async create(
-        orderId: number,
+        orderId: string,
         orderAmount: number,
         products: Product[]
     ): Promise<Either<Error, string>> {
@@ -29,14 +29,14 @@ export class PaymentService implements IPaymentService {
             return Left<Error>(new Error('Payment Cannot be done'))
         return Right(payment.getStatus())
     }
-    async get(orderId: number): Promise<Either<Error, unknown>> {
+    async get(orderId: string): Promise<Either<Error, unknown>> {
         try {
             return this.qrCodeManager.getPayment(orderId)
         } catch (error) {
             return Left<Error>(error as Error)
         }
     }
-    async cancel(orderId: number): Promise<Either<Error, string>> {
+    async cancel(orderId: string): Promise<Either<Error, string>> {
         try {
             const payment = new Payment(orderId)
             payment.setStatus(paymentStatus.DECLINED)
@@ -45,6 +45,16 @@ export class PaymentService implements IPaymentService {
             )
             if (isRight(paymenDeleted)) return Right(payment.getStatus())
             return Left<Error>(new Error('Payment Cannot be deleted'))
+        } catch (error) {
+            return Left<Error>(error as Error)
+        }
+    }
+
+    async checkout(orderId: string): Promise<Either<Error, string>> {
+        try {
+            const payment = new Payment(orderId)
+            payment.setStatus(paymentStatus.APPROVED)
+            return Right(payment.getStatus())
         } catch (error) {
             return Left<Error>(error as Error)
         }

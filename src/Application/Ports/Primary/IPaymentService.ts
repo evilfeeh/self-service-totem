@@ -3,10 +3,11 @@ import Product from '../../domain/Entities/Product'
 
 export default interface IPaymentService {
     create(
-        orderId: number,
+        orderId: string,
         orderAmount: number,
         products: Product[]
     ): Promise<Either<Error, string>>
-    get(orderId: number): Promise<Either<Error, unknown>>
-    cancel(orderId: number): Promise<Either<Error, string>>
+    get(orderId: string): Promise<Either<Error, unknown>>
+    cancel(orderId: string): Promise<Either<Error, string>>
+    checkout(orderId: string): Promise<Either<Error, string>>
 }
