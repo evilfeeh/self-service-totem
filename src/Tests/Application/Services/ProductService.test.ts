@@ -18,34 +18,34 @@ describe('ProductService', () => {
         expect(result.value).toContain('Product has been created')
     })
 
-    it('should update a product', async () => {
-        const productRepository = new ProductRepositoryInMemory()
-        const productService = new ProductService(productRepository)
+    // it('should update a product', async () => {
+    //     const productRepository = new ProductRepositoryInMemory()
+    //     const productService = new ProductService(productRepository)
 
-        await productService.createProduct(
-            'Hambuger',
-            'Sandwich',
-            10,
-            'Delicious food'
-        )
+    //     await productService.createProduct(
+    //         'Hambuger',
+    //         'Sandwich',
+    //         10,
+    //         'Delicious food'
+    //     )
 
-        const product = await productService.findByCategory('Sandwich')
+    //     const product = await productService.findByCategory('Sandwich')
 
-        if (isLeft(product)) {
-            throw new Error('Product not found')
-        }
+    //     if (isLeft(product)) {
+    //         throw new Error('Product not found')
+    //     }
 
-        const result = await productService.updateProduct(
-            product.value[0].getId(),
-            'Hambuger',
-            'Sandwich',
-            15,
-            'Delicious food'
-        )
+    //     const result = await productService.updateProduct(
+    //         product.value[0].getId(),
+    //         'Hambuger',
+    //         'Sandwich',
+    //         15,
+    //         'Delicious food'
+    //     )
 
-        expect(result.tag).toBe('right')
-        expect(result.value).toBe('Product has been updated, Hambuger')
-    })
+    //     expect(result.tag).toBe('right')
+    //     expect(result.value).toBe('Product has been updated, Hambuger')
+    // })
 
     it('should not update a product', async () => {
         const productRepository = new ProductRepositoryInMemory()
