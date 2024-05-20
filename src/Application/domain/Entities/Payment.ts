@@ -7,11 +7,11 @@ export class Payment {
     private products: any[]
     private id: string
     private status: string
-    private orderId: number
+    private orderId: string
     private value: number
     private expirationDate: string
 
-    constructor(orderId: number) {
+    constructor(orderId: string) {
         this.status = 'pending'
         this.orderId = orderId
         this.externalReference = '12345'
@@ -32,7 +32,7 @@ export class Payment {
     getStatus(): string {
         return this.status
     }
-    getOrderId(): number {
+    getOrderId(): string {
         return this.orderId
     }
     getProducts(): any[] {
