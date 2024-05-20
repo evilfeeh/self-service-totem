@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
 import { CategoryEnum } from "../../../../Application/domain/Enums/CategoryEnum";
+import { OrderItem } from "./OrderItem";
 
 @Entity()
 export class Product {
@@ -24,4 +25,7 @@ export class Product {
 
   @Column()
   description: string
+
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+  orderItems: OrderItem[];
 }

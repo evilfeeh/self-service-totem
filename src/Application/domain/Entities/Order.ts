@@ -1,50 +1,84 @@
+import InvalidCustomerException from '../Exceptions/InvalidCustomerException'
+import OrderWithOutProductsException from '../Exceptions/OrderWithOutProductsException'
 import Customer from './Customer'
-import Product, { ProductOutputDTO } from './Product'
-
-export interface OrderOutputDTO {
-    products: ProductOutputDTO[]
-    customer: Customer
-    closed: boolean
-}
+import OrderItem from './OrderItem'
+import Product from './Product'
 
 export default class Order {
-    private id: string
-    private products: Product[] = []
-    private customer: Customer
+    private id: string | null
+    private items: OrderItem[]
+    private customer: Customer | string
     private closed: boolean
 
-    constructor(
-        id: string,
-        products: Product[],
-        customer: Customer,
-        closed: boolean = false
-    ) {
+    constructor(customer: Customer | string, id: string | null = null) {
         this.id = id
-        this.products = products
+        this.items = []
         this.customer = customer
-        this.closed = closed
+        this.closed = false
         this.validator()
     }
 
-    addProduct(product: Product): void {
-        this.products.push(product)
+    addItem(item: OrderItem): void {
+        this.items.push(item)
+    }
+
+    addProduct(product: Product, quantity: number): void {
+        if (this.items.length) {
+            const productFind = this.items.find(
+                (prod) => prod.getProduct().getId() === product.getId()
+            )
+
+            if (productFind) {
+                productFind.updateQuantity(quantity)
+            } else {
+                const item = new OrderItem(product, quantity)
+                this.items.push(item)
+            }
+        } else {
+            const item = new OrderItem(product, quantity)
+            this.items.push(item)
+        }
+    }
+
+    updateProduct(product: Product, quantity: number): void {
+        if (this.items.length) {
+            const productFind = this.items.find(
+                (prod) => prod.getProduct().getId() === product.getId()
+            )
+
+            if (productFind) {
+                productFind.updateQuantity(quantity)
+            }
+        }
     }
 
     removeProduct(product: Product): void {
-        this.products = this.products.filter(
-            (p) => p.getId() !== product.getId()
-        )
+        if (this.items.length) {
+            const index = this.items.findIndex(
+                (prod) => prod.getProduct().getId() === product.getId()
+            )
+
+            this.items.splice(index, 1)
+        }
     }
 
-    getId(): string | undefined {
+    getId(): string | null {
         return this.id
     }
-    getProducts(): Product[] {
-        return this.products
+
+    getItems(): OrderItem[] {
+        return this.items
     }
 
-    getCustomer(): Customer {
+    getCustomer(): Customer | string {
         return this.customer
+    }
+
+    getTotalOrderValue(): number {
+        return this.items.reduce(
+            (total, currentItem) => total + currentItem.getTotalValue(),
+            0
+        )
     }
 
     isClosed(): boolean {
@@ -57,19 +91,21 @@ export default class Order {
     }
 
     private validator(): void {
-        if (this.closed === true && this.products.length === 0) {
-            throw new Error('Order without products cannot be closed')
+        if (this.closed === true && this.items.length === 0) {
+            throw new OrderWithOutProductsException()
         }
 
         if (!this.customer) {
-            throw new Error('Invalid customer')
+            throw new InvalidCustomerException()
         }
     }
 
-    toJSON(): OrderOutputDTO {
+    toJSON() {
         return {
-            products: this.products.map((product) => product.toJSON()),
+            id: this.id,
+            items: this.items.map((item) => item.toJson()),
             customer: this.customer,
+            total: this.getTotalOrderValue(),
             closed: this.closed,
         }
     }

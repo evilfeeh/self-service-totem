@@ -1,19 +1,20 @@
 import { Either } from '../../../Shared/util/either'
-import Order, { OrderOutputDTO } from '../../domain/Entities/Order'
+import Customer from '../../domain/Entities/Customer'
+import Order from '../../domain/Entities/Order'
 import Product from '../../domain/Entities/Product'
 
 export default interface IOrderService {
     createOrder(
-        customer: OrderOutputDTO['customer'],
+        customer: Customer,
         products: Product[],
-        closed: OrderOutputDTO['closed']
+        closed: boolean
     ): Promise<Either<Error, string>>
     getOrder(id: Order['id']): Promise<Either<Error, Order>>
     getAllOrders(): Promise<Either<Error, Order[]>>
     updateOrder(
         id: Order['id'],
-        customer: OrderOutputDTO['customer'],
+        customer: Customer,
         products: Product[],
-        closed: OrderOutputDTO['closed']
+        closed: boolean
     ): Promise<Either<Error, string>>
 }

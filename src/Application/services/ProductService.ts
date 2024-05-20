@@ -1,7 +1,8 @@
 import { Either, isLeft, Right } from '../../Shared/util/either'
 import IProductService from '../Ports/Primary/IProductService'
 import IProductRepository from '../Ports/Secondary/IProductRepository'
-import Product, { ProductOutputDTO } from '../domain/Entities/Product'
+import Product from '../domain/Entities/Product'
+import { CategoryEnum } from '../domain/Enums/CategoryEnum'
 
 export default class ProductService implements IProductService {
     private repository: IProductRepository
@@ -11,21 +12,27 @@ export default class ProductService implements IProductService {
     }
 
     async createProduct(
-        name: Product['name'],
-        category: Product['category'],
-        price: Product['price'],
-        description: Product['description'],
+        name: string,
+        category: keyof typeof CategoryEnum,
+        price: number,
+        description: string
     ): Promise<Either<Error, string>> {
-        const product = new Product('TempId', name, category, price, description)
+        const product = new Product(
+            'TempId',
+            name,
+            category,
+            price,
+            description
+        )
         return this.repository.create(product)
     }
 
     async updateProduct(
-        id: Product['id'],
-        name: Product['name'],
-        category: Product['category'],
-        price: Product['price'],
-        description: Product['description'],
+        id: string,
+        name: string,
+        category: keyof typeof CategoryEnum,
+        price: number,
+        description: string
     ): Promise<Either<Error, string>> {
         return this.repository.update(
             new Product(id, name, category, price, description)
@@ -36,7 +43,9 @@ export default class ProductService implements IProductService {
         return this.repository.delete(id)
     }
 
-    async findByCategory(category: Product['category']): Promise<Either<Error, ProductOutputDTO[]>> {
+    async findByCategory(
+        category: keyof typeof CategoryEnum
+    ): Promise<Either<Error, Product[]>> {
         const productsFind = await this.repository.findByCategory(category)
 
         if (isLeft(productsFind)) {
@@ -47,7 +56,9 @@ export default class ProductService implements IProductService {
             return Right([])
         }
 
-        const products = productsFind.value.map((product: { toJSON: () => any }) => product.toJSON())
+        const products = productsFind.value.map(
+            (product: { toJSON: () => any }) => product.toJSON()
+        )
         return Right(products)
     }
 }

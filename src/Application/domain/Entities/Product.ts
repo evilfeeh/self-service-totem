@@ -1,21 +1,6 @@
 import { CategoryEnum } from '../Enums/CategoryEnum'
 import InvalidFieldException from '../Exceptions/InvalidFieldException'
 
-export interface ProductInputDTO {
-    name: Product['name']
-    category: Product['category']
-    price: Product['price']
-    description: Product['description']
-}
-
-export interface ProductOutputDTO {
-    id: Product['id']
-    name: Product['name']
-    category: CategoryEnum
-    price: Product['price']
-    description: Product['description']
-}
-
 export default class Product {
     private id: string
     private name: string
@@ -38,7 +23,7 @@ export default class Product {
         this.validator()
     }
 
-    getId(): string | undefined {
+    getId(): string {
         return this.id
     }
 
@@ -96,7 +81,7 @@ export default class Product {
         }
     }
 
-    toJSON(): ProductOutputDTO {
+    toJSON() {
         return {
             id: this.id,
             name: this.name,
