@@ -1,13 +1,18 @@
 import { isLeft } from '../../../Shared/util/either'
-import  ProductRepositoryInMemory  from '../../../Adapters/Secondary/DataInMemory/Repositories/ProductRepositoryInMemory';
-import ProductService from '../../../Application/services/ProductService';
+import ProductRepositoryInMemory from '../../../Adapters/Secondary/DataInMemory/Repositories/ProductRepositoryInMemory'
+import ProductService from '../../../Application/services/ProductService'
 
 describe('ProductService', () => {
     it('should create a product', async () => {
         const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
 
-        const result = await productService.createProduct('Coca', 'Drink', 10, 'Refreshing drink')
+        const result = await productService.createProduct(
+            'Coca',
+            'Drink',
+            10,
+            'Refreshing drink'
+        )
 
         expect(result.tag).toBe('right')
         expect(result.value).toContain('Product has been created')
@@ -17,7 +22,12 @@ describe('ProductService', () => {
         const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
 
-        await productService.createProduct('Hambuger', 'Sandwich', 10, 'Delicious food')
+        await productService.createProduct(
+            'Hambuger',
+            'Sandwich',
+            10,
+            'Delicious food'
+        )
 
         const product = await productService.findByCategory('Sandwich')
 
@@ -25,7 +35,13 @@ describe('ProductService', () => {
             throw new Error('Product not found')
         }
 
-        const result = await productService.updateProduct(product.value[0].id, 'Hambuger', 'Sandwich', 15, 'Delicious food')
+        const result = await productService.updateProduct(
+            product.value[0].getId(),
+            'Hambuger',
+            'Sandwich',
+            15,
+            'Delicious food'
+        )
 
         expect(result.tag).toBe('right')
         expect(result.value).toBe('Product has been updated, Hambuger')
@@ -35,9 +51,20 @@ describe('ProductService', () => {
         const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
 
-        await productService.createProduct('Hambuger', 'Sandwich', 10, 'Delicious food')
+        await productService.createProduct(
+            'Hambuger',
+            'Sandwich',
+            10,
+            'Delicious food'
+        )
 
-        const result = await productService.updateProduct('1', 'Hambuger', 'Sandwich', 15, 'Delicious food')
+        const result = await productService.updateProduct(
+            '1',
+            'Hambuger',
+            'Sandwich',
+            15,
+            'Delicious food'
+        )
 
         expect(result.tag).toBe('left')
     })
@@ -57,10 +84,22 @@ describe('ProductService', () => {
         const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
 
-        expect((await productService.findByCategory('Drink')).value).toStrictEqual([])
+        expect(
+            (await productService.findByCategory('Drink')).value
+        ).toStrictEqual([])
 
-        await productService.createProduct('Coca', 'Drink', 10, 'Refreshing drink')
-        await productService.createProduct('Fanta', 'Drink', 10, 'Refreshing drink')
+        await productService.createProduct(
+            'Coca',
+            'Drink',
+            10,
+            'Refreshing drink'
+        )
+        await productService.createProduct(
+            'Fanta',
+            'Drink',
+            10,
+            'Refreshing drink'
+        )
 
         const result = await productService.findByCategory('Drink')
 
