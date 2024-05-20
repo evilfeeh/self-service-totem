@@ -8,6 +8,10 @@ import IProductRepository from '../../../Application/Ports/Secondary/IProductRep
 import ProductService from '../../../Application/services/ProductService'
 import ProductController from './Controllers/ProductController'
 import ProductRepository from '../../Secondary/MySqlAdapter/Repositories/ProductRepository'
+import IOrderRepository from '../../../Application/Ports/Secondary/IOrderRepository'
+import OrderRepository from '../../Secondary/MySqlAdapter/Repositories/OrderRepository'
+import OrderService from '../../../Application/services/OrderService'
+import OrderController from './Controllers/OrderController'
 
 const getApiRoute = (name: String) => `/api/${name}`
 
@@ -24,7 +28,12 @@ const productRepository: IProductRepository = new ProductRepository()
 const productService = new ProductService(productRepository)
 const productController = new ProductController(productService)
 
+const orderRepository: IOrderRepository = new OrderRepository()
+const orderService = new OrderService(orderRepository)
+const orderController = new OrderController(orderService, customerService)
+
 app.use(getApiRoute('health'), heathController.buildRouter())
 app.use(getApiRoute('customer'), customerController.buildRouter())
 app.use(getApiRoute('product'), productController.buildRouter())
+app.use(getApiRoute('order'), orderController.buildRouter())
 export default app
