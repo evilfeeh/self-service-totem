@@ -1,25 +1,23 @@
 import { Either } from '../../../Shared/util/either'
-import Product, {
-    ProductInputDTO,
-    ProductOutputDTO,
-} from '../../domain/Entities/Product'
+import Product from '../../domain/Entities/Product'
+import { CategoryEnum } from '../../domain/Enums/CategoryEnum'
 
 export default interface IProductService {
     createProduct(
-        name: ProductInputDTO['name'],
-        category: ProductInputDTO['category'],
-        price: ProductInputDTO['price'],
-        description: ProductInputDTO['description']
+        name: string,
+        category: keyof typeof CategoryEnum,
+        price: number,
+        description: string
     ): Promise<Either<Error, string>>
     updateProduct(
-        id: Product['id'],
-        name: Product['name'],
-        category: Product['category'],
-        price: Product['price'],
-        description: Product['description']
+        id: string,
+        name: string,
+        category: keyof typeof CategoryEnum,
+        price: number,
+        description: string
     ): Promise<Either<Error, string>>
     deleteProduct(id: string): Promise<Either<Error, string>>
     findByCategory(
-        category: Product['category']
-    ): Promise<Either<Error, ProductOutputDTO[]>>
+        category: keyof typeof CategoryEnum
+    ): Promise<Either<Error, Product[]>>
 }
