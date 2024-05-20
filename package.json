@@ -6,7 +6,9 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node ./dist/src/Adapters/Primary/Api/server.js",
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/Adapters/Primary/Api/server.ts",    
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/Adapters/Primary/Api/server.ts",
+    "migration:up": "npx typeorm migration:run -- -d ./src/Adapters/Secondary/MysqlAdapter/index.ts",
+    "migration:down": "npx typeorm migration:drop -- -d ./src/Adapters/Secondary/MysqlAdapter/index.ts",
     "test": "jest"
   },
   "keywords": [],
