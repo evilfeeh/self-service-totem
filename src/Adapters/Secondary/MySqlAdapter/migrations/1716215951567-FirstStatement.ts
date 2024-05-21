@@ -12,7 +12,7 @@ export class FirstStatement1716215951567 implements MigrationInterface {
             'CREATE TABLE `order_item` (`id` varchar(36) NOT NULL PRIMARY KEY, `quantity` int NOT NULL, `order` varchar(36) NOT NULL, `product` varchar(36) NULL) ENGINE=InnoDB'
         )
         await queryRunner.query(
-            'CREATE TABLE `product` (`id` varchar(36) NOT NULL PRIMARY KEY, `name` varchar(60) NOT NULL, `category` varchar(60) NOT NULL, `price` double NOT NULL, `description` varchar(255) NULL, orderItems varchar(36) NULL) ENGINE=InnoDB'
+            'CREATE TABLE `product` (`id` varchar(36) NOT NULL PRIMARY KEY, `name` varchar(60) NOT NULL, `category` varchar(60) NOT NULL, `price` double NOT NULL, `description` varchar(255) NULL) ENGINE=InnoDB'
         )
     }
 
