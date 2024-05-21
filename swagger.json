@@ -1,0 +1,221 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Attendance Totem",
+      "description": "Documentation for Attendance Totem API",
+      "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths": {
+      "/products": {
+        "post": {
+          "summary": "Create a new product",
+          "tags": ["Products"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductInputDTO"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Product created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Product created successfully"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request: Missing or invalid parameters"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update an existing product",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of the product to update",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductInputDTO"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Product updated successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "updated successfully"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request: Missing or invalid parameters"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a product by ID",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID of the product to delete",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Product deleted successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "deleted successfully"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request: Unable to delete the product"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/products/{category}": {
+        "get": {
+          "summary": "Get products by category",
+          "tags": ["Products"],
+          "parameters": [
+            {
+              "name": "category",
+              "in": "path",
+              "description": "Category of the products",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Products found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ProductOutputDTO"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request: Unable to find products for the specified category"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "ProductInputDTO": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            },
+            "price": {
+              "type": "number"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": ["name", "category", "price", "description"]
+        },
+        "ProductOutputDTO": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "ID of the product"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the product"
+            },
+            "category": {
+              "type": "string",
+              "enum": ["CategoryEnumValue1", "CategoryEnumValue2"],
+              "description": "Category of the product"
+            },
+            "price": {
+              "type": "number",
+              "description": "Price of the product"
+            },
+            "description": {
+              "type": "string",
+              "description": "Description of the product"
+            }
+          },
+          "required": ["id", "name", "category", "price", "description"]
+        }
+      }
+    }
+  }
