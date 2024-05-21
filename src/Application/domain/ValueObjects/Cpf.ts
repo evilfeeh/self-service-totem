@@ -1,13 +1,12 @@
 import InvalidCpfException from '../Exceptions/InvalidCpfException'
 
 export default class Cpf {
-    private readonly cpf: string
+    private cpf: string
 
     constructor(cpf: string) {
         if (!this.isValid(cpf)) {
             throw new InvalidCpfException()
         }
-        this.cpf = cpf
     }
 
     private isValid(cpf: string): boolean {
@@ -44,6 +43,8 @@ export default class Cpf {
         if (remainder !== parseInt(cpf.charAt(10))) {
             return false
         }
+
+        this.cpf = cpf
 
         return true
     }

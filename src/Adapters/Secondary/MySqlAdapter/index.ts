@@ -7,10 +7,10 @@ import { Product } from './models/Product'
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
-    host: 'mysql_self',
+    host: 'localhost',
     port: 3306,
-    username: 'mcdonalds',
-    password: 'MfDZk"rTtn[f>j%',
+    username: 'root',
+    password: 'rootUser#1234',
     database: 'self-attendence',
     logging: false,
     entities: [Customer, Product, Order, OrderItem],

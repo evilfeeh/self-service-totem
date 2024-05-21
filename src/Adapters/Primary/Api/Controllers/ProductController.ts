@@ -57,8 +57,7 @@ export default class ProductController {
 
     async getProductbyCategory(req: Request, res: Response): Promise<void> {
         const { category } = req.params
-        const catEnum: keyof typeof CategoryEnum =
-            category as keyof typeof CategoryEnum
+        const catEnum: CategoryEnum = category as CategoryEnum
 
         const result = await this.productService.findByCategory(catEnum)
 
@@ -66,7 +65,7 @@ export default class ProductController {
             res.status(400).json(result.value.message)
         } else {
             res.setHeader('Location', `/products/${result.value}`)
-            res.status(201).json(result)
+            res.status(201).json({ products: result.value })
         }
     }
 

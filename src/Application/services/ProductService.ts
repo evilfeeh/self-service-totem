@@ -13,7 +13,7 @@ export default class ProductService implements IProductService {
 
     async createProduct(
         name: string,
-        category: keyof typeof CategoryEnum,
+        category: CategoryEnum,
         price: number,
         description: string
     ): Promise<Either<Error, string>> {
@@ -30,7 +30,7 @@ export default class ProductService implements IProductService {
     async updateProduct(
         id: string,
         name: string,
-        category: keyof typeof CategoryEnum,
+        category: CategoryEnum,
         price: number,
         description: string
     ): Promise<Either<Error, string>> {
@@ -44,7 +44,7 @@ export default class ProductService implements IProductService {
     }
 
     async findByCategory(
-        category: keyof typeof CategoryEnum
+        category: CategoryEnum
     ): Promise<Either<Error, Product[]>> {
         const productsFind = await this.repository.findByCategory(category)
 

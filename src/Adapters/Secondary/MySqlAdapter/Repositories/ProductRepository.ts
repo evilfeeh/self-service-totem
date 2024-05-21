@@ -15,11 +15,13 @@ export default class ProductRepository implements IProductRepository {
 
     async create(product: Product): Promise<Either<Error, string>> {
         try {
+            const productJSON = product.toJSON()
+
             const productModel = new model()
-            productModel.name = product.getName()
-            productModel.category = product.getCategory()
-            productModel.price = product.getPrice()
-            productModel.description = product.getDescription()
+            productModel.name = productJSON.name
+            productModel.category = productJSON.category
+            productModel.price = productJSON.price
+            productModel.description = productJSON.description
 
             await this.repository.save(productModel)
 
@@ -41,10 +43,12 @@ export default class ProductRepository implements IProductRepository {
                 )
             }
 
-            productToUpdate.name = product.getName()
-            productToUpdate.category = product.getCategory()
-            productToUpdate.price = product.getPrice()
-            productToUpdate.description = product.getDescription()
+            const productJSON = product.toJSON()
+
+            productToUpdate.name = productJSON.name
+            productToUpdate.category = productJSON.category
+            productToUpdate.price = productJSON.price
+            productToUpdate.description = productJSON.description
 
             await this.repository.save(productToUpdate)
 

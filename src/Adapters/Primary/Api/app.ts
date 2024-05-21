@@ -29,8 +29,12 @@ const productService = new ProductService(productRepository)
 const productController = new ProductController(productService)
 
 const orderRepository: IOrderRepository = new OrderRepository()
-const orderService = new OrderService(orderRepository)
-const orderController = new OrderController(orderService, customerService)
+const orderService = new OrderService(
+    orderRepository,
+    customerRepository,
+    productRepository
+)
+const orderController = new OrderController(orderService)
 
 app.use(getApiRoute('health'), heathController.buildRouter())
 app.use(getApiRoute('customer'), customerController.buildRouter())

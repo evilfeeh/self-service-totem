@@ -12,17 +12,20 @@ export default class CustomerController {
         return router
     }
 
-    async identify(req: Request, res: Response): Promise<void> {        
+    async identify(req: Request, res: Response): Promise<void> {
         const { cpf } = req.body
-        const result = await this.customerService.findByCpf(
-            cpf
-        )
+        const result = await this.customerService.findByCpf(cpf)
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
         } else {
             res.setHeader('Location', `/customers/${result.value}`)
-            res.status(201).json(result.value)
+            res.status(201).json({
+                id: result.value.getId(),
+                name: result.value.getName(),
+                email: result.value.getEmail(),
+                cpf: result.value.getCpf(),
+            })
         }
     }
 
@@ -39,7 +42,7 @@ export default class CustomerController {
         } else {
             res.setHeader('Location', `/customers/${result.value}`)
             res.status(201).json({
-              message: 'created successfully'
+                message: 'created successfully',
             })
         }
     }
