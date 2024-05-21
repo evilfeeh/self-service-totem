@@ -4,7 +4,8 @@ import { Customer } from './models/Customer'
 import { OrderItem } from './models/OrderItem'
 import { Order } from './models/Order'
 import { Product } from './models/Product'
-import { FirstStatement1716215951567 } from './migrations/1716215951567-FirstStatement'
+import { FirstStatement1716215951567 as FirstStatement } from './migrations/1716215951567-FirstStatement'
+import { AddProducts1716250566139 as AddProducts } from './migrations/1716250566139-AddProducts'
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_DATABASE,
     logging: false,
     entities: [Customer, Product, Order, OrderItem],
-    migrations: [FirstStatement1716215951567],
+    migrations: [FirstStatement, AddProducts],
     synchronize: true,
 })
 
