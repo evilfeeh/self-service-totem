@@ -78,7 +78,7 @@ export default class Product {
             invalidFields.push('price')
         }
 
-        if (this.description.length < 3 || this.description.length > 50) {
+        if (this.description.length < 3 || this.description.length > 250) {
             invalidFields.push('description')
         }
 
