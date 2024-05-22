@@ -159,7 +159,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
+                                    "type": "object",
                                     "items": {
                                         "$ref": "#/components/schemas/ProductOutputDTO"
                                     }
@@ -199,13 +199,13 @@
                             "application/json": {
                                 "schema": {
                                     "type": "string",
-                                    "example": "Customer created successfully"
+                                    "example": "created successfully"
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Bad request: Missing or invalid parameters"
+                        "description": "CPF already registered"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -219,17 +219,6 @@
                 "tags": [
                     "Customers"
                 ],
-                "parameters": [
-                    {
-                        "name": "cpf",
-                        "in": "query",
-                        "description": "Customer's CPF",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -242,17 +231,12 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Customer updated successfully",
+                        "description": "Customer found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "updated successfully"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/CustomerOutputDTO"
                                 }
                             }
                         }
@@ -285,6 +269,9 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Bad request: Unable to find orders"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -365,6 +352,10 @@
                                         "message": {
                                             "type": "string",
                                             "example": "updated successfully"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "1"
                                         }
                                     }
                                 }
@@ -372,7 +363,7 @@
                         }
                     },
                     "400": {
-                        "description": "Bad request: Missing or invalid parameters"
+                        "description": "Product not found"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -416,117 +407,44 @@
                         "description": "Internal server error"
                     }
                 }
-            },
-            "/payment": {
-                "post": {
-                    "summary": "Create a new payment",
-                    "tags": [
-                        "Payments"
-                    ],
-                    "requestBody": {
-                        "required": true,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "$ref": "#/components/schemas/PaymentInputDTO"
-                                }
+            }
+        },
+        "/checkout": {
+            "post": {
+                "summary": "Confirm Payment",
+                "tags": [
+                    "Payments"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/PaymentInputDTO"
                             }
-                        }
-                    },
-                    "responses": {
-                        "201": {
-                            "description": "Payment created successfully",
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "type": "string",
-                                        "example": "Payment created successfully"
-                                    }
-                                }
-                            }
-                        },
-                        "400": {
-                            "description": "Bad request: Missing or invalid parameters"
-                        },
-                        "500": {
-                            "description": "Internal server error"
                         }
                     }
                 },
-                "put": {
-                    "summary": "Update an existing payment",
-                    "tags": [
-                        "Payments"
-                    ],
-                    "parameters": [
-                        {
-                            "name": "id",
-                            "in": "path",
-                            "description": "ID of the payment to update",
-                            "required": true,
-                            "schema": {
-                                "type": "string"
-                            }
-                        }
-                    ],
-                    "requestBody": {
-                        "required": true,
+                "responses": {
+                    "200": {
+                        "description": "Payment Confirmed",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "$ref": "#/components/schemas/PaymentInputDTO"
-                                }
-                            }
-                        }
-                    },
-                    "responses": {
-                        "201": {
-                            "description": "Payment updated successfully",
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {
-                                            "message": {
-                                                "type": "string",
-                                                "example": "updated successfully"
-                                            }
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment approved successfully"
                                         }
                                     }
                                 }
                             }
-                        },
-                        "400": {
-                            "description": "Bad request: Missing or invalid parameters"
-                        },
-                        "500": {
-                            "description": "Internal server error"
                         }
-                    }
-                }
-            }
-        },
-        "/payment": {
-            "get": {
-                "summary": "Get all payments",
-                "tags": [
-                    "Payments"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Payments found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PaymentOutputDTO"
-                                    }
-                                }
-                            }
-                        }
+                    },
+                    "400": {
+                        "description": "Payment Cannot be done"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -544,6 +462,12 @@
                         "type": "string"
                     },
                     "category": {
+                        "enum": [
+                            "Lanche",
+                            "Acompanhamento",
+                            "Bebida",
+                            "Sobremesa"
+                        ],
                         "type": "string"
                     },
                     "price": {
@@ -573,10 +497,6 @@
                     },
                     "category": {
                         "type": "string",
-                        "enum": [
-                            "CategoryEnumValue1",
-                            "CategoryEnumValue2"
-                        ],
                         "description": "Category of the product"
                     },
                     "price": {
@@ -624,25 +544,14 @@
                     "id": {
                         "type": "string"
                     },
-                    "firstName": {
-                        "type": "string"
-                    },
-                    "lastName": {
+                    "name": {
                         "type": "string"
                     },
                     "email": {
                         "type": "string"
                     },
-                    "phone": {
+                    "cpf": {
                         "type": "string"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
                     }
                 }
             },
@@ -680,7 +589,7 @@
                     "id": {
                         "type": "string"
                     },
-                    "customerId": {
+                    "customer": {
                         "type": "string"
                     },
                     "items": {
@@ -700,16 +609,8 @@
                     "total": {
                         "type": "number"
                     },
-                    "status": {
+                    "closed": {
                         "type": "string"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time"
                     }
                 }
             },
