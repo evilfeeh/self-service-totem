@@ -62,6 +62,43 @@
                 }
             }
         },
+        "/product": {
+            "post": {
+                "summary": "Create a new product",
+                "tags": [
+                    "Products"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Product created successfully"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/product/{id}": {
             "put": {
                 "summary": "Update an existing product",
@@ -102,43 +139,6 @@
                                             "example": "updated successfully"
                                         }
                                     }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request: Missing or invalid parameters"
-                    },
-                    "500": {
-                        "description": "Internal server error"
-                    }
-                }
-            }
-        },
-        "/product": {
-            "post": {
-                "summary": "Create a new product",
-                "tags": [
-                    "Products"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ProductInputDTO"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Product created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Product created successfully"
                                 }
                             }
                         }
