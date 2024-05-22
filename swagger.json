@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "Attendance Totem",
-        "description": "Documentation for Attendance Totem API",
+        "title": "Self-Service Totem",
+        "description": "Documentation for Self Service Totem API",
         "version": "1.0.0"
     },
     "basePath": "/api/",
@@ -10,7 +10,9 @@
         "/product": {
             "post": {
                 "summary": "Create a new product",
-                "tags": ["Products"],
+                "tags": [
+                    "Products"
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -43,7 +45,9 @@
             },
             "put": {
                 "summary": "Update an existing product",
-                "tags": ["Products"],
+                "tags": [
+                    "Products"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -92,7 +96,9 @@
             },
             "delete": {
                 "summary": "Delete a product by ID",
-                "tags": ["Products"],
+                "tags": [
+                    "Products"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -133,7 +139,9 @@
         "/product/{category}": {
             "get": {
                 "summary": "Get products by category",
-                "tags": ["Products"],
+                "tags": [
+                    "Products"
+                ],
                 "parameters": [
                     {
                         "name": "category",
@@ -171,7 +179,9 @@
         "/customer": {
             "post": {
                 "summary": "Create a new customer",
-                "tags": ["Customers"],
+                "tags": [
+                    "Customers"
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -201,15 +211,19 @@
                         "description": "Internal server error"
                     }
                 }
-            },
-            "put": {
-                "summary": "Update an existing customer",
-                "tags": ["Customers"],
+            }
+        },
+        "/customer/identify": {
+            "post": {
+                "summary": "Identify a customer",
+                "tags": [
+                    "Customers"
+                ],
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the customer to update",
+                        "name": "cpf",
+                        "in": "query",
+                        "description": "Customer's CPF",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -221,7 +235,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CustomerInputDTO"
+                                "$ref": "#/components/schemas/CustomerIndentiferDTO"
                             }
                         }
                     }
@@ -253,13 +267,40 @@
             }
         },
         "/order": {
+            "get": {
+                "summary": "Get all orders",
+                "tags": [
+                    "Orders"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Orders found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OrderOutputDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
             "post": {
                 "summary": "Create a new order",
-                "tags": ["Orders"],
+                "tags": [
+                    "Orders"
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
+                            "type": "object",
                             "schema": {
                                 "$ref": "#/components/schemas/OrderInputDTO"
                             }
@@ -288,7 +329,9 @@
             },
             "put": {
                 "summary": "Update an existing order",
-                "tags": ["Orders"],
+                "tags": [
+                    "Orders"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -305,6 +348,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "type": "object",
                                 "$ref": "#/components/schemas/OrderInputDTO"
                             }
                         }
@@ -336,83 +380,153 @@
                 }
             }
         },
-        "/payment": {
-            "post": {
-                "summary": "Create a new payment",
-                "tags": ["Payments"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PaymentInputDTO"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Payment created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Payment created successfully"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request: Missing or invalid parameters"
-                    },
-                    "500": {
-                        "description": "Internal server error"
-                    }
-                }
-            },
-            "put": {
-                "summary": "Update an existing payment",
-                "tags": ["Payments"],
+        "/order/{id}": {
+            "get": {
+                "summary": "Get an order by ID",
+                "tags": [
+                    "Orders"
+                ],
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the payment to update",
+                        "description": "ID of the order to find",
                         "required": true,
                         "schema": {
                             "type": "string"
                         }
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PaymentInputDTO"
-                            }
-                        }
-                    }
-                },
                 "responses": {
-                    "201": {
-                        "description": "Payment updated successfully",
+                    "200": {
+                        "description": "Order found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "updated successfully"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/OrderOutputDTO"
                                 }
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request: Missing or invalid parameters"
+                    "404": {
+                        "description": "Order not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "/payment": {
+                "post": {
+                    "summary": "Create a new payment",
+                    "tags": [
+                        "Payments"
+                    ],
+                    "requestBody": {
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/PaymentInputDTO"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": {
+                            "description": "Payment created successfully",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "string",
+                                        "example": "Payment created successfully"
+                                    }
+                                }
+                            }
+                        },
+                        "400": {
+                            "description": "Bad request: Missing or invalid parameters"
+                        },
+                        "500": {
+                            "description": "Internal server error"
+                        }
+                    }
+                },
+                "put": {
+                    "summary": "Update an existing payment",
+                    "tags": [
+                        "Payments"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "description": "ID of the payment to update",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "requestBody": {
+                        "required": true,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/PaymentInputDTO"
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "201": {
+                            "description": "Payment updated successfully",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string",
+                                                "example": "updated successfully"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "400": {
+                            "description": "Bad request: Missing or invalid parameters"
+                        },
+                        "500": {
+                            "description": "Internal server error"
+                        }
+                    }
+                }
+            }
+        },
+        "/payment": {
+            "get": {
+                "summary": "Get all payments",
+                "tags": [
+                    "Payments"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payments found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaymentOutputDTO"
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
                         "description": "Internal server error"
@@ -439,7 +553,12 @@
                         "type": "string"
                     }
                 },
-                "required": ["name", "category", "price", "description"]
+                "required": [
+                    "name",
+                    "category",
+                    "price",
+                    "description"
+                ]
             },
             "ProductOutputDTO": {
                 "type": "object",
@@ -454,7 +573,10 @@
                     },
                     "category": {
                         "type": "string",
-                        "enum": ["CategoryEnumValue1", "CategoryEnumValue2"],
+                        "enum": [
+                            "CategoryEnumValue1",
+                            "CategoryEnumValue2"
+                        ],
                         "description": "Category of the product"
                     },
                     "price": {
@@ -466,21 +588,32 @@
                         "description": "Description of the product"
                     }
                 },
-                "required": ["id", "name", "category", "price", "description"]
+                "required": [
+                    "id",
+                    "name",
+                    "category",
+                    "price",
+                    "description"
+                ]
             },
             "CustomerInputDTO": {
                 "type": "object",
                 "properties": {
-                    "firstName": {
-                        "type": "string"
-                    },
-                    "lastName": {
+                    "name": {
                         "type": "string"
                     },
                     "email": {
                         "type": "string"
                     },
-                    "phone": {
+                    "cpf": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CustomerIndentiferDTO": {
+                "type": "object",
+                "properties": {
+                    "cpf": {
                         "type": "string"
                     }
                 }
@@ -516,15 +649,18 @@
             "OrderInputDTO": {
                 "type": "object",
                 "properties": {
-                    "customerId": {
+                    "name": {
                         "type": "string"
                     },
-                    "items": {
+                    "cpf": {
+                        "type": "string"
+                    },
+                    "products": {
                         "type": "array",
                         "items": {
                             "type": "object",
                             "properties": {
-                                "productId": {
+                                "id": {
                                     "type": "string"
                                 },
                                 "quantity": {
@@ -574,6 +710,14 @@
                     "updatedAt": {
                         "type": "string",
                         "format": "date-time"
+                    }
+                }
+            },
+            "PaymentInputDTO": {
+                "type": "object",
+                "properties": {
+                    "orderId": {
+                        "type": "string"
                     }
                 }
             }
