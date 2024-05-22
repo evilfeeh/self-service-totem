@@ -1,31 +1,31 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
-import { CategoryEnum } from "../../../../Application/domain/Enums/CategoryEnum";
-import { OrderItem } from "./OrderItem";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import { CategoryEnum } from '../../../../Application/domain/Enums/CategoryEnum'
+import { OrderItem } from './OrderItem'
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string
 
-  @Column()
-  name: string
+    @Column()
+    name: string
 
-  @Column({
-    type: 'enum',
-    enum: CategoryEnum
-  })
-  category: keyof typeof CategoryEnum
+    @Column({
+        type: 'enum',
+        enum: CategoryEnum,
+    })
+    category: CategoryEnum
 
-  @Column({
-    type: 'decimal',
-    precision: 10,
-    scale: 2
-  })
-  price: number
+    @Column({
+        type: 'decimal',
+        precision: 10,
+        scale: 2,
+    })
+    price: number
 
-  @Column()
-  description: string
+    @Column()
+    description: string
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
-  orderItems: OrderItem[];
+    @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+    orderItems: OrderItem[]
 }

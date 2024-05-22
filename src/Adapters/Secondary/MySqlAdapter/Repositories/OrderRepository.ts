@@ -28,6 +28,7 @@ export default class OrderRepository implements IOrderRepository {
         try {
             const customer = order.getCustomer()
             const orderModel = new model()
+            orderModel.orderItems = []
 
             if (customer instanceof Customer) {
                 const customerFind = await this.repositoryCustomer.findOneBy({
@@ -36,20 +37,23 @@ export default class OrderRepository implements IOrderRepository {
 
                 if (customerFind) {
                     orderModel.customer = customerFind
+                    orderModel.nameCustomer = customerFind.name
                 }
             } else if (typeof customer === 'string') {
                 orderModel.nameCustomer = customer
             }
 
             const orderItems = order.getItems()
-            const productIds = orderItems.map((item) => item.toJson().id)
+            const productIds = orderItems.map((item) =>
+                item.getProduct().getId()
+            )
             const productModels = await this.repositoryProduct.find({
                 where: { id: In(productIds) },
             })
 
             for (const item of orderItems) {
                 const productModel = productModels.find(
-                    (product) => product.id === item.toJson().id
+                    (product) => product.id === item.getProduct().getId()
                 )
 
                 const orderItemModel = new OrderItemModel()
@@ -82,8 +86,7 @@ export default class OrderRepository implements IOrderRepository {
                     return Left<Error>(new Error('Order not found'))
                 }
 
-                // Delete existing order items
-                await this.repositoryOrderItem.delete({ order: orderToUpdate })
+                orderToUpdate.orderItems = []
 
                 const customer = order.getCustomer()
                 if (customer instanceof Customer) {
@@ -94,20 +97,23 @@ export default class OrderRepository implements IOrderRepository {
 
                     if (customerFind) {
                         orderToUpdate.customer = customerFind
+                        orderToUpdate.nameCustomer = customerFind.name
                     }
                 } else if (typeof customer === 'string') {
                     orderToUpdate.nameCustomer = customer
                 }
 
                 const orderItems = order.getItems()
-                const productIds = orderItems.map((item) => item.toJson().id)
+                const productIds = orderItems.map((item) =>
+                    item.getProduct().getId()
+                )
                 const productModels = await this.repositoryProduct.find({
                     where: { id: In(productIds) },
                 })
 
                 for (const item of orderItems) {
                     const productModel = productModels.find(
-                        (product) => product.id === item.toJson().id
+                        (product) => product.id === item.getProduct().getId()
                     )
 
                     const orderItemModel = new OrderItemModel()
@@ -118,6 +124,9 @@ export default class OrderRepository implements IOrderRepository {
 
                     orderToUpdate.orderItems.push(orderItemModel)
                 }
+
+                // Delete existing order items
+                await this.repositoryOrderItem.delete({ order: orderToUpdate })
 
                 const orderSaved = await this.repository.save(orderToUpdate)
 

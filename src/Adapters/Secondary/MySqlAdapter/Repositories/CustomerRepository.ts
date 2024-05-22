@@ -84,7 +84,8 @@ export default class CustomerRepository implements ICustomerRepository {
         const customer = new Customer(
             customerFind.name,
             customerFind.cpf,
-            customerFind.email
+            customerFind.email,
+            customerFind.id
         )
         return Right<Customer>(customer)
     }

@@ -1,6 +1,7 @@
 import { isLeft } from '../../../Shared/util/either'
 import ProductRepositoryInMemory from '../../../Adapters/Secondary/DataInMemory/Repositories/ProductRepositoryInMemory'
 import ProductService from '../../../Application/services/ProductService'
+import { CategoryEnum } from '../../../Application/domain/Enums/CategoryEnum'
 
 describe('ProductService', () => {
     it('should create a product', async () => {
@@ -9,7 +10,7 @@ describe('ProductService', () => {
 
         const result = await productService.createProduct(
             'Coca',
-            'Drink',
+            CategoryEnum.Drink,
             10,
             'Refreshing drink'
         )
@@ -53,7 +54,7 @@ describe('ProductService', () => {
 
         await productService.createProduct(
             'Hambuger',
-            'Sandwich',
+            CategoryEnum.Sandwich,
             10,
             'Delicious food'
         )
@@ -61,7 +62,7 @@ describe('ProductService', () => {
         const result = await productService.updateProduct(
             '1',
             'Hambuger',
-            'Sandwich',
+            CategoryEnum.Sandwich,
             15,
             'Delicious food'
         )
@@ -72,7 +73,12 @@ describe('ProductService', () => {
     it('should delete a product', async () => {
         const productRepository = new ProductRepositoryInMemory()
         const productService = new ProductService(productRepository)
-        await productService.createProduct('Fries', 'Side', 5, 'Delicious food')
+        await productService.createProduct(
+            'Fries',
+            CategoryEnum.Side,
+            5,
+            'Delicious food'
+        )
 
         const result = await productService.deleteProduct('Fries')
 
@@ -85,23 +91,23 @@ describe('ProductService', () => {
         const productService = new ProductService(productRepository)
 
         expect(
-            (await productService.findByCategory('Drink')).value
+            (await productService.findByCategory(CategoryEnum.Drink)).value
         ).toStrictEqual([])
 
         await productService.createProduct(
             'Coca',
-            'Drink',
+            CategoryEnum.Drink,
             10,
             'Refreshing drink'
         )
         await productService.createProduct(
             'Fanta',
-            'Drink',
+            CategoryEnum.Drink,
             10,
             'Refreshing drink'
         )
 
-        const result = await productService.findByCategory('Drink')
+        const result = await productService.findByCategory(CategoryEnum.Drink)
 
         if (isLeft(result)) {
             throw new Error('Product not found')

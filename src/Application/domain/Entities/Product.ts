@@ -4,14 +4,14 @@ import InvalidFieldException from '../Exceptions/InvalidFieldException'
 export default class Product {
     private id: string
     private name: string
-    private category: keyof typeof CategoryEnum
+    private category: CategoryEnum
     private price: number
     private description: string
 
     constructor(
         id: string,
         name: string,
-        category: keyof typeof CategoryEnum,
+        category: CategoryEnum,
         price: number,
         description: string
     ) {
@@ -31,7 +31,7 @@ export default class Product {
         return this.name
     }
 
-    getCategory(): keyof typeof CategoryEnum {
+    getCategory(): CategoryEnum {
         return this.category
     }
 
@@ -48,7 +48,7 @@ export default class Product {
         this.validator()
     }
 
-    setCategory(category: keyof typeof CategoryEnum): void {
+    setCategory(category: CategoryEnum): void {
         this.category = category
         this.validator()
     }
@@ -64,20 +64,28 @@ export default class Product {
     }
 
     private validator(): void {
-        if (this.name.length < 3 || this.name.length > 50) {
-            throw new InvalidFieldException('Product: name')
+        const invalidFields: string[] = []
+
+        if (this.name.length < 3 || this.name.length > 250) {
+            invalidFields.push('name')
         }
 
-        if (CategoryEnum[this.category] === undefined) {
-            throw new InvalidFieldException('Product: category')
+        if (!Object.values(CategoryEnum).includes(this.category)) {
+            invalidFields.push('category')
         }
 
         if (this.price <= 0) {
-            throw new InvalidFieldException('Product: price')
+            invalidFields.push('price')
         }
 
         if (this.description.length < 3 || this.description.length > 50) {
-            throw new InvalidFieldException('Product: description')
+            invalidFields.push('description')
+        }
+
+        if (invalidFields.length > 0) {
+            throw new InvalidFieldException(
+                `Product: ${invalidFields.join(', ')}`
+            )
         }
     }
 
@@ -85,7 +93,7 @@ export default class Product {
         return {
             id: this.id,
             name: this.name,
-            category: CategoryEnum[this.category],
+            category: this.category,
             price: this.price,
             description: this.description,
         }
