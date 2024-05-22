@@ -1,221 +1,582 @@
 {
     "openapi": "3.0.1",
     "info": {
-      "title": "Attendance Totem",
-      "description": "Documentation for Attendance Totem API",
-      "version": "1.0.0"
+        "title": "Attendance Totem",
+        "description": "Documentation for Attendance Totem API",
+        "version": "1.0.0"
     },
-    "basePath": "/",
+    "basePath": "/api/",
     "paths": {
-      "/products": {
-        "post": {
-          "summary": "Create a new product",
-          "tags": ["Products"],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductInputDTO"
+        "/product": {
+            "post": {
+                "summary": "Create a new product",
+                "tags": ["Products"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Product created successfully"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
                 }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Product created successfully",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "string",
-                    "example": "Product created successfully"
-                  }
+            },
+            "put": {
+                "summary": "Update an existing product",
+                "tags": ["Products"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the product to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "updated successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
                 }
-              }
             },
-            "400": {
-              "description": "Bad request: Missing or invalid parameters"
-            },
-            "500": {
-              "description": "Internal server error"
+            "delete": {
+                "summary": "Delete a product by ID",
+                "tags": ["Products"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the product to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "deleted successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Unable to delete the product"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
             }
-          }
         },
-        "put": {
-          "summary": "Update an existing product",
-          "tags": ["Products"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of the product to update",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductInputDTO"
-                }
-              }
-            }
-          },
-          "responses": {
-            "201": {
-              "description": "Product updated successfully",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "updated successfully"
-                      }
+        "/product/{category}": {
+            "get": {
+                "summary": "Get products by category",
+                "tags": ["Products"],
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "path",
+                        "description": "Category of the products",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
-                  }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Products found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ProductOutputDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Unable to find products for the specified category"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
                 }
-              }
-            },
-            "400": {
-              "description": "Bad request: Missing or invalid parameters"
-            },
-            "500": {
-              "description": "Internal server error"
             }
-          }
         },
-        "delete": {
-          "summary": "Delete a product by ID",
-          "tags": ["Products"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID of the product to delete",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "201": {
-              "description": "Product deleted successfully",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "deleted successfully"
-                      }
+        "/customer": {
+            "post": {
+                "summary": "Create a new customer",
+                "tags": ["Customers"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomerInputDTO"
+                            }
+                        }
                     }
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Bad request: Unable to delete the product"
-            },
-            "500": {
-              "description": "Internal server error"
-            }
-          }
-        }
-      },
-      "/products/{category}": {
-        "get": {
-          "summary": "Get products by category",
-          "tags": ["Products"],
-          "parameters": [
-            {
-              "name": "category",
-              "in": "path",
-              "description": "Category of the products",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Products found",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/ProductOutputDTO"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Customer created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Customer created successfully"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
-                  }
                 }
-              }
             },
-            "400": {
-              "description": "Bad request: Unable to find products for the specified category"
-            },
-            "500": {
-              "description": "Internal server error"
+            "put": {
+                "summary": "Update an existing customer",
+                "tags": ["Customers"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the customer to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CustomerInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Customer updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "updated successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
             }
-          }
+        },
+        "/order": {
+            "post": {
+                "summary": "Create a new order",
+                "tags": ["Orders"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Order created successfully"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an existing order",
+                "tags": ["Orders"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the order to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "updated successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/payment": {
+            "post": {
+                "summary": "Create a new payment",
+                "tags": ["Payments"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Payment created successfully"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update an existing payment",
+                "tags": ["Payments"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the payment to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Payment updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "updated successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
-      }
     },
     "components": {
-      "schemas": {
-        "ProductInputDTO": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string"
+        "schemas": {
+            "ProductInputDTO": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "required": ["name", "category", "price", "description"]
             },
-            "category": {
-              "type": "string"
+            "ProductOutputDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "ID of the product"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the product"
+                    },
+                    "category": {
+                        "type": "string",
+                        "enum": ["CategoryEnumValue1", "CategoryEnumValue2"],
+                        "description": "Category of the product"
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Price of the product"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the product"
+                    }
+                },
+                "required": ["id", "name", "category", "price", "description"]
             },
-            "price": {
-              "type": "number"
+            "CustomerInputDTO": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    }
+                }
             },
-            "description": {
-              "type": "string"
+            "CustomerOutputDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "OrderInputDTO": {
+                "type": "object",
+                "properties": {
+                    "customerId": {
+                        "type": "string"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "productId": {
+                                    "type": "string"
+                                },
+                                "quantity": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "total": {
+                        "type": "number"
+                    }
+                }
+            },
+            "OrderOutputDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "customerId": {
+                        "type": "string"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "productId": {
+                                    "type": "string"
+                                },
+                                "quantity": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
             }
-          },
-          "required": ["name", "category", "price", "description"]
-        },
-        "ProductOutputDTO": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "ID of the product"
-            },
-            "name": {
-              "type": "string",
-              "description": "Name of the product"
-            },
-            "category": {
-              "type": "string",
-              "enum": ["CategoryEnumValue1", "CategoryEnumValue2"],
-              "description": "Category of the product"
-            },
-            "price": {
-              "type": "number",
-              "description": "Price of the product"
-            },
-            "description": {
-              "type": "string",
-              "description": "Description of the product"
-            }
-          },
-          "required": ["id", "name", "category", "price", "description"]
         }
-      }
     }
-  }
+}
