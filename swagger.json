@@ -230,7 +230,7 @@
                 }
             }
         },
-        "/customer/{identify}": {
+        "/customer/identify": {
             "post": {
                 "summary": "Identify a customer",
                 "tags": [
@@ -549,7 +549,7 @@
             },
             "CustomerIndentiferDTO": {
                 "type": "object",
-                "in": "path",
+                "in": "body",
                 "properties": {
                     "cpf": {
                         "type": "string"
