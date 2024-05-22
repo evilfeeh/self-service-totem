@@ -35,7 +35,7 @@ describe('Customer Entity', () => {
     })
 
     it('should set CPF correctly', () => {
-        const cpf = '123.456.789-09'
+        const cpf = '12345678909'
         customer.setCpf(cpf)
         expect(customer.getCpf()).toBe(cpf)
     })
