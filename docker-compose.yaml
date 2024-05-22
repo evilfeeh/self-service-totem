@@ -8,15 +8,22 @@ services:
       - 3000:3000
     depends_on:
       - mysql_self
+    networks:
+      - backend
     environment:
-      DATABASE_URL: mysql://root:MfDZk"rTtn[f>j%@localhost:3306/self-attendence
+      DB_TYPE: 'mysql'
+      DB_HOST: 'mysql_self'
+      DB_PORT: 3306
+      DB_USERNAME: 'mcdonalds'
+      DB_PASSWORD: 'MfDZk"rTtn[f>j%'
+      DB_DATABASE: 'self-attendence'
       PORT: 3000
     deploy:
       resources:
         limits:
           cpus: '1'
           memory: 1GB
-
+    command: sh -c "npm run migration:up && npm start"
   mysql_self:
     image: mysql:5.7
     restart: on-failure
@@ -27,6 +34,11 @@ services:
       MYSQL_DATABASE: self-attendence
       MYSQL_USER: mcdonalds
       MYSQL_PASSWORD: MfDZk"rTtn[f>j%
+    networks:
+      - backend
+    volumes:
+      - /var/lib/mysql-self
 
 networks:
-  default:
+  backend:
+    driver: bridge

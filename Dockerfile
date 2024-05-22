@@ -13,4 +13,3 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "/app/dist/src/Adapters/Primary/Api/server.js"]
