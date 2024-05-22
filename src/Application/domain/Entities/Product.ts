@@ -66,7 +66,7 @@ export default class Product {
     private validator(): void {
         const invalidFields: string[] = []
 
-        if (this.name.length < 3 || this.name.length > 50) {
+        if (this.name.length < 3 || this.name.length > 250) {
             invalidFields.push('name')
         }
 

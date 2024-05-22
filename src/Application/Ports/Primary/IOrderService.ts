@@ -9,9 +9,7 @@ export default interface IOrderService {
     getOrder(id: Order['id']): Promise<Either<Error, Order>>
     getAllOrders(): Promise<Either<Error, Order[]>>
     updateOrder(
-        id: Order['id'],
-        customer: Customer,
-        products: Product[],
-        closed: boolean
+        id: string,
+        orderCustomer: ICreateOrderDTO
     ): Promise<Either<Error, string>>
 }

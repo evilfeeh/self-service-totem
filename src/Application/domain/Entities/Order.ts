@@ -22,6 +22,10 @@ export default class Order {
         this.items.push(item)
     }
 
+    clearItems(): void {
+        this.items = []
+    }
+
     addProduct(product: Product, quantity: number): void {
         if (this.items.length) {
             const productFind = this.items.find(
@@ -87,6 +91,11 @@ export default class Order {
 
     closeOrder(): void {
         this.closed = true
+        this.validator()
+    }
+
+    updateCustomer(customer: Customer | string): void {
+        this.customer = customer
         this.validator()
     }
 

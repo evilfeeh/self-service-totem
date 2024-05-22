@@ -8,6 +8,7 @@ import Customer from '../domain/Entities/Customer'
 import Order from '../domain/Entities/Order'
 import OrderItem from '../domain/Entities/OrderItem'
 import Product from '../domain/Entities/Product'
+import Cpf from '../domain/ValueObjects/Cpf'
 
 export default class OrderService implements IOrderService {
     private repository: IOrderRepository
@@ -31,7 +32,10 @@ export default class OrderService implements IOrderService {
         let customer: string | Customer = name
 
         if (cpf) {
-            const resultCustomer = await this.customerRepository.findByCpf(cpf)
+            const cpfValid = new Cpf(cpf)
+            const resultCustomer = await this.customerRepository.findByCpf(
+                cpfValid.getValue()
+            )
 
             if (isRight(resultCustomer)) {
                 customer = resultCustomer.value
@@ -64,10 +68,39 @@ export default class OrderService implements IOrderService {
     }
     async updateOrder(
         id: string,
-        customer: Customer,
-        products: Product[],
-        closed: boolean
+        orderCustomer: ICreateOrderDTO
     ): Promise<Either<Error, string>> {
-        return this.repository.update(new Order(customer, id))
+        const { name, cpf, products } = orderCustomer
+
+        let customer: string | Customer = name
+
+        if (cpf) {
+            const cpfValid = new Cpf(cpf)
+            const resultCustomer = await this.customerRepository.findByCpf(
+                cpfValid.getValue()
+            )
+
+            if (isRight(resultCustomer)) {
+                customer = resultCustomer.value
+            }
+        }
+
+        const order = new Order(customer, id)
+
+        for (const product of products) {
+            const resultProduct = await this.productRepository.findById(
+                product.id
+            )
+
+            if (isLeft(resultProduct)) {
+                throw new Error('Product not found')
+            }
+
+            const productFind = resultProduct.value
+
+            order.addItem(new OrderItem(productFind, product.quantity))
+        }
+
+        return this.repository.update(order)
     }
 }
