@@ -3,9 +3,18 @@
     "info": {
         "title": "Self-Service Totem",
         "description": "Documentation for Self Service Totem API",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "contact": {
+            "name": "API Support Team",
+            "url": "https://github.com/evilfeeh/self-service-totem/issues"
+        }
     },
-    "basePath": "/api/",
+    "servers": [
+        {
+            "url": "http://localhost:3000/api/",
+            "description": "Development server"
+        }
+    ],
     "paths": {
         "/product/{category}": {
             "get": {
@@ -15,13 +24,19 @@
                 ],
                 "parameters": [
                     {
-                        "name": "category",
                         "in": "path",
+                        "name": "category",
                         "description": "Category of the products",
-                        "required": true,
                         "schema": {
-                            "type": "string"
-                        }
+                            "type": "string",
+                            "enum": [
+                                "Lanche",
+                                "Acompanhamento",
+                                "Bebida",
+                                "Sobremesa"
+                            ]
+                        },
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -213,7 +228,7 @@
                 }
             }
         },
-        "/customer/identify": {
+        "/customer/{identify}": {
             "post": {
                 "summary": "Identify a customer",
                 "tags": [
@@ -532,6 +547,7 @@
             },
             "CustomerIndentiferDTO": {
                 "type": "object",
+                "in": "path",
                 "properties": {
                     "cpf": {
                         "type": "string"
