@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
     logging: false,
     entities: [Customer, Product, Order, OrderItem],
     migrations: [FirstStatement, AddProducts],
-    synchronize: true,
+    synchronize: false,
 })
 
 AppDataSource.initialize()

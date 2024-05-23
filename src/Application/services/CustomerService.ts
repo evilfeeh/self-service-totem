@@ -3,6 +3,7 @@ import ICustomerService from '../Ports/Primary/ICustomerService'
 import ICustomerRepository from '../Ports/Secondary/ICustomerRepository'
 import Customer from '../domain/Entities/Customer'
 import CpfNotFoundException from '../domain/Exceptions/CpfNotFoundException'
+import Cpf from '../domain/ValueObjects/Cpf'
 
 export default class CustomerService implements ICustomerService {
     private repository: ICustomerRepository
@@ -42,7 +43,10 @@ export default class CustomerService implements ICustomerService {
     }
 
     async findByCpf(cpf: string): Promise<Either<Error, Customer>> {
-        const customerSaved = await this.repository.findByCpf(cpf)
+        const validatedCpf = new Cpf(cpf)
+        const customerSaved = await this.repository.findByCpf(
+            validatedCpf.getValue()
+        )
 
         if (isLeft(customerSaved)) {
             throw new CpfNotFoundException()

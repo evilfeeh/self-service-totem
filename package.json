@@ -1,5 +1,5 @@
 {
-  "name": "self-attendence-totem",
+  "name": "self-service-totem",
   "version": "1.0.0",
   "description": "Project about Tech Challenge from FIAP",
   "main": "src/app.ts",
