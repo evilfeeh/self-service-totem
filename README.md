@@ -29,7 +29,7 @@ We're introducing an Software that aims to optimize the self-service process in 
 
 Clone the project repository:
 ```bash
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+git clone https://github.com/evilfeeh/self-service-totem.git
 ```
 
 Access the project directory:
