@@ -6,14 +6,22 @@ export class Customer {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column()
+    @Column({
+        length: 60,
+        nullable: true,
+    })
     name: string
 
-    @Column()
+    @Column({
+        length: 100,
+        nullable: true,
+    })
     email: string
 
     @Column({
         length: 11,
+        nullable: true,
+        unique: true,
     })
     cpf: string
 

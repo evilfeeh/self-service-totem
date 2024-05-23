@@ -13,12 +13,19 @@ export class OrderItem {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column()
+    @Column({
+        type: 'int',
+        nullable: false,
+    })
     quantity: number
 
-    @ManyToOne(() => Order, (order) => order.orderItems)
+    @ManyToOne(() => Order, (order) => order.orderItems, {
+        nullable: true,
+    })
     order: Order
 
-    @ManyToOne(() => Product, (product) => product.orderItems)
+    @ManyToOne(() => Product, (product) => product.orderItems, {
+        nullable: false,
+    })
     product: Product
 }
