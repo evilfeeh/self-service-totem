@@ -34,7 +34,7 @@ git clone https://github.com/evilfeeh/self-service-totem.git
 
 Access the project directory:
 ```bash
-cd self-attendence-totem
+cd self-service-totem
 ```
 
 Run the application with Docker Compose:
