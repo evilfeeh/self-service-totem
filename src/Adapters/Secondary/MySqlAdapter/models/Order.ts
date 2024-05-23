@@ -14,10 +14,16 @@ export class Order {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column()
+    @Column({
+        length: 60,
+        nullable: false,
+        unique: false,
+    })
     nameCustomer: string
 
     @Column({
+        type: 'boolean',
+        nullable: false,
         default: false,
     })
     closed: boolean
@@ -28,6 +34,7 @@ export class Order {
     customer: Customer
 
     @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+        nullable: true,
         cascade: true,
     })
     orderItems: OrderItem[]

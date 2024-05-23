@@ -7,12 +7,16 @@ export class Product {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column()
+    @Column({
+        length: 60,
+        name: 'name',
+    })
     name: string
 
     @Column({
         type: 'enum',
         enum: CategoryEnum,
+        name: 'category',
     })
     category: CategoryEnum
 
@@ -20,10 +24,15 @@ export class Product {
         type: 'decimal',
         precision: 10,
         scale: 2,
+        name: 'price',
     })
     price: number
 
-    @Column()
+    @Column({
+        length: 255,
+        nullable: true,
+        name: 'description',
+    })
     description: string
 
     @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
