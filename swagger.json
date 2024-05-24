@@ -19,9 +19,7 @@
         "/product/{category}": {
             "get": {
                 "summary": "Get products by category",
-                "tags": [
-                    "Products"
-                ],
+                "tags": ["Products"],
                 "parameters": [
                     {
                         "in": "path",
@@ -65,9 +63,7 @@
         "/product": {
             "post": {
                 "summary": "Create a new product",
-                "tags": [
-                    "Products"
-                ],
+                "tags": ["Products"],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -102,9 +98,7 @@
         "/product/{id}": {
             "put": {
                 "summary": "Update an existing product",
-                "tags": [
-                    "Products"
-                ],
+                "tags": ["Products"],
                 "parameters": [
                     {
                         "name": "id",
@@ -127,7 +121,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Product updated successfully",
                         "content": {
                             "application/json": {
@@ -153,9 +147,7 @@
             },
             "delete": {
                 "summary": "Delete a product by ID",
-                "tags": [
-                    "Products"
-                ],
+                "tags": ["Products"],
                 "parameters": [
                     {
                         "name": "id",
@@ -168,7 +160,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Product deleted successfully",
                         "content": {
                             "application/json": {
@@ -196,9 +188,7 @@
         "/customer": {
             "post": {
                 "summary": "Create a new customer",
-                "tags": [
-                    "Customers"
-                ],
+                "tags": ["Customers"],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -233,9 +223,7 @@
         "/customer/identify": {
             "post": {
                 "summary": "Identify a customer",
-                "tags": [
-                    "Customers"
-                ],
+                "tags": ["Customers"],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -247,7 +235,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Customer found",
                         "content": {
                             "application/json": {
@@ -270,9 +258,7 @@
         "/order/{id}": {
             "get": {
                 "summary": "Get an order by ID",
-                "tags": [
-                    "Orders"
-                ],
+                "tags": ["Orders"],
                 "parameters": [
                     {
                         "name": "id",
@@ -308,9 +294,7 @@
         "/order": {
             "get": {
                 "summary": "Get all orders",
-                "tags": [
-                    "Orders"
-                ],
+                "tags": ["Orders"],
                 "responses": {
                     "200": {
                         "description": "Orders found",
@@ -335,9 +319,7 @@
             },
             "post": {
                 "summary": "Create a new order",
-                "tags": [
-                    "Orders"
-                ],
+                "tags": ["Orders"],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -369,59 +351,59 @@
                     }
                 }
             },
-            "put": {
-                "summary": "Update an existing order",
-                "tags": [
-                    "Orders"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the order to update",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
+            "/order/{id}": {
+                "put": {
+                    "summary": "Update an existing order",
+                    "tags": ["Orders"],
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "description": "ID of the order to update",
+                            "required": true,
                             "schema": {
-                                "type": "object",
-                                "$ref": "#/components/schemas/OrderInputDTO"
+                                "type": "string"
                             }
                         }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Order updated successfully",
+                    ],
+                    "requestBody": {
+                        "required": true,
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "updated successfully"
-                                        },
-                                        "id": {
-                                            "type": "string",
-                                            "example": "1"
-                                        }
-                                    }
+                                    "$ref": "#/components/schemas/OrderInputDTO"
                                 }
                             }
                         }
                     },
-                    "400": {
-                        "description": "Product not found"
-                    },
-                    "500": {
-                        "description": "Internal server error"
+                    "responses": {
+                        "200": {
+                            "description": "Order updated successfully",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "message": {
+                                                "type": "string",
+                                                "example": "updated successfully"
+                                            },
+                                            "id": {
+                                                "type": "string",
+                                                "example": "1"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "400": {
+                            "description": "Product not found"
+                        },
+                        "500": {
+                            "description": "Internal server error"
+                        }
                     }
                 }
             }
@@ -429,9 +411,7 @@
         "/checkout": {
             "post": {
                 "summary": "Confirm Payment",
-                "tags": [
-                    "Payments"
-                ],
+                "tags": ["Payments"],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -494,12 +474,7 @@
                         "type": "string"
                     }
                 },
-                "required": [
-                    "name",
-                    "category",
-                    "price",
-                    "description"
-                ]
+                "required": ["name", "category", "price", "description"]
             },
             "ProductOutputDTO": {
                 "type": "object",
@@ -525,13 +500,7 @@
                         "description": "Description of the product"
                     }
                 },
-                "required": [
-                    "id",
-                    "name",
-                    "category",
-                    "price",
-                    "description"
-                ]
+                "required": ["id", "name", "category", "price", "description"]
             },
             "CustomerInputDTO": {
                 "type": "object",
@@ -595,9 +564,6 @@
                                 }
                             }
                         }
-                    },
-                    "total": {
-                        "type": "number"
                     }
                 }
             },

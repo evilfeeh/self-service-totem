@@ -7,15 +7,13 @@ export default class PaymentController {
 
     buildRouter(): Router {
         const router = Router()
-        router.post('/checkout', this.checkout.bind(this))
+        router.post('/', this.checkout.bind(this))
         return router
     }
 
-    async checkout(req: Request, res: Response): Promise<void> {        
+    async checkout(req: Request, res: Response): Promise<void> {
         const { orderId } = req.body
-        const result = await this.paymentService.checkout(
-          orderId
-        )
+        const result = await this.paymentService.checkout(orderId)
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)

@@ -20,7 +20,7 @@ export default class CustomerController {
             res.status(400).json(result.value.message)
         } else {
             res.setHeader('Location', `/customers/${result.value}`)
-            res.status(201).json({
+            res.status(200).json({
                 id: result.value.getId(),
                 name: result.value.getName(),
                 email: result.value.getEmail(),

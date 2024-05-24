@@ -49,7 +49,7 @@ export default class ProductController {
             res.status(400).json(result.value.message)
         } else {
             res.setHeader('Location', `/products/${result.value}`)
-            res.status(201).json({
+            res.status(200).json({
                 message: 'updated successfully',
             })
         }
@@ -65,7 +65,7 @@ export default class ProductController {
             res.status(400).json(result.value.message)
         } else {
             res.setHeader('Location', `/products/${result.value}`)
-            res.status(201).json({ products: result.value })
+            res.status(200).json({ products: result.value })
         }
     }
 
@@ -78,7 +78,7 @@ export default class ProductController {
             res.status(400).json(result.value.message)
         } else {
             res.setHeader('Location', `/products/${result.value}`)
-            res.status(201).json({
+            res.status(200).json({
                 message: 'deleted successfully',
             })
         }
