@@ -289,6 +289,60 @@
                         "description": "Internal server error"
                     }
                 }
+            },
+            "put": {
+                "summary": "Update an existing order",
+                "tags": ["Orders"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the order to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/OrderInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "updated successfully"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "1"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Product not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
             }
         },
         "/order": {
@@ -348,62 +402,6 @@
                     },
                     "500": {
                         "description": "Internal server error"
-                    }
-                }
-            },
-            "/order/{id}": {
-                "put": {
-                    "summary": "Update an existing order",
-                    "tags": ["Orders"],
-                    "parameters": [
-                        {
-                            "name": "id",
-                            "in": "path",
-                            "description": "ID of the order to update",
-                            "required": true,
-                            "schema": {
-                                "type": "string"
-                            }
-                        }
-                    ],
-                    "requestBody": {
-                        "required": true,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "$ref": "#/components/schemas/OrderInputDTO"
-                                }
-                            }
-                        }
-                    },
-                    "responses": {
-                        "200": {
-                            "description": "Order updated successfully",
-                            "content": {
-                                "application/json": {
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {
-                                            "message": {
-                                                "type": "string",
-                                                "example": "updated successfully"
-                                            },
-                                            "id": {
-                                                "type": "string",
-                                                "example": "1"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "400": {
-                            "description": "Product not found"
-                        },
-                        "500": {
-                            "description": "Internal server error"
-                        }
                     }
                 }
             }
