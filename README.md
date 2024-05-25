@@ -1,4 +1,4 @@
-# SELF ATENDENCE TOTEM
+# SELF SERVICE TOTEM
 
 <img alt="Node Version" src="https://img.shields.io/badge/Node_Version-20.18-green"> <img src="https://img.shields.io/github/actions/workflow/status/evilfeeh/self-service-totem/node.js.yml?label=Node%20Build"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/evilfeeh/self-service-totem/dependency-review.yml?label=Dependecy%20Review"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/evilfeeh/self-service-totem/codeql.yml?label=Code%20Security">
 
@@ -11,33 +11,37 @@ We're introducing an Software that aims to optimize the self-service process in 
 
 ## FEATURES
 
-- Customer:
-  - [x] Register a new customer
-  - [x] identify a customer by their CPF
-- Product:
-  - [x] Create, update and delete a product
-  - [x] Find a product by category
-- Orders:
-  - [x] Register a new order
-  - [x] Simulate checkout process (fake checkout)
-  - [x] List orders
+-   Customer:
+    -   [x] Register a new customer
+    -   [x] identify a customer by their CPF
+-   Product:
+    -   [x] Create, update and delete a product
+    -   [x] Find a product by category
+-   Orders:
+    -   [x] Register a new order
+    -   [x] Simulate checkout process (fake checkout)
+    -   [x] List orders
 
 ## PREREQUISITES
+
   <img alt="Docker" src="https://img.shields.io/badge/Docker-latest">
 
 ## HOW TO SETUP:
 
 Clone the project repository:
+
 ```bash
 git clone https://github.com/evilfeeh/self-service-totem.git
 ```
 
 Access the project directory:
+
 ```bash
 cd self-service-totem
 ```
 
 Run the application with Docker Compose:
+
 ```bash
 docker compose up
 ```
@@ -45,4 +49,4 @@ docker compose up
 The apps runs into port 3000, it's possible to change the value port or other environments inside a .env file
 
 To access the docs, access:
-`http://localhost:3000/docs`
+`http://localhost:3000/api/docs`

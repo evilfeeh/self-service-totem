@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express'
 import swaggerUi from 'swagger-ui-express'
-import swaggerDocument from '../../../../swagger.json' 
+import swaggerDocument from '../../../../swagger.json'
 import HeathController from './Controllers/HealthController'
 import CustomerController from './Controllers/CustomerController'
 import CustomerService from '../../../Application/services/CustomerService'
@@ -14,13 +14,15 @@ import IOrderRepository from '../../../Application/Ports/Secondary/IOrderReposit
 import OrderRepository from '../../Secondary/MySqlAdapter/Repositories/OrderRepository'
 import OrderService from '../../../Application/services/OrderService'
 import OrderController from './Controllers/OrderController'
+import IPaymentService from '../../../Application/Ports/Primary/IPaymentService'
+import { PaymentService } from '../../../Application/services/PaymentService'
+import PaymentController from './Controllers/PaymentController'
 
 const getApiRoute = (name: String) => `/api/${name}`
 
 const app: Express = express()
 app.use(express.json())
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 const heathController = new HeathController()
 
 const customerRepository: ICustomerRepository = new CustomerRepository()
@@ -39,8 +41,14 @@ const orderService = new OrderService(
 )
 const orderController = new OrderController(orderService)
 
+const paymentService: IPaymentService = new PaymentService()
+const paymentController = new PaymentController(paymentService)
+
+app.use(getApiRoute('docs'), swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(getApiRoute('health'), heathController.buildRouter())
 app.use(getApiRoute('customer'), customerController.buildRouter())
 app.use(getApiRoute('product'), productController.buildRouter())
 app.use(getApiRoute('order'), orderController.buildRouter())
+app.use(getApiRoute('checkout'), paymentController.buildRouter())
+
 export default app
