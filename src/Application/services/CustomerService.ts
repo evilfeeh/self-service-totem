@@ -1,8 +1,9 @@
-import { Either, isLeft, isRight } from '../../Shared/util/either'
+import { Either, isLeft, isRight, Left } from '../../Shared/util/either'
 import ICustomerService from '../Ports/Primary/ICustomerService'
 import ICustomerRepository from '../Ports/Secondary/ICustomerRepository'
 import Customer from '../domain/Entities/Customer'
 import CpfNotFoundException from '../domain/Exceptions/CpfNotFoundException'
+import InvalidCpfException from '../domain/Exceptions/InvalidCpfException'
 import Cpf from '../domain/ValueObjects/Cpf'
 
 export default class CustomerService implements ICustomerService {
@@ -17,8 +18,16 @@ export default class CustomerService implements ICustomerService {
         email: string,
         cpf: string
     ): Promise<Either<Error, string>> {
-        const customer = new Customer(name, cpf, email)
-        return this.repository.create(customer)
+        try {
+            const customer = new Customer(name, cpf, email)
+            return this.repository.create(customer)
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return Left(error)
+            } else {
+                return Left(new Error('Internal Server Error'))
+            }
+        }
     }
 
     async updateCustomer(
