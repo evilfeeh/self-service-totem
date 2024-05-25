@@ -35,16 +35,24 @@ export default class CustomerService implements ICustomerService {
         email: string,
         cpf: string
     ): Promise<Either<Error, string>> {
-        const customerSaved = await this.repository.findByCpf(cpf)
+        try {
+            const customerSaved = await this.repository.findByCpf(cpf)
 
-        if (isLeft(customerSaved)) {
-            throw new CpfNotFoundException()
+            if (isLeft(customerSaved)) {
+                throw new CpfNotFoundException()
+            }
+
+            customerSaved.value.setEmail(email)
+            customerSaved.value.setName(name)
+
+            return this.repository.create(customerSaved.value)
+        } catch (error) {
+            if (error instanceof Error) {
+                return Left(error)
+            } else {
+                return Left(new Error('Internal Server Error'))
+            }
         }
-
-        customerSaved.value.setEmail(email)
-        customerSaved.value.setName(name)
-
-        return this.repository.create(customerSaved.value)
     }
 
     async deleteCustomer(cpf: string): Promise<Either<Error, string>> {
