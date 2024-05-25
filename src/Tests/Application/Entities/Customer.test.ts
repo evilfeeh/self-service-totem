@@ -20,6 +20,8 @@ describe('Customer Entity', () => {
         expect(() => new Cpf('111.111.111-11')).toThrow(InvalidCpfException)
         expect(() => new Cpf('000.000.000-00')).toThrow(InvalidCpfException)
         expect(() => new Cpf('12345678900')).toThrow(InvalidCpfException)
+        expect(() => new Cpf('    123.456.789 09      ')).toThrow(InvalidCpfException)
+        expect(() => new Cpf('123 456.789 09')).toThrow(InvalidCpfException)
         expect(() => new Cpf('123.456.789-09')).not.toThrow()
     })
 
