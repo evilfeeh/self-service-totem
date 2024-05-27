@@ -20,6 +20,10 @@ describe('Customer Entity', () => {
         expect(() => new Cpf('111.111.111-11')).toThrow(InvalidCpfException)
         expect(() => new Cpf('000.000.000-00')).toThrow(InvalidCpfException)
         expect(() => new Cpf('12345678900')).toThrow(InvalidCpfException)
+        expect(() => new Cpf('    123.456.789 09      ')).toThrow(
+            InvalidCpfException
+        )
+        expect(() => new Cpf('123 456.789 09')).toThrow(InvalidCpfException)
         expect(() => new Cpf('123.456.789-09')).not.toThrow()
     })
 
@@ -35,9 +39,9 @@ describe('Customer Entity', () => {
     })
 
     it('should set CPF correctly', () => {
-        const cpf = '12345678909'
+        const cpf = '882.282.730-96'
         customer.setCpf(cpf)
-        expect(customer.getCpf()).toBe(cpf)
+        expect(customer.getCpf()).toBe('88228273096')
     })
 
     it('should set email correctly', () => {

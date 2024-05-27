@@ -1,8 +1,9 @@
-import { Either, isLeft, isRight } from '../../Shared/util/either'
+import { Either, isLeft, isRight, Left } from '../../Shared/util/either'
 import ICustomerService from '../Ports/Primary/ICustomerService'
 import ICustomerRepository from '../Ports/Secondary/ICustomerRepository'
 import Customer from '../domain/Entities/Customer'
 import CpfNotFoundException from '../domain/Exceptions/CpfNotFoundException'
+import InvalidCpfException from '../domain/Exceptions/InvalidCpfException'
 import Cpf from '../domain/ValueObjects/Cpf'
 
 export default class CustomerService implements ICustomerService {
@@ -17,8 +18,16 @@ export default class CustomerService implements ICustomerService {
         email: string,
         cpf: string
     ): Promise<Either<Error, string>> {
-        const customer = new Customer(name, cpf, email)
-        return this.repository.create(customer)
+        try {
+            const customer = new Customer(name, cpf, email)
+            return this.repository.create(customer)
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                return Left(error)
+            } else {
+                return Left(new Error('Internal Server Error'))
+            }
+        }
     }
 
     async updateCustomer(
@@ -26,16 +35,24 @@ export default class CustomerService implements ICustomerService {
         email: string,
         cpf: string
     ): Promise<Either<Error, string>> {
-        const customerSaved = await this.repository.findByCpf(cpf)
+        try {
+            const customerSaved = await this.repository.findByCpf(cpf)
 
-        if (isLeft(customerSaved)) {
-            throw new CpfNotFoundException()
+            if (isLeft(customerSaved)) {
+                throw new CpfNotFoundException()
+            }
+
+            customerSaved.value.setEmail(email)
+            customerSaved.value.setName(name)
+
+            return this.repository.create(customerSaved.value)
+        } catch (error) {
+            if (error instanceof Error) {
+                return Left(error)
+            } else {
+                return Left(new Error('Internal Server Error'))
+            }
         }
-
-        customerSaved.value.setEmail(email)
-        customerSaved.value.setName(name)
-
-        return this.repository.create(customerSaved.value)
     }
 
     async deleteCustomer(cpf: string): Promise<Either<Error, string>> {

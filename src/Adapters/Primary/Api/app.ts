@@ -49,6 +49,6 @@ app.use(getApiRoute('health'), heathController.buildRouter())
 app.use(getApiRoute('customer'), customerController.buildRouter())
 app.use(getApiRoute('product'), productController.buildRouter())
 app.use(getApiRoute('order'), orderController.buildRouter())
-app.use(getApiRoute('checkout'), paymentController.buildRouter())
+app.use(getApiRoute('payment'), paymentController.buildRouter())
 
 export default app

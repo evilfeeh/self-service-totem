@@ -7,7 +7,7 @@ export default class PaymentController {
 
     buildRouter(): Router {
         const router = Router()
-        router.post('/', this.checkout.bind(this))
+        router.post('/checkout', this.checkout.bind(this))
         return router
     }
 
