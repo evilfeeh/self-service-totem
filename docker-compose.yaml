@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
     app:
@@ -7,7 +7,8 @@ services:
         ports:
             - 3000:3000
         depends_on:
-            - mysql_self
+            mysql_self:
+                condition: service_healthy
         networks:
             - backend
         environment:
@@ -38,6 +39,11 @@ services:
             - backend
         volumes:
             - /var/lib/mysql-self
+        healthcheck:
+            test: mysqladmin ping -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+            interval: 10s
+            timeout: 5s
+            retries: 5
 
 networks:
     backend:
