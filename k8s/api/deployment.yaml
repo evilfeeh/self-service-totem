@@ -14,7 +14,33 @@ spec:
     spec:
       containers:
       - name: self-service-totem-api
-        image: marcelors/self-service-totem-api:v1.0.1
+        image: marcelors/self-service-totem-api:v1.0.3
+        envFrom:
+        - configMapRef:
+            name: self-service-totem-env
+
+        startupProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          periodSeconds: 3
+          failureThreshold: 30
+
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          periodSeconds: 3
+          failureThreshold: 1
+
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          periodSeconds: 5
+          failureThreshold: 1
+          timeoutSeconds: 1
+          successThreshold: 1
 
         resources:
           limits:
