@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: self-service-totem-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: self-service-totem-api
+  template:
+    metadata:
+      labels:
+        app: self-service-totem-api
+    spec:
+      containers:
+      - name: self-service-totem-api
+        image: marcelors/self-service-totem-api:v1.0.3
+        envFrom:
+        - configMapRef:
+            name: self-service-totem-env
+
+        startupProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          periodSeconds: 3
+          failureThreshold: 30
+
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          periodSeconds: 3
+          failureThreshold: 1
+
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          periodSeconds: 5
+          failureThreshold: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 300m
+          requests:
+            memory: 128Mi
+            cpu: 100m

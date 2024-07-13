@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: self-service-totem-env
+data:
+  DB_TYPE: 'mysql'
+  DB_HOST: 'mysql_self'
+  DB_PORT: '3306'
+  DB_USERNAME: 'mcdonalds'
+  DB_PASSWORD: 'mcdonalds#1234'
+  DB_DATABASE: 'self-service'
+  PORT: '3000'
