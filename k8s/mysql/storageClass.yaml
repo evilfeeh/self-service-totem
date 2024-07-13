@@ -7,6 +7,6 @@ metadata:
 provisioner: kubernetes.io/pce-pd
 parameters:
   type: pd-standard
-reclaimPolicy: delete
-AllowVolumeExpansion: true
-VolumeBindingMode: immediate
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: Immediate

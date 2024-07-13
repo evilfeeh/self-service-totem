@@ -13,11 +13,8 @@ spec:
         app: self-service-totem-database
     spec:
       containers:
-      - envFrom:
-        - name: self-service-totem-database-secrets
-          secretKeyRef: null
+      - name: mysql
         image: mysql:5.7
-        name: mysql
         ports:
         - containerPort: 80
           name: self-service-totem-database-port
@@ -45,13 +42,16 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/self-service-totem-database-volume
           name: self-service-totem-database-volume
-volumeClaimTemplates:
-- metadata:
-    name: self-service-totem-database-volume
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 256Mi
-    storageClassName: self-service-totem-database-sc
+        envFrom:
+        - secretRef:
+            name: self-service-totem-database-secrets
+  volumeClaimTemplates:
+  - metadata:
+      name: self-service-totem-database-volume
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 256Mi
+      storageClassName: self-service-totem-database-sc
