@@ -302,20 +302,20 @@ export default class OrderRepository implements IOrderRepository {
                     a.getCreatedAt().getTime() - b.getCreatedAt().getTime()
             )
 
-            const receivedOrders = orders.filter(
-                (order) => order.getStatus() === StatusEnum.Received
+            const readyOrders = orders.filter(
+                (order) => order.getStatus() === StatusEnum.Ready
             )
             const preparingOrders = orders.filter(
                 (order) => order.getStatus() === StatusEnum.Preparing
             )
-            const readyOrders = orders.filter(
-                (order) => order.getStatus() === StatusEnum.Ready
+            const receivedOrders = orders.filter(
+                (order) => order.getStatus() === StatusEnum.Received
             )
 
             return Right<Order[]>({
-                ...receivedOrders,
-                ...preparingOrders,
                 ...readyOrders,
+                ...preparingOrders,
+                ...receivedOrders,
             })
         } catch (error) {
             return Left<Error>(error as Error)
