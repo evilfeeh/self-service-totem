@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: self-service-totem-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: self-service-totem-api
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 75

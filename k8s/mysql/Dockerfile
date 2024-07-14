@@ -1,0 +1,9 @@
+FROM mysql:5.7
+
+ENV MYSQL_ROOT_PASSWORD=rootUser#1234
+ENV MYSQL_DATABASE=self-service
+ENV MYSQL_USER=mcdonalds
+ENV MYSQL_PASSWORD=mcdonalds#1234
+
+# Exponha a porta do MySQL
+EXPOSE 3306
