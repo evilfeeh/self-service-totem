@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { isLeft } from '../../../../Shared/util/either'
 import IOrderService from '../../../../Application/Ports/Primary/IOrderService'
-import ICustomerService from '../../../../Application/Ports/Primary/ICustomerService'
 
 export default class OrderController {
     constructor(readonly orderService: IOrderService) {}
@@ -42,7 +41,7 @@ export default class OrderController {
     }
 
     async listOrders(req: Request, res: Response): Promise<void> {
-        const result = await this.orderService.getAllOrders()
+        const result = await this.orderService.listOrders()
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
@@ -53,6 +52,8 @@ export default class OrderController {
                 customer: order.getCustomer(),
                 total: order.getTotalOrderValue(),
                 closed: order.isClosed(),
+                status: order.getStatus(),
+                createdAt: order.getCreatedAt(),
             }))
             res.status(200).json({ orders })
         }
@@ -72,6 +73,8 @@ export default class OrderController {
                 customer: order.getCustomer(),
                 total: order.getTotalOrderValue(),
                 closed: order.isClosed(),
+                status: order.getStatus(),
+                createdAt: order.getCreatedAt(),
             }
             res.status(200).json(orderResult)
         }

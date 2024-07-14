@@ -347,7 +347,7 @@
         },
         "/order": {
             "get": {
-                "summary": "Get all orders",
+                "summary": "List orders",
                 "tags": ["Orders"],
                 "responses": {
                     "200": {
@@ -592,6 +592,12 @@
                         "type": "number"
                     },
                     "closed": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "createdAt": {
                         "type": "string"
                     }
                 }

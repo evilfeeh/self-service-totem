@@ -7,7 +7,6 @@ import IProductRepository from '../Ports/Secondary/IProductRepository'
 import Customer from '../domain/Entities/Customer'
 import Order from '../domain/Entities/Order'
 import OrderItem from '../domain/Entities/OrderItem'
-import Product from '../domain/Entities/Product'
 import Cpf from '../domain/ValueObjects/Cpf'
 
 export default class OrderService implements IOrderService {
@@ -65,6 +64,9 @@ export default class OrderService implements IOrderService {
     }
     async getAllOrders(): Promise<Either<Error, Order[]>> {
         return this.repository.getAll()
+    }
+    async listOrders(): Promise<Either<Error, Order[]>> {
+        return this.repository.list()
     }
     async updateOrder(
         id: string,

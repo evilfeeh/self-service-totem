@@ -8,11 +8,19 @@ import {
 } from 'typeorm'
 import { OrderItem } from './OrderItem'
 import { Customer } from './Customer'
+import { StatusEnum } from '../../../../Application/domain/Enums/StatusEnum'
 
 @Entity()
 export class Order {
     @PrimaryGeneratedColumn('uuid')
     id: string
+
+    @Column({
+        type: 'timestamp',
+        nullable: false,
+        default: () => 'CURRENT_TIMESTAMP',
+    })
+    createdAt: Date
 
     @Column({
         length: 60,
@@ -27,6 +35,13 @@ export class Order {
         default: false,
     })
     closed: boolean
+
+    @Column({
+        type: 'enum',
+        enum: StatusEnum,
+        name: 'status',
+    })
+    status: StatusEnum
 
     @ManyToOne(() => Customer, (customer) => customer.orders, {
         nullable: true,

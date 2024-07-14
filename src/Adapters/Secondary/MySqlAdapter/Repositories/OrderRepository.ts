@@ -10,6 +10,7 @@ import { AppDataSource } from '../index'
 import Customer from '../../../../Application/domain/Entities/Customer'
 import OrderItem from '../../../../Application/domain/Entities/OrderItem'
 import Product from '../../../../Application/domain/Entities/Product'
+import { StatusEnum } from '../../../../Application/domain/Enums/StatusEnum'
 
 export default class OrderRepository implements IOrderRepository {
     private repository: Repository<model>
@@ -243,6 +244,79 @@ export default class OrderRepository implements IOrderRepository {
             })
 
             return Right<Order[]>(orders)
+        } catch (error) {
+            return Left<Error>(error as Error)
+        }
+    }
+    async list(): Promise<Either<Error, Order[]>> {
+        try {
+            const ordersFind = await this.repository.find({
+                relations: ['customer', 'orderItems', 'orderItems.product'],
+            })
+
+            if (!ordersFind) {
+                return Left<Error>(new Error('Orders not found'))
+            }
+
+            const orders = ordersFind.map((order) => {
+                let customer: Customer | null = null
+
+                if (order.customer) {
+                    customer = new Customer(
+                        order.customer.name,
+                        order.customer.cpf,
+                        order.customer.email,
+                        order.customer.id
+                    )
+                }
+
+                const customerName = order.nameCustomer
+
+                const orderEntity = new Order(
+                    customer ?? customerName,
+                    order.id
+                )
+
+                for (const item of order.orderItems) {
+                    const product: Product = new Product(
+                        item.product.id,
+                        item.product.name,
+                        item.product.category,
+                        item.product.price,
+                        item.product.description
+                    )
+
+                    const orderItem = new OrderItem(
+                        product,
+                        item.quantity,
+                        item.id
+                    )
+                    orderEntity.addItem(orderItem)
+                }
+
+                return orderEntity
+            })
+
+            orders.sort(
+                (a, b) =>
+                    a.getCreatedAt().getTime() - b.getCreatedAt().getTime()
+            )
+
+            const receivedOrders = orders.filter(
+                (order) => order.getStatus() === StatusEnum.Received
+            )
+            const preparingOrders = orders.filter(
+                (order) => order.getStatus() === StatusEnum.Preparing
+            )
+            const readyOrders = orders.filter(
+                (order) => order.getStatus() === StatusEnum.Ready
+            )
+
+            return Right<Order[]>({
+                ...receivedOrders,
+                ...preparingOrders,
+                ...readyOrders,
+            })
         } catch (error) {
             return Left<Error>(error as Error)
         }
