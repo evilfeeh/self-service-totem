@@ -66,6 +66,9 @@ export default class OrderRepository implements IOrderRepository {
                 orderModel.orderItems.push(orderItemModel)
             }
 
+            orderModel.status = order.getStatus()
+            orderModel.createdAt = order.getCreatedAt()
+
             const orderSaved = await this.repository.save(orderModel)
 
             return Right<string>(orderSaved.id)
@@ -88,6 +91,7 @@ export default class OrderRepository implements IOrderRepository {
                 }
 
                 orderToUpdate.orderItems = []
+                orderToUpdate.status = orderJSON.status
 
                 const customer = order.getCustomer()
                 if (customer instanceof Customer) {
@@ -174,7 +178,12 @@ export default class OrderRepository implements IOrderRepository {
 
             const customerName = orderFind.nameCustomer
 
-            const order = new Order(customer ?? customerName, orderFind.id)
+            const order = new Order(
+                customer ?? customerName,
+                orderFind.id,
+                orderFind.status,
+                orderFind.createdAt
+            )
 
             for (const item of orderFind.orderItems) {
                 const product: Product = new Product(
@@ -220,7 +229,9 @@ export default class OrderRepository implements IOrderRepository {
 
                 const orderEntity = new Order(
                     customer ?? customerName,
-                    order.id
+                    order.id,
+                    order.status,
+                    order.createdAt
                 )
 
                 for (const item of order.orderItems) {
@@ -274,7 +285,9 @@ export default class OrderRepository implements IOrderRepository {
 
                 const orderEntity = new Order(
                     customer ?? customerName,
-                    order.id
+                    order.id,
+                    order.status,
+                    order.createdAt
                 )
 
                 for (const item of order.orderItems) {

@@ -82,7 +82,7 @@ export default class OrderController {
 
     async updateOrder(req: Request, res: Response): Promise<void> {
         const { id } = req.params
-        const { name, cpf, products } = req.body
+        const { name, cpf, products, status } = req.body
 
         if (!name) {
             res.status(400).json({
@@ -91,9 +91,8 @@ export default class OrderController {
         }
 
         const result = await this.orderService.updateOrder(id, {
-            name,
-            cpf,
             products,
+            status,
         })
 
         if (isLeft(result)) {
