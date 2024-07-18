@@ -1,5 +1,6 @@
 import { Either, isLeft, isRight } from '../../Shared/util/either'
 import ICreateOrderDTO from '../DTOs/ICreateOrderDTO'
+import IUpdateOrderDTO from '../DTOs/IUpdateOrderDTO'
 import IOrderService from '../Ports/Primary/IOrderService'
 import ICustomerRepository from '../Ports/Secondary/ICustomerRepository'
 import IOrderRepository from '../Ports/Secondary/IOrderRepository'
@@ -7,7 +8,6 @@ import IProductRepository from '../Ports/Secondary/IProductRepository'
 import Customer from '../domain/Entities/Customer'
 import Order from '../domain/Entities/Order'
 import OrderItem from '../domain/Entities/OrderItem'
-import Product from '../domain/Entities/Product'
 import Cpf from '../domain/ValueObjects/Cpf'
 
 export default class OrderService implements IOrderService {
@@ -66,26 +66,27 @@ export default class OrderService implements IOrderService {
     async getAllOrders(): Promise<Either<Error, Order[]>> {
         return this.repository.getAll()
     }
+    async listOrders(): Promise<Either<Error, Order[]>> {
+        return this.repository.list()
+    }
     async updateOrder(
         id: string,
-        orderCustomer: ICreateOrderDTO
+        orderToUpdate: IUpdateOrderDTO
     ): Promise<Either<Error, string>> {
-        const { name, cpf, products } = orderCustomer
+        const { products, status } = orderToUpdate
 
-        let customer: string | Customer = name
+        let order: Order | null = null
 
-        if (cpf) {
-            const cpfValid = new Cpf(cpf)
-            const resultCustomer = await this.customerRepository.findByCpf(
-                cpfValid.getValue()
-            )
+        const resultOrder = await this.repository.get(id)
 
-            if (isRight(resultCustomer)) {
-                customer = resultCustomer.value
-            }
+        if (isRight(resultOrder)) {
+            order = resultOrder.value
+        } else {
+            return resultOrder
         }
 
-        const order = new Order(customer, id)
+        order.updateStatus(status)
+        order.clearItems()
 
         for (const product of products) {
             const resultProduct = await this.productRepository.findById(

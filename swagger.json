@@ -310,7 +310,7 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "$ref": "#/components/schemas/OrderInputDTO"
+                                "$ref": "#/components/schemas/OrderUpdateDTO"
                             }
                         }
                     }
@@ -347,7 +347,7 @@
         },
         "/order": {
             "get": {
-                "summary": "Get all orders",
+                "summary": "List orders",
                 "tags": ["Orders"],
                 "responses": {
                     "200": {
@@ -565,6 +565,34 @@
                     }
                 }
             },
+            "OrderUpdateDTO": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "Recebido",
+                            "Em preparação",
+                            "Pronto",
+                            "Finalizado"
+                        ]
+                    },
+                    "products": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "quantity": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "OrderOutputDTO": {
                 "type": "object",
                 "properties": {
@@ -592,6 +620,12 @@
                         "type": "number"
                     },
                     "closed": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "createdAt": {
                         "type": "string"
                     }
                 }
