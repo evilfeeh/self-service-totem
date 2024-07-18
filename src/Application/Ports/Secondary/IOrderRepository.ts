@@ -7,4 +7,5 @@ export default interface IOrderRepository {
     delete(id: string): Promise<Either<Error, string>>
     get(id: string): Promise<Either<Error, Order>>
     getAll(): Promise<Either<Error, Order[]>>
+    list(): Promise<Either<Error, Order[]>>
 }

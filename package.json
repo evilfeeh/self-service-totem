@@ -9,6 +9,7 @@
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/Adapters/Primary/Api/server.ts",
     "migration:up": "npx ts-node ./node_modules/.bin/typeorm migration:run -d ./src/Adapters/Secondary/MySqlAdapter/",
     "migration:down": "npx ts-node ./node_modules/.bin/typeorm migration:drop -d ./src/Adapters/Secondary/MySqlAdapter/",
+    "migration:generate": "npx ts-node node_modules/typeorm/cli.js migration:generate src/Adapters/Secondary/MySqlAdapter/migrations/FirstStatement -d ./src/Adapters/Secondary/MySqlAdapter/index.ts",
     "test": "jest"
   },
   "keywords": [],
