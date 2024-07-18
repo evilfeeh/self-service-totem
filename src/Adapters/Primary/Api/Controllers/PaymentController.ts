@@ -20,7 +20,7 @@ export default class PaymentController {
         } else {
             res.setHeader('Location', `/payment/${result.value}`)
             res.status(200).json({
-                message: 'Payment approved successfully',
+                message: 'Payment initialized successfully',
             })
         }
     }

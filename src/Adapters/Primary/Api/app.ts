@@ -17,6 +17,8 @@ import OrderController from './Controllers/OrderController'
 import IPaymentService from '../../../Application/Ports/Primary/IPaymentService'
 import { PaymentService } from '../../../Application/services/PaymentService'
 import PaymentController from './Controllers/PaymentController'
+import IPaymentRepository from '../../../Application/Ports/Secondary/IPaymentRepository'
+import PaymentRepository from '../../Secondary/MySqlAdapter/Repositories/PaymentRepository'
 
 const getApiRoute = (name: String) => `/api/${name}`
 
@@ -41,7 +43,8 @@ const orderService = new OrderService(
 )
 const orderController = new OrderController(orderService)
 
-const paymentService: IPaymentService = new PaymentService()
+const paymentRepository: IPaymentRepository = new PaymentRepository()
+const paymentService: IPaymentService = new PaymentService(paymentRepository)
 const paymentController = new PaymentController(paymentService)
 
 app.use(getApiRoute('docs'), swaggerUi.serve, swaggerUi.setup(swaggerDocument))

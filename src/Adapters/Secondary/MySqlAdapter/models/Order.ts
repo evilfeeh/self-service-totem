@@ -4,10 +4,11 @@ import {
     PrimaryGeneratedColumn,
     OneToMany,
     ManyToOne,
-    JoinColumn,
+    OneToOne,
 } from 'typeorm'
 import { OrderItem } from './OrderItem'
 import { Customer } from './Customer'
+import { Payment } from './Payment'
 
 @Entity()
 export class Order {
@@ -38,4 +39,7 @@ export class Order {
         cascade: true,
     })
     orderItems: OrderItem[]
+
+    @OneToOne(() => Payment, (payment) => payment.order)
+    payment: Payment
 }

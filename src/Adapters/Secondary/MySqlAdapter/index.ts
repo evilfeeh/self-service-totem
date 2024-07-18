@@ -5,6 +5,7 @@ import { OrderItem } from './models/OrderItem'
 import { Order } from './models/Order'
 import { Product } from './models/Product'
 import { AddProducts1716250566139 as AddProducts } from './migrations/1716250566139-AddProducts'
+import { Payment } from './models/Payment'
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     logging: false,
-    entities: [Customer, Product, Order, OrderItem],
+    entities: [Customer, Product, Order, OrderItem, Payment],
     migrations: [AddProducts],
     synchronize: true,
 })

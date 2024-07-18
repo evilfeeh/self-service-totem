@@ -408,7 +408,7 @@
         },
         "/payment/checkout": {
             "post": {
-                "summary": "Confirm Payment",
+                "summary": "Initialize payment process",
                 "tags": ["Payments"],
                 "requestBody": {
                     "required": true,
