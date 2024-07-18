@@ -33,9 +33,20 @@ export class PaymentService implements IPaymentService {
         }
     }
 
-    async get(paymentId: string): Promise<Either<Error, Payment>> {
+    async updateStatus(
+        id: string,
+        status: string
+    ): Promise<Either<Error, string>> {
         try {
-            return this.repository.get(paymentId)
+            return this.repository.updateStatus(id, status)
+        } catch (error) {
+            return Left<Error>(error as Error)
+        }
+    }
+
+    async get(id: string): Promise<Either<Error, Payment>> {
+        try {
+            return this.repository.get(id)
         } catch (error) {
             return Left<Error>(error as Error)
         }

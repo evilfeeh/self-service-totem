@@ -10,6 +10,7 @@ export default class PaymentController {
         const router = Router()
         router.post('/checkout', this.checkout.bind(this))
         router.get('/:id', this.get.bind(this))
+        router.post('/update-status/:id', this.updateStatus.bind(this))
         return router
     }
 
@@ -37,8 +38,8 @@ export default class PaymentController {
     }
 
     async get(req: Request, res: Response): Promise<void> {
-        const { paymentId } = req.body
-        const result = await this.paymentService.get(paymentId)
+        const { id } = req.params
+        const result = await this.paymentService.get(id)
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
@@ -50,6 +51,20 @@ export default class PaymentController {
                 orderId: payment.getOrderId(),
             }
             res.status(200).json(paymentResult)
+        }
+    }
+
+    async updateStatus(req: Request, res: Response): Promise<void> {
+        const { id } = req.params
+        const { status } = req.body
+        const result = await this.paymentService.updateStatus(id, status)
+
+        if (isLeft(result)) {
+            res.status(400).json(result.value.message)
+        } else {
+            res.status(200).json({
+                message: result.value,
+            })
         }
     }
 }

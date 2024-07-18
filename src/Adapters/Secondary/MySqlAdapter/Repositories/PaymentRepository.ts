@@ -52,6 +52,8 @@ export default class PaymentRepository implements IPaymentRepository {
                 order
             )
 
+            // TODO: implementar chamada para o servidor webhook mock de pagamento
+
             return Right<Payment>(paymentSent)
         } catch (error) {
             return Left<Error>(error as Error)
@@ -89,6 +91,31 @@ export default class PaymentRepository implements IPaymentRepository {
             )
 
             return Right<Payment>(payment)
+        } catch (error) {
+            return Left<Error>(error as Error)
+        }
+    }
+
+    async updateStatus(
+        id: string,
+        status: string
+    ): Promise<Either<Error, string>> {
+        try {
+            const paymentFind = await this.repository.findOne({
+                where: {
+                    id,
+                },
+            })
+
+            if (!paymentFind) {
+                return Left<Error>(new Error('Payment not found'))
+            }
+
+            paymentFind.status = status
+
+            await this.repository.save(paymentFind)
+
+            return Right(`Status de pagamento atualizado para: ${status}`)
         } catch (error) {
             return Left<Error>(error as Error)
         }
