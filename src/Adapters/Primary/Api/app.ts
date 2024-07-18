@@ -43,7 +43,9 @@ const orderService = new OrderService(
 )
 const orderController = new OrderController(orderService)
 
-const paymentRepository: IPaymentRepository = new PaymentRepository()
+const paymentRepository: IPaymentRepository = new PaymentRepository(
+    orderService
+)
 const paymentService: IPaymentService = new PaymentService(paymentRepository)
 const paymentController = new PaymentController(paymentService)
 

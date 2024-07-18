@@ -1,3 +1,5 @@
+import Order from './Order'
+
 export class Payment {
     private readonly externalReference: string
     private readonly notificationUrl: string
@@ -8,9 +10,17 @@ export class Payment {
     private orderId: string
     private value: number
     private expirationDate: string
+    private order: Order | string
 
-    constructor(id: string, orderId: string, status: string) {
-        ;(this.id = id), (this.status = status)
+    constructor(
+        id: string,
+        orderId: string,
+        status: string,
+        order: Order | string
+    ) {
+        this.order = order
+        this.id = id
+        this.status = status
         this.orderId = orderId
         this.externalReference = '12345'
         this.notificationUrl = 'http://www.yourserver.com/notification'
@@ -35,6 +45,9 @@ export class Payment {
     }
     getProducts(): any[] {
         return this.products
+    }
+    getOrder(): Order | string {
+        return this.order
     }
     setValue(value: number): void {
         this.value = value

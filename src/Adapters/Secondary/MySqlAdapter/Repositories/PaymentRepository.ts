@@ -1,15 +1,18 @@
 import { Repository } from 'typeorm'
-import { Either, Left, Right } from '../../../../Shared/util/either'
+import { Either, isLeft, Left, Right } from '../../../../Shared/util/either'
 import { Payment as model } from '../models/Payment'
 import { AppDataSource } from '../index'
 import IPaymentRepository from '../../../../Application/Ports/Secondary/IPaymentRepository'
 import { Payment } from '../../../../Application/domain/Entities/Payment'
+import IOrderService from '../../../../Application/Ports/Primary/IOrderService'
 
 export default class PaymentRepository implements IPaymentRepository {
     private repository: Repository<model>
+    private orderService: IOrderService
 
-    constructor() {
+    constructor(orderService: IOrderService) {
         this.repository = AppDataSource.getRepository(model)
+        this.orderService = orderService
     }
 
     async checkout(payment: Payment): Promise<Either<Error, Payment>> {
@@ -32,10 +35,21 @@ export default class PaymentRepository implements IPaymentRepository {
 
             const paymentSave = await this.repository.save(paymentModel)
 
+            const paymentOrder = await this.orderService.getOrder(
+                paymentSave.orderId
+            )
+
+            if (isLeft(paymentOrder)) {
+                console.error()
+                return Left<Error>(new Error(paymentOrder.value.message))
+            }
+            const order = paymentOrder.value
+
             const paymentSent = new Payment(
                 paymentSave.id,
                 paymentSave.orderId,
-                paymentSave.status
+                paymentSave.status,
+                order
             )
 
             return Right<Payment>(paymentSent)
@@ -56,10 +70,22 @@ export default class PaymentRepository implements IPaymentRepository {
                 return Left<Error>(new Error('Payment not found'))
             }
 
+            const paymentOrder = await this.orderService.getOrder(
+                paymentFind.orderId
+            )
+
+            if (isLeft(paymentOrder)) {
+                console.error()
+                return Left<Error>(new Error(paymentOrder.value.message))
+            }
+
+            const order = paymentOrder.value
+
             const payment = new Payment(
                 paymentFind.id,
                 paymentFind.orderId,
-                paymentFind.status
+                paymentFind.status,
+                order
             )
 
             return Right<Payment>(payment)

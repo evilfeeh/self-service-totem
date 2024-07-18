@@ -19,6 +19,28 @@ export class PaymentService implements IPaymentService {
         this.repository = repository
     }
 
+    async checkout(orderId: string): Promise<Either<Error, Payment>> {
+        try {
+            const payment = new Payment(
+                'TempId',
+                orderId,
+                paymentStatus.INITIALIZED,
+                'TempOrder'
+            )
+            return await this.repository.checkout(payment)
+        } catch (error) {
+            return Left<Error>(error as Error)
+        }
+    }
+
+    async get(paymentId: string): Promise<Either<Error, Payment>> {
+        try {
+            return this.repository.get(paymentId)
+        } catch (error) {
+            return Left<Error>(error as Error)
+        }
+    }
+
     async create(
         orderId: string,
         orderAmount: number,
@@ -27,7 +49,8 @@ export class PaymentService implements IPaymentService {
         const payment = new Payment(
             'TempId',
             orderId,
-            paymentStatus.INITIALIZED
+            paymentStatus.INITIALIZED,
+            'TempOrder'
         )
         payment.setValue(orderAmount)
         payment.setProducts(products)
@@ -40,39 +63,20 @@ export class PaymentService implements IPaymentService {
             return Left<Error>(new Error('Payment Cannot be done'))
         return Right(payment.getStatus())
     }
-    async get(orderId: string): Promise<Either<Error, unknown>> {
-        try {
-            return this.qrCodeManager.getPayment(orderId)
-        } catch (error) {
-            return Left<Error>(error as Error)
-        }
-    }
 
     async cancel(orderId: string): Promise<Either<Error, string>> {
         try {
             const payment = new Payment(
                 'TempId',
                 orderId,
-                paymentStatus.DECLINED
+                paymentStatus.DECLINED,
+                'TempOrder'
             )
             const paymenDeleted = await this.qrCodeManager.deletePayment(
                 orderId
             )
             if (isRight(paymenDeleted)) return Right(payment.getStatus())
             return Left<Error>(new Error('Payment Cannot be deleted'))
-        } catch (error) {
-            return Left<Error>(error as Error)
-        }
-    }
-
-    async checkout(orderId: string): Promise<Either<Error, Payment>> {
-        try {
-            const payment = new Payment(
-                'TempId',
-                orderId,
-                paymentStatus.INITIALIZED
-            )
-            return await this.repository.checkout(payment)
         } catch (error) {
             return Left<Error>(error as Error)
         }
