@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: self-service-totem-api
+  name: sst-api
+  namespace: fiap-soat
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: self-service-totem-api
+      app: sst-api
   template:
     metadata:
       labels:
-        app: self-service-totem-api
+        app: sst-api
     spec:
       containers:
-      - name: self-service-totem-api
+      - name: sst-api
         image: marcelors/self-service-totem-api:v1.0.3
         envFrom:
         - configMapRef:
-            name: self-service-totem-env
+            name: sst-env
 
         startupProbe:
           httpGet:

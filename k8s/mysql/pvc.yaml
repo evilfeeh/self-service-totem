@@ -1,11 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: database-pvc
+  name: sst-database-pvc
+  namespace: fiap-soat
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: self-service-totem-database-sc
+  storageClassName: sst-database-sc
   resources:
     requests:
       storage: 256Mi
