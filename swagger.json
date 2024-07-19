@@ -406,9 +406,45 @@
                 }
             }
         },
+        "/payment/{id}": {
+            "get": {
+                "summary": "Get a payment by ID",
+                "tags": ["Payments"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the payment to find",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/PaymentStatusDTO"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payment not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/payment/checkout": {
             "post": {
-                "summary": "Confirm Payment",
+                "summary": "Initialize payment process",
                 "tags": ["Payments"],
                 "requestBody": {
                     "required": true,
@@ -634,6 +670,14 @@
                 "type": "object",
                 "properties": {
                     "orderId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PaymentStatusDTO": {
+                "type": "object",
+                "properties": {
+                    "paymentId": {
                         "type": "string"
                     }
                 }

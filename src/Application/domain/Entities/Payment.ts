@@ -1,4 +1,4 @@
-interface PaymentOutputDTO {}
+import Order from './Order'
 
 export class Payment {
     private readonly externalReference: string
@@ -10,9 +10,17 @@ export class Payment {
     private orderId: string
     private value: number
     private expirationDate: string
+    private order: Order | string
 
-    constructor(orderId: string) {
-        this.status = 'pending'
+    constructor(
+        id: string,
+        orderId: string,
+        status: string,
+        order: Order | string
+    ) {
+        this.order = order
+        this.id = id
+        this.status = status
         this.orderId = orderId
         this.externalReference = '12345'
         this.notificationUrl = 'http://www.yourserver.com/notification'
@@ -38,6 +46,9 @@ export class Payment {
     getProducts(): any[] {
         return this.products
     }
+    getOrder(): Order | string {
+        return this.order
+    }
     setValue(value: number): void {
         this.value = value
     }
@@ -50,7 +61,7 @@ export class Payment {
     setStatus(status: string): void {
         this.status = status
     }
-    toJSON(): PaymentOutputDTO {
+    toJSON() {
         return {
             cash_out: {
                 amount: this.value,
@@ -65,6 +76,8 @@ export class Payment {
             },
             title: 'Pedido de lanche',
             total_amount: this.value,
+            status: this.status,
+            orderId: this.orderId,
         }
     }
 }
