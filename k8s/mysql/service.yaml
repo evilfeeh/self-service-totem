@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: self-service-totem-database
+  labels:
+    app: self-service-totem-database
+spec:
+  selector:
+    app: self-service-totem-database
+  clusterIP: None
+  ports:
+  - name: self-service-totem-database-port
+    port: 80
