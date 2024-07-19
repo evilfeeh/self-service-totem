@@ -18,7 +18,7 @@ spec:
         image: mysql:5.7
         ports:
         - containerPort: 80
-          name: sst-database-port
+          name: sst-db-port
         readinessProbe:
           exec:
             command:
@@ -54,5 +54,4 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 256Mi
-      storageClassName: sst-database-sc
+          storage: 512Mi

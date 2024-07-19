@@ -6,7 +6,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: sst-database-sc
   resources:
     requests:
       storage: 256Mi
