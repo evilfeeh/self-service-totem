@@ -1,11 +1,11 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 import { AddProducts1716250566139 as AddProducts } from './Migrations/1716250566139-AddProducts'
-import { Customer } from '../Models/Customer'
-import { Product } from '../Models/Product'
-import { Order } from '../Models/Order'
-import { OrderItem } from '../Models/OrderItem'
-import { Payment } from '../Models/Payment'
+import { Customer } from '../../Models/Customer'
+import { Product } from '../../Models/Product'
+import { Order } from '../../Models/Order'
+import { OrderItem } from '../../Models/OrderItem'
+import { Payment } from '../../Models/Payment'
 
 export const AppDataSource = new DataSource({
     type: 'mysql',

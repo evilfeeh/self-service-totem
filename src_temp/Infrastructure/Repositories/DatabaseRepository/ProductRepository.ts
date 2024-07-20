@@ -4,7 +4,7 @@ import IProductRepository from '../Contracts/IProductRepository'
 import { Either, Left, Right } from '../../@Shared/Util/Either'
 import Product from '../../../Entities/Product'
 import NotFoundException from '../Exceptions/NotFoundException'
-import { AppDataSource } from '../../Database/MySqlAdapter'
+import { AppDataSource } from '../../External/Database/MySqlAdapter'
 
 export default class ProductRepository implements IProductRepository {
     private repository: Repository<model>
