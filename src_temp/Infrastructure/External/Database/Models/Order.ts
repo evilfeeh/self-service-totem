@@ -9,7 +9,7 @@ import {
 import { OrderItem } from './OrderItem'
 import { Customer } from './Customer'
 import { Payment } from './Payment'
-import { StatusEnum } from '../../Entities/Enums/StatusEnum'
+import { StatusEnum } from '../../../../Entities/Enums/StatusEnum'
 
 @Entity()
 export class Order {

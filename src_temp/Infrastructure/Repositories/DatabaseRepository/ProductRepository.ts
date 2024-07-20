@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm'
-import { Product as model } from '../../Models/Product'
+import { Product as model } from '../../External/Database/Models/Product'
 import IProductRepository from '../Contracts/IProductRepository'
 import { Either, Left, Right } from '../../@Shared/Util/Either'
 import Product from '../../../Entities/Product'
