@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from '../../../swagger.json'
-import ProductRoutes from '../Routes/ProductRoutes'
+import ProductRoutes from './Routes/ProductRoutes'
 
 const getApiRoute = (name: String) => `/api/${name}`
 

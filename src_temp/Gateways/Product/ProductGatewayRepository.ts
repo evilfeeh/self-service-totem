@@ -1,9 +1,11 @@
+import { Either } from '../../@Shared/Either'
 import Product from '../../Entities/Product'
-import { Either } from '../../Infrastructure/@Shared/Util/Either'
-import IProductRepository from '../../Infrastructure/Repositories/Contracts/IProductRepository'
-import IProductGateway from './IProductGateway'
+import IProductRepository from '../../External/Database/Repositories/Contracts/IProductRepository'
+import { IProductGatewayRepository } from '../contracts/IProductGatewayRepository'
 
-export default class ProductGateway implements IProductGateway {
+export default class ProductGatewayRepository
+    implements IProductGatewayRepository
+{
     constructor(private readonly repository: IProductRepository) {}
 
     async create(product: Product): Promise<Either<Error, string>> {

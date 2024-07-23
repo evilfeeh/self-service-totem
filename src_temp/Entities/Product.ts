@@ -1,4 +1,4 @@
-import InvalidFieldException from './@Shared/Exceptions/InvalidFieldException'
+import InvalidFieldException from '../@Shared/InvalidFieldException'
 import { CategoryEnum } from './Enums/CategoryEnum'
 
 export default class Product {

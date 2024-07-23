@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
-import { CategoryEnum } from '../../../../Entities/Enums/CategoryEnum'
+import { CategoryEnum } from '../../../Entities/Enums/CategoryEnum'
 import { OrderItem } from './OrderItem'
 
 @Entity()
