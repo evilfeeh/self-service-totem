@@ -1,19 +1,37 @@
 import { Request, Response } from 'express'
-import IProductUseCases from '../UseCases/Product/IProductUseCases'
-import { isLeft } from '../Infrastructure/@Shared/Util/Either'
+import { isLeft } from '../@Shared/Either'
 import { CategoryEnum } from '../Entities/Enums/CategoryEnum'
+import CreateProductUseCase from '../UseCases/Product/create/create.usecase'
+import UpdateProductUseCase from '../UseCases/Product/update/update.usecase'
+import DeleteProductUseCase from '../UseCases/Product/delete/delete.usecase'
+import FindProductsByCategoryUseCase from '../UseCases/Product/findByCategory/findProductsByCategory.usecase'
 
 export default class ProductController {
-    constructor(readonly productUsecase: IProductUseCases) {}
+    private createUseCase: CreateProductUseCase
+    private updateUseCase: UpdateProductUseCase
+    private deleteUseCase: DeleteProductUseCase
+    private findByCategoryUseCase: FindProductsByCategoryUseCase
+
+    constructor(
+        createUseCase: CreateProductUseCase,
+        updateUseCase: UpdateProductUseCase,
+        findByCategoryUseCase: FindProductsByCategoryUseCase,
+        deleteUseCase: DeleteProductUseCase
+    ) {
+        this.createUseCase = createUseCase
+        this.updateUseCase = updateUseCase
+        this.findByCategoryUseCase = findByCategoryUseCase
+        this.deleteUseCase = deleteUseCase
+    }
 
     async createProduct(req: Request, res: Response): Promise<void> {
         const { name, category, price, description } = req.body
-        const result = await this.productUsecase.createProduct(
+        const result = await this.createUseCase.execute({
             name,
             category,
             price,
-            description
-        )
+            description,
+        })
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
@@ -28,13 +46,13 @@ export default class ProductController {
     async updateProduct(req: Request, res: Response): Promise<void> {
         const { name, category, price, description } = req.body
         const { id } = req.params
-        const result = await this.productUsecase.updateProduct(
+        const result = await this.updateUseCase.execute({
             id,
             name,
             category,
             price,
-            description
-        )
+            description,
+        })
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
@@ -50,7 +68,9 @@ export default class ProductController {
         const { category } = req.params
         const catEnum: CategoryEnum = category as CategoryEnum
 
-        const result = await this.productUsecase.findByCategory(catEnum)
+        const result = await this.findByCategoryUseCase.execute({
+            category: catEnum,
+        })
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
@@ -63,7 +83,9 @@ export default class ProductController {
     async deleteProductById(req: Request, res: Response): Promise<void> {
         const { id } = req.params
 
-        const result = await this.productUsecase.deleteProduct(id)
+        const result = await this.deleteUseCase.execute({
+            id,
+        })
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)

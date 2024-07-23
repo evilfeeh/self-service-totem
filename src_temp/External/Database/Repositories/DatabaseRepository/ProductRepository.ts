@@ -1,10 +1,10 @@
 import { Repository } from 'typeorm'
-import { Product as model } from '../../External/Database/Models/Product'
+import { Product as model } from '../../Models/Product'
 import IProductRepository from '../Contracts/IProductRepository'
-import { Either, Left, Right } from '../../@Shared/Util/Either'
-import Product from '../../../Entities/Product'
+import { Either, Left, Right } from '../../../../@Shared/Either'
+import Product from '../../../../Entities/Product'
 import NotFoundException from '../Exceptions/NotFoundException'
-import { AppDataSource } from '../../External/Database/MySqlAdapter'
+import { AppDataSource } from '../../MySqlAdapter'
 
 export default class ProductRepository implements IProductRepository {
     private repository: Repository<model>

@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto'
 import IProductRepository from '../Contracts/IProductRepository'
-import { Either, Left, Right } from '../../@Shared/Util/Either'
+import { Either, Left, Right } from '../../../../@Shared/Either'
 import NotFoundException from '../Exceptions/NotFoundException'
-import Product from '../../../Entities/Product'
+import Product from '../../../../Entities/Product'
 
 type ProductType = {
     id: Product['id']
@@ -71,7 +71,7 @@ export default class ProductRepositoryInMemory implements IProductRepository {
     }
 
     async findByCategory(category: string): Promise<Either<Error, Product[]>> {
-        let products = undefined
+        let products: Product[] = []
         const productSaved = this.list.filter(
             (productFind) => productFind.category === category
         )
@@ -95,7 +95,7 @@ export default class ProductRepositoryInMemory implements IProductRepository {
     }
 
     findById(id: string): Promise<Either<Error, Product>> {
-        let product = undefined
+        let product: Product | null = null
         const productSaved = this.list.find(
             (productFind) => productFind.id === id
         )
