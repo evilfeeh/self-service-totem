@@ -1,7 +1,7 @@
 import Product from '../../Entities/Product'
 import { Either } from '../../@Shared/Either'
 
-export interface ProductRepository {
+export interface IProductGatewayRepository {
     create(product: Product): Promise<Either<Error, string>>
     update(product: Product): Promise<Either<Error, string>>
     delete(id: string): Promise<Either<Error, string>>

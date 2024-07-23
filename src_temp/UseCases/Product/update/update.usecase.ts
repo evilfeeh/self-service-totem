@@ -1,10 +1,12 @@
 import { Either } from '../../../@Shared/Either'
 import Product from '../../../Entities/Product'
-import { ProductRepository } from '../../ports/ProductRepository'
+import { IProductGatewayRepository } from '../../../Gateways/contracts/IProductGatewayRepository'
 import { InputUpdateProductDTO } from './update.dto'
 
 export default class UpdateProductUseCase {
-    constructor(private readonly productRepository: ProductRepository) {}
+    constructor(
+        private readonly productRepository: IProductGatewayRepository
+    ) {}
 
     async execute(
         input: InputUpdateProductDTO

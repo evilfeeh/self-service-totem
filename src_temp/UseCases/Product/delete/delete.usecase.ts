@@ -1,9 +1,11 @@
 import { Either } from '../../../@Shared/Either'
-import { ProductRepository } from '../../ports/ProductRepository'
+import { IProductGatewayRepository } from '../../../Gateways/contracts/IProductGatewayRepository'
 import { InputDeleteProductDTO } from './delete.dto'
 
 export default class DeleteProductUseCase {
-    constructor(private readonly productRepository: ProductRepository) {}
+    constructor(
+        private readonly productRepository: IProductGatewayRepository
+    ) {}
 
     async execute(
         input: InputDeleteProductDTO

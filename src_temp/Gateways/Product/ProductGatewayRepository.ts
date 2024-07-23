@@ -1,9 +1,11 @@
 import { Either } from '../../@Shared/Either'
 import Product from '../../Entities/Product'
 import IProductRepository from '../../External/Database/Repositories/Contracts/IProductRepository'
-import { ProductRepository } from '../../UseCases/ports/ProductRepository'
+import { IProductGatewayRepository } from '../contracts/IProductGatewayRepository'
 
-export default class ProductGateway implements ProductRepository {
+export default class ProductGatewayRepository
+    implements IProductGatewayRepository
+{
     constructor(private readonly repository: IProductRepository) {}
 
     async create(product: Product): Promise<Either<Error, string>> {
