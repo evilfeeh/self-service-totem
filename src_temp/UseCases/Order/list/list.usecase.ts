@@ -6,7 +6,7 @@ export default class ListOrdersUseCase {
     constructor(private readonly orderRepository: IOrderGatewayRepository) {}
 
     async execute(): Promise<Either<Error, OutputListOrdersDTO[]>> {
-        const orders = await this.orderRepository.getAll()
+        const orders = await this.orderRepository.list()
 
         if (isLeft(orders)) {
             return orders
