@@ -1,4 +1,4 @@
-FROM node:20.13.1-alpine3.19
+FROM node:20.13.1
 
 WORKDIR /app
 
@@ -13,3 +13,4 @@ COPY . .
 
 EXPOSE 3000
 
+CMD ["npm", "run", "start"]
