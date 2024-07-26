@@ -13,17 +13,30 @@ spec:
       labels:
         app: sst-api
     spec:
-      containers:
-      - name: sst-api
-        image: marcelors/self-service-totem-api:v1.0.3
+      initContainers:
+      - name: migrate
+        image: evilfeeh/self-service-totem:1.0.4-rc2
+        command: ["npm", "run", "migration:up"]
         envFrom:
+        - secretRef:
+            name: sst-api-secrets
         - configMapRef:
             name: sst-env
-
+      containers:
+      - name: sst-api
+        image: evilfeeh/self-service-totem:1.0.4-rc2
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: sst-api-secrets
+        - configMapRef:
+            name: sst-env
         startupProbe:
           httpGet:
             path: /api/health
             port: 3000
+          initialDelaySeconds: 30
           periodSeconds: 3
           failureThreshold: 30
 
