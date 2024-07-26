@@ -22,13 +22,8 @@ export default class CustomerController {
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
         } else {
-            res.setHeader('Location', `/customers/${result.value}`)
-            res.status(200).json({
-                id: result.value.id,
-                name: result.value.name,
-                email: result.value.email,
-                cpf: result.value.cpf,
-            })
+            res.setHeader('Location', `/customers/${result.value.id}`)
+            res.status(200).json(result.value)
         }
     }
 
