@@ -1,28 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: self-service-totem-api
+  name: sst-api
+  namespace: fiap-soat
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: self-service-totem-api
+      app: sst-api
   template:
     metadata:
       labels:
-        app: self-service-totem-api
+        app: sst-api
     spec:
-      containers:
-      - name: self-service-totem-api
-        image: marcelors/self-service-totem-api:v1.0.3
+      initContainers:
+      - name: migrate
+        image: evilfeeh/self-service-totem:1.0.4-rc2
+        command: ["npm", "run", "migration:up"]
         envFrom:
+        - secretRef:
+            name: sst-api-secrets
         - configMapRef:
-            name: self-service-totem-env
-
+            name: sst-env
+      containers:
+      - name: sst-api
+        image: evilfeeh/self-service-totem:1.0.4-rc2
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: sst-api-secrets
+        - configMapRef:
+            name: sst-env
         startupProbe:
           httpGet:
             path: /api/health
             port: 3000
+          initialDelaySeconds: 30
           periodSeconds: 3
           failureThreshold: 30
 

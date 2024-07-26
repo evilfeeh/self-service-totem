@@ -1,33 +1,38 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: sef-service-totem-database
+  name: sst-database
+  namespace: fiap-soat
 spec:
   selector:
     matchLabels:
-      app: self-service-totem-database
+      app: sst-database
   serviceName: database
   template:
     metadata:
       labels:
-        app: self-service-totem-database
+        app: sst-database
     spec:
       containers:
       - name: mysql
         image: mysql:5.7
         ports:
-        - containerPort: 80
-          name: self-service-totem-database-port
+        - containerPort: 3306
+          name: sst-db-port
         readinessProbe:
           exec:
             command:
+            - bin/sh
+            - -c
+            - > 
             - mysqladmin
             - ping
             - -h
             - localhost
             - -u
-            - $$MYSQL_USER
-            - --password=$$MYSQL_PASSWORD
+            - MYSQL_USER=$(printenv MYSQL_USER)
+            - MYSQL_PASSWORD=$(printenv MYSQL_PASSWORD)
+            - mysqladmin ping -h localhost -u MYSQL_USER -p MYSQL_PASSWORD
           failureThreshold: 5
           periodSeconds: 5
           successThreshold: 1
@@ -40,18 +45,17 @@ spec:
             cpu: 100m
             memory: 128Mi
         volumeMounts:
-        - mountPath: /var/lib/self-service-totem-database-volume
-          name: self-service-totem-database-volume
+        - mountPath: /var/lib/sst-database-pvc
+          name: sst-database-pvc
         envFrom:
         - secretRef:
-            name: self-service-totem-database-secrets
+            name: sst-database-secrets
   volumeClaimTemplates:
   - metadata:
-      name: self-service-totem-database-volume
+      name: sst-database-pvc
     spec:
       accessModes:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 256Mi
-      storageClassName: self-service-totem-database-sc
+          storage: 2Gi
