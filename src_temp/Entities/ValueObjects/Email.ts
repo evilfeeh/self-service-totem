@@ -1,4 +1,4 @@
-import InvalidEmailException from '../Exceptions/InvalidEmailException'
+import InvalidEmailException from "../../@Shared/InvalidEmailException"
 
 export default class Email {
     private readonly email: string
