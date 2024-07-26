@@ -11,6 +11,7 @@ export class Payment {
     private value: number
     private expirationDate: string
     private order: Order | string
+    private webhookUrl: string
 
     constructor(
         id: string,
@@ -23,7 +24,8 @@ export class Payment {
         this.status = status
         this.orderId = orderId
         this.externalReference = '12345'
-        this.notificationUrl = 'http://www.yourserver.com/notification'
+        this.webhookUrl = 'https://jsonplaceholder.typicode.com/posts'
+        this.notificationUrl = `http://www.yourserver.com/notification/${this.id}`
         this.sponsor_id = 662208785
         this.expirationDate = this.setExpirationDate()
     }
@@ -32,6 +34,10 @@ export class Payment {
         let fiveMinutesToExpiration = 5 * 60 * 1000
         now.setTime(now.getTime() + fiveMinutesToExpiration)
         return now.toISOString()
+    }
+
+    getWebhookUrl(): string {
+        return this.webhookUrl
     }
 
     getId(): string {
