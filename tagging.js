@@ -16,6 +16,3 @@ switch (versionMeasure) {
 }
 
 console.log(`v${splitedTag.join('.')}`)
-
-
-v1.0.0
