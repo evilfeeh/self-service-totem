@@ -4,6 +4,7 @@ import { Payment as model } from '../../Models/Payment'
 import { AppDataSource } from '../../MySqlAdapter'
 import IPaymentRepository from '../Contracts/IPaymentRepository'
 import { Payment } from '../../../../Entities/Payment'
+import IOrderRepository from '../Contracts/IOrderRepository'
 
 export default class PaymentRepository implements IPaymentRepository {
     private repository: Repository<model>
@@ -34,7 +35,7 @@ export default class PaymentRepository implements IPaymentRepository {
 
             const paymentSave = await this.repository.save(paymentModel)
 
-            const paymentOrder = await this.orderRepository.getOrder(
+            const paymentOrder = await this.orderRepository.get(
                 paymentSave.orderId
             )
 
@@ -71,7 +72,7 @@ export default class PaymentRepository implements IPaymentRepository {
                 return Left<Error>(new Error('Payment not found'))
             }
 
-            const paymentOrder = await this.orderRepository.getOrder(
+            const paymentOrder = await this.orderRepository.get(
                 paymentFind.orderId
             )
 

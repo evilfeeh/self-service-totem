@@ -4,6 +4,7 @@ import PaymentRepository from '../../Database/Repositories/DatabaseRepository/Pa
 import CheckoutUseCase from '../../../UseCases/Payment/checkout/checkout.usecase'
 import GetByIdUseCase from '../../../UseCases/Payment/getById/getById.usecase'
 import UpdateStatusUseCase from '../../../UseCases/Payment/updateStatus/uptateStatus.usecase'
+import OrderRepository from '../../Database/Repositories/DatabaseRepository/OrderRepository'
 
 export default class PaymentRoutes {
     private readonly paymentRepository: PaymentRepository

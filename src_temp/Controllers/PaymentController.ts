@@ -3,6 +3,7 @@ import { isLeft } from '../@Shared/Either'
 import CheckoutUseCase from '../UseCases/Payment/checkout/checkout.usecase'
 import GetByIdUseCase from '../UseCases/Payment/getById/getById.usecase'
 import UpdateStatusUseCase from '../UseCases/Payment/updateStatus/uptateStatus.usecase'
+import Order from '../Entities/Order'
 
 export default class PaymentController {
     private checkoutUseCase: CheckoutUseCase
