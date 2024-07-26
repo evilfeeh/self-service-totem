@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
       - name: migrate
-        image: evilfeeh/self-service-totem:1.0.4-rc2
+        image: evilfeeh/self-service-totem:v1.0.5
         command: ["npm", "run", "migration:up"]
         envFrom:
         - secretRef:
@@ -24,7 +24,7 @@ spec:
             name: sst-env
       containers:
       - name: sst-api
-        image: evilfeeh/self-service-totem:1.0.4-rc2
+        image: evilfeeh/self-service-totem:v1.0.5
         ports:
         - containerPort: 3000
         envFrom:
