@@ -5,6 +5,7 @@ import CreateProductUseCase from '../../../UseCases/Product/create/create.usecas
 import UpdateProductUseCase from '../../../UseCases/Product/update/update.usecase'
 import DeleteProductUseCase from '../../../UseCases/Product/delete/delete.usecase'
 import FindProductsByCategoryUseCase from '../../../UseCases/Product/findByCategory/findProductsByCategory.usecase'
+import ProductGatewayRepository from '../../../Gateways/Product/ProductGatewayRepository'
 
 export default class ProductRoutes {
     private readonly productRepository: ProductRepository
@@ -13,14 +14,24 @@ export default class ProductRoutes {
     private readonly updateUseCase: UpdateProductUseCase
     private readonly deleteUseCase: DeleteProductUseCase
     private readonly findByCategoryUseCase: FindProductsByCategoryUseCase
+    private readonly productGatewayRepository: ProductGatewayRepository
 
     constructor() {
         this.productRepository = new ProductRepository()
-        this.createUseCase = new CreateProductUseCase(this.productRepository)
-        this.updateUseCase = new UpdateProductUseCase(this.productRepository)
-        this.deleteUseCase = new DeleteProductUseCase(this.productRepository)
-        this.findByCategoryUseCase = new FindProductsByCategoryUseCase(
+        this.productGatewayRepository = new ProductGatewayRepository(
             this.productRepository
+        )
+        this.createUseCase = new CreateProductUseCase(
+            this.productGatewayRepository
+        )
+        this.updateUseCase = new UpdateProductUseCase(
+            this.productGatewayRepository
+        )
+        this.deleteUseCase = new DeleteProductUseCase(
+            this.productGatewayRepository
+        )
+        this.findByCategoryUseCase = new FindProductsByCategoryUseCase(
+            this.productGatewayRepository
         )
         this.productController = new ProductController(
             this.createUseCase,

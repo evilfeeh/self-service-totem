@@ -1,6 +1,5 @@
-import Cpf from "./ValueObjects/Cpf"
-import Email from "./ValueObjects/Email"
-
+import Cpf from './ValueObjects/Cpf'
+import Email from './ValueObjects/Email'
 
 export default class Customer {
     private id: string | null
@@ -50,7 +49,7 @@ export default class Customer {
 
     toJson() {
         return {
-            id: this.id,
+            id: this.id || '',
             name: this.name,
             cpf: this.cpf.getValue(),
             email: this.email.getValue(),

@@ -1,4 +1,4 @@
-import InvalidCpfException from "../../@Shared/InvalidCpfException"
+import InvalidCpfException from '../Exceptions/InvalidCpfException'
 
 export default class Cpf {
     private cpf: string

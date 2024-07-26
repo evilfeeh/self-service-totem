@@ -5,6 +5,7 @@ import CheckoutUseCase from '../../../UseCases/Payment/checkout/checkout.usecase
 import GetByIdUseCase from '../../../UseCases/Payment/getById/getById.usecase'
 import UpdateStatusUseCase from '../../../UseCases/Payment/updateStatus/uptateStatus.usecase'
 import OrderRepository from '../../Database/Repositories/DatabaseRepository/OrderRepository'
+import PaymentGatewayRepository from '../../../Gateways/Payment/PaymentGatewayRepository'
 
 export default class PaymentRoutes {
     private readonly paymentRepository: PaymentRepository
@@ -13,13 +14,19 @@ export default class PaymentRoutes {
     private readonly checkoutUseCase: CheckoutUseCase
     private readonly getByIdUseCase: GetByIdUseCase
     private readonly updateStatusUseCase: UpdateStatusUseCase
+    private readonly paymentGatewayRepository: PaymentGatewayRepository
 
     constructor() {
         this.paymentRepository = new PaymentRepository(this.orderRepository)
-        this.checkoutUseCase = new CheckoutUseCase(this.paymentRepository)
-        this.getByIdUseCase = new GetByIdUseCase(this.paymentRepository)
-        this.updateStatusUseCase = new UpdateStatusUseCase(
+        this.paymentGatewayRepository = new PaymentGatewayRepository(
             this.paymentRepository
+        )
+        this.checkoutUseCase = new CheckoutUseCase(
+            this.paymentGatewayRepository
+        )
+        this.getByIdUseCase = new GetByIdUseCase(this.paymentGatewayRepository)
+        this.updateStatusUseCase = new UpdateStatusUseCase(
+            this.paymentGatewayRepository
         )
 
         this.paymentController = new PaymentController(
