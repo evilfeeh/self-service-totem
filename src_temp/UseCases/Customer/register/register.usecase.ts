@@ -1,6 +1,6 @@
 import { Either, Left } from '../../../@Shared/Either'
 import Customer from '../../../Entities/Customer'
-import ICustomerGatewayRepository from '../../../Gateways/contracts/ICustomerGatewayRepository'
+import { ICustomerGatewayRepository } from '../../../Gateways/contracts/ICustomerGatewayRepository'
 import { InputRegisterCustomerDTO } from './register.dto'
 
 export default class RegisterCustomerUseCase {

@@ -1,7 +1,7 @@
 import { Either, isLeft, Right } from '../../../@Shared/Either'
 import CpfNotFoundException from '../../../Entities/Exceptions/CpfNotFoundException'
 import Cpf from '../../../Entities/ValueObjects/Cpf'
-import ICustomerGatewayRepository from '../../../Gateways/contracts/ICustomerGatewayRepository'
+import { ICustomerGatewayRepository } from '../../../Gateways/contracts/ICustomerGatewayRepository'
 import {
     InputFindCustomerByCpfDTO,
     OutputFindCustomerByCpfDTO,

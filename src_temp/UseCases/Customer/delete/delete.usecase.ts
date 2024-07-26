@@ -1,5 +1,5 @@
 import { Either } from '../../../@Shared/Either'
-import ICustomerGatewayRepository from '../../../Gateways/contracts/ICustomerGatewayRepository'
+import { ICustomerGatewayRepository } from '../../../Gateways/contracts/ICustomerGatewayRepository'
 import { InputDeleteCustomerDTO } from './delete.dto'
 
 export default class DeleteCustomerUseCase {

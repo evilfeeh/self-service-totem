@@ -1,7 +1,7 @@
 import { Either } from '../../@Shared/Either'
 import Customer from '../../Entities/Customer'
 import ICustomerRepository from '../../External/Database/Repositories/Contracts/ICustomerRepository'
-import ICustomerGatewayRepository from '../contracts/ICustomerGatewayRepository'
+import { ICustomerGatewayRepository } from '../contracts/ICustomerGatewayRepository'
 
 export default class CustomerGatewayRepository
     implements ICustomerGatewayRepository

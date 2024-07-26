@@ -1,6 +1,6 @@
 import { Either, isLeft, Left } from '../../../@Shared/Either'
 import CpfNotFoundException from '../../../Entities/Exceptions/CpfNotFoundException'
-import ICustomerGatewayRepository from '../../../Gateways/contracts/ICustomerGatewayRepository'
+import { ICustomerGatewayRepository } from '../../../Gateways/contracts/ICustomerGatewayRepository'
 import { InputUpdateCustomerDTO } from './update.dto'
 
 export default class UpdateCustomerUseCase {
