@@ -49,7 +49,13 @@ const paymentRepository: IPaymentRepository = new PaymentRepository(
 const paymentService: IPaymentService = new PaymentService(paymentRepository)
 const paymentController = new PaymentController(paymentService)
 
-app.use(getApiRoute('docs'), swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use(
+    getApiRoute('docs'),
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, {
+        swaggerOptions: { url: `${process.env.SWAGGER_URL}` },
+    })
+)
 app.use(getApiRoute('health'), heathController.buildRouter())
 app.use(getApiRoute('customer'), customerController.buildRouter())
 app.use(getApiRoute('product'), productController.buildRouter())
