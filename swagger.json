@@ -12,7 +12,7 @@
     "servers": [
         {
             "url": "/api",
-            "description": "base path api"
+            "description": "Base path"
         }
     ],
     "paths": {
