@@ -17,7 +17,7 @@ spec:
       - name: mysql
         image: mysql:5.7
         ports:
-        - containerPort: 80
+        - containerPort: 3306
           name: sst-db-port
         readinessProbe:
           exec:
@@ -45,17 +45,17 @@ spec:
             cpu: 100m
             memory: 128Mi
         volumeMounts:
-        - mountPath: /var/lib/sst-database-volume
-          name: sst-database-volume
+        - mountPath: /var/lib/sst-database-pvc
+          name: sst-database-pvc
         envFrom:
         - secretRef:
             name: sst-database-secrets
   volumeClaimTemplates:
   - metadata:
-      name: sst-database-volume
+      name: sst-database-pvc
     spec:
       accessModes:
       - ReadWriteOnce
       resources:
         requests:
-          storage: 512Mi
+          storage: 2Gi
