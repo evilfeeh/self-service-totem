@@ -27,19 +27,7 @@ export default class PaymentController {
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
         } else {
-            const payment = result.value
-            const order = payment.getOrder()
-            let items: any[] = []
-            if (order instanceof Order) {
-                items = order.getItems()
-            }
-            const paymentResult = {
-                id: payment.getId(),
-                status: payment.getStatus(),
-                orderId: payment.getOrderId(),
-                items: items.map((item) => item.toJson()),
-            }
-            res.status(200).json(paymentResult)
+            res.status(200).json(result.value)
         }
     }
 
@@ -50,13 +38,7 @@ export default class PaymentController {
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
         } else {
-            const payment = result.value
-            const paymentResult = {
-                id: payment.getId(),
-                status: payment.getStatus(),
-                orderId: payment.getOrderId(),
-            }
-            res.status(200).json(paymentResult)
+            res.status(200).json(result.value)
         }
     }
 
