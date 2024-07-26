@@ -1,14 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sst-database
+  name: sst-db-svc
   namespace: fiap-soat
   labels:
-    app: sst-database
+    app: sst-db-svc
+    app.kubernetes.io/name: sst-db-svc
 spec:
   selector:
     app: sst-database
   clusterIP: None
   ports:
-  - name: sst-database-port
-    port: 80
+  - name: sst-db-port
+    protocol: TCP
+    port: 3306
+    targetPort: 3306
