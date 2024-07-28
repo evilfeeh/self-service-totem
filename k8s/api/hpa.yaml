@@ -9,5 +9,5 @@ spec:
     kind: Deployment
     name: sst-api
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 10
   targetCPUUtilizationPercentage: 75

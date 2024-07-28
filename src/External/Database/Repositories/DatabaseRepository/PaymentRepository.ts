@@ -5,6 +5,8 @@ import { AppDataSource } from '../../MySqlAdapter'
 import IPaymentRepository from '../Contracts/IPaymentRepository'
 import { Payment } from '../../../../Entities/Payment'
 import IOrderRepository from '../Contracts/IOrderRepository'
+import { HttpRequest } from '../../../../../src/Shared/util/request'
+import { AxiosHeaders } from 'axios'
 
 export default class PaymentRepository implements IPaymentRepository {
     private repository: Repository<model>
@@ -52,7 +54,14 @@ export default class PaymentRepository implements IPaymentRepository {
                 order
             )
 
-            // TODO: implementar chamada para o servidor webhook mock de pagamento
+            const request = new HttpRequest()
+            const headers = new AxiosHeaders()
+
+            await request.post(
+                paymentSent.getWebhookUrl(),
+                headers,
+                paymentSent.toJSON()
+            )
 
             return Right<Payment>(paymentSent)
         } catch (error) {
