@@ -11,17 +11,10 @@ export default class Cpf {
 
     private isValid(cpf: string): boolean {
         // Verificar se possui 14 dígitos (com máscara)
-        if (cpf.length !== 14) {
-            return false
+        if (cpf.length === 14) {
+            // Remover caracteres não numéricos
+            cpf = cpf.replace(/\D/g, '')
         }
-
-        // Verificar se possui máscara
-        if (cpf[3] !== '.' || cpf[7] !== '.' || cpf[11] !== '-') {
-            return false
-        }
-
-        // Remover caracteres não numéricos
-        cpf = cpf.replace(/\D/g, '')
 
         // Verificar se possui 11 dígitos
         if (cpf.length !== 11) {

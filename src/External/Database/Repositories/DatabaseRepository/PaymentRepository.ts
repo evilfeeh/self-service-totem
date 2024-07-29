@@ -1,27 +1,30 @@
 import { Repository } from 'typeorm'
 import { Either, Left, Right, isLeft } from '../../../../@Shared/Either'
+import { HttpRequest } from '../../../../@Shared/Request'
 import { Payment as model } from '../../Models/Payment'
 import { AppDataSource } from '../../MySqlAdapter'
 import IPaymentRepository from '../Contracts/IPaymentRepository'
 import { Payment } from '../../../../Entities/Payment'
-import IOrderRepository from '../Contracts/IOrderRepository'
-import { HttpRequest } from '../../../../../src/Shared/util/request'
+import { Order as OrderModel } from '../../Models/Order'
 import { AxiosHeaders } from 'axios'
+import IOrderRepository from '../Contracts/IOrderRepository'
 
 export default class PaymentRepository implements IPaymentRepository {
     private repository: Repository<model>
-    private orderRepository: IOrderRepository
+    private orderRepository: Repository<OrderModel>
+    private orderDbrepository: IOrderRepository
 
-    constructor(orderRepository: IOrderRepository) {
+    constructor(orderDbrepository: IOrderRepository) {
         this.repository = AppDataSource.getRepository(model)
-        this.orderRepository = orderRepository
+        this.orderRepository = AppDataSource.getRepository(OrderModel)
+        this.orderDbrepository = orderDbrepository
     }
 
     async checkout(payment: Payment): Promise<Either<Error, Payment>> {
         try {
-            const orderFind = await this.repository.findOne({
+            const orderFind = await this.orderRepository.findOne({
                 where: {
-                    orderId: payment.getOrderId(),
+                    id: payment.getOrderId(),
                 },
             })
 
@@ -37,7 +40,7 @@ export default class PaymentRepository implements IPaymentRepository {
 
             const paymentSave = await this.repository.save(paymentModel)
 
-            const paymentOrder = await this.orderRepository.get(
+            const paymentOrder = await this.orderDbrepository.get(
                 paymentSave.orderId
             )
 
@@ -81,7 +84,7 @@ export default class PaymentRepository implements IPaymentRepository {
                 return Left<Error>(new Error('Payment not found'))
             }
 
-            const paymentOrder = await this.orderRepository.get(
+            const paymentOrder = await this.orderDbrepository.get(
                 paymentFind.orderId
             )
 

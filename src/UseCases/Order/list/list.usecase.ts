@@ -7,7 +7,6 @@ export default class ListOrdersUseCase {
 
     async execute(): Promise<Either<Error, OutputListOrdersDTO[]>> {
         const orders = await this.orderRepository.list()
-
         if (isLeft(orders)) {
             return orders
         }

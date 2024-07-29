@@ -2,13 +2,13 @@
   "name": "self-service-totem",
   "version": "1.0.0",
   "description": "Project about Tech Challenge from FIAP",
-  "main": "src/app.ts",
+  "main": "src/App.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "node ./dist/src/Adapters/Primary/Api/server.js",
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/Adapters/Primary/Api/server.ts",
-    "migration:up": "npx ts-node ./node_modules/.bin/typeorm migration:run -d ./src/Adapters/Secondary/MySqlAdapter/",
-    "migration:down": "npx ts-node ./node_modules/.bin/typeorm migration:drop -d ./src/Adapters/Secondary/MySqlAdapter/",
+    "start": "node ./dist/src/External/Api/Server.js",
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/External/Api/Server.ts",
+    "migration:up": "npx ts-node ./node_modules/.bin/typeorm migration:run -d ./src/External/Database/MySqlAdapter.ts",
+    "migration:down": "npx ts-node ./node_modules/.bin/typeorm migration:drop -d ./src/External/Database/MySqlAdapter.ts",
     "migration:generate": "npx ts-node node_modules/typeorm/cli.js migration:generate src/Adapters/Secondary/MySqlAdapter/migrations/FirstStatement -d ./src/Adapters/Secondary/MySqlAdapter/index.ts",
     "test": "jest"
   },
