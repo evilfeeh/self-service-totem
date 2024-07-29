@@ -17,6 +17,7 @@ export default class PaymentRoutes {
     private readonly paymentGatewayRepository: PaymentGatewayRepository
 
     constructor() {
+        this.orderRepository = new OrderRepository()
         this.paymentRepository = new PaymentRepository(this.orderRepository)
         this.paymentGatewayRepository = new PaymentGatewayRepository(
             this.paymentRepository

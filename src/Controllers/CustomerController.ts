@@ -16,8 +16,7 @@ export default class CustomerController {
     }
 
     async identify(req: Request, res: Response): Promise<void> {
-        const { cpf } = req.body
-        const result = await this.findCustomerByCpf.execute(cpf)
+        const result = await this.findCustomerByCpf.execute(req.body)
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)

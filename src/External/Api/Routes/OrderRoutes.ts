@@ -10,10 +10,11 @@ import ListAllOrdersUseCase from '../../../UseCases/Order/listAll/listAll.usecas
 import PrepareOrderUseCase from '../../../UseCases/Order/prepare/prepare.usecase'
 import ProductRepository from '../../Database/Repositories/DatabaseRepository/ProductRepository'
 import OrderGatewayRepository from '../../../Gateways/Order/OrderGatewayRepository'
+import CustomerRepository from '../../Database/Repositories/DatabaseRepository/CustomerRepository'
 
 export default class OrderRoutes {
     private readonly orderRepository: OrderRepository
-    private readonly customerRepository: any
+    private readonly customerRepository: CustomerRepository
     private readonly productRepository: ProductRepository
     private readonly orderController: OrderController
     private readonly orderGatewayRepository: OrderGatewayRepository
@@ -28,6 +29,7 @@ export default class OrderRoutes {
     constructor() {
         this.orderRepository = new OrderRepository()
         this.productRepository = new ProductRepository()
+        this.customerRepository = new CustomerRepository()
         this.orderGatewayRepository = new OrderGatewayRepository(
             this.orderRepository
         )

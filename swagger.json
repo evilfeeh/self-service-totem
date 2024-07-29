@@ -482,6 +482,58 @@
                     }
                 }
             }
+        },
+        "/payment/update-status/{id}": {
+            "post": {
+                "summary": "Update the payment status",
+                "tags": ["Payments"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the payment to find",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/PaymentUpdateStatusInputDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status de pagamento atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Status de pagamento atualizado para:"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Payment not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -678,6 +730,14 @@
                 "type": "object",
                 "properties": {
                     "paymentId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "PaymentUpdateStatusInputDTO": {
+                "type": "object",
+                "properties": {
+                    "status": {
                         "type": "string"
                     }
                 }

@@ -325,11 +325,11 @@ export default class OrderRepository implements IOrderRepository {
                 (order) => order.getStatus() === StatusEnum.Received
             )
 
-            return Right<Order[]>({
+            return Right<Order[]>([
                 ...readyOrders,
                 ...preparingOrders,
                 ...receivedOrders,
-            })
+            ])
         } catch (error) {
             return Left<Error>(error as Error)
         }

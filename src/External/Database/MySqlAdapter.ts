@@ -22,7 +22,9 @@ export const AppDataSource = new DataSource({
 
 AppDataSource.initialize()
     .then(() => {
-        console.log('Connection has been established successfully')
+        console.log(
+            '[MySql Database]: Connection has been established successfully 🚀'
+        )
     })
     .catch((error) => {
         throw error
