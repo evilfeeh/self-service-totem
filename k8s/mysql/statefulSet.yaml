@@ -8,54 +8,82 @@ spec:
     matchLabels:
       app: sst-database
   serviceName: database
+  replicas: 1
   template:
     metadata:
       labels:
         app: sst-database
     spec:
       containers:
-      - name: mysql
-        image: mysql:5.7
-        ports:
-        - containerPort: 3306
-          name: sst-db-port
-        readinessProbe:
-          exec:
-            command:
-            - bin/sh
-            - -c
-            - > 
-            - mysqladmin
-            - ping
-            - -h
-            - localhost
-            - -u
-            - MYSQL_USER=$(printenv MYSQL_USER)
-            - MYSQL_PASSWORD=$(printenv MYSQL_PASSWORD)
-            - mysqladmin ping -h localhost -u MYSQL_USER -p MYSQL_PASSWORD
-          failureThreshold: 5
-          periodSeconds: 5
-          successThreshold: 1
-          timeoutSeconds: 5
-        resources:
-          limits:
-            cpu: 200m
-            memory: 256Mi
-          requests:
-            cpu: 100m
-            memory: 128Mi
-        volumeMounts:
-        - mountPath: /var/lib/sst-database-pvc
-          name: sst-database-pvc
-        envFrom:
-        - secretRef:
-            name: sst-database-secrets
+        - name: mysql
+          image: mysql:5.7
+          ports:
+            - containerPort: 3306
+              name: sst-db-port
+          readinessProbe:
+            exec:
+              command:
+              - bin/sh
+              - -c
+              - > 
+              - mysqladmin
+              - ping
+              - -h
+              - localhost
+              - -u
+              - MYSQL_USER=$(printenv MYSQL_USER)
+              - MYSQL_PASSWORD=$(printenv MYSQL_PASSWORD)
+              - mysqladmin ping -h localhost -u MYSQL_USER -p MYSQL_PASSWORD
+            failureThreshold: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 500m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /var/lib/sst-database-pvc
+              name: sst-database-pvc
+            - mountPath: /docker-entrypoint-initdb.d
+              name: mysql-initdb
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sst-database-secrets
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sst-database-secrets
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sst-database-secrets
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: sst-database-secrets
+                  key: MYSQL_DATABASE
+      volumes:
+        - name: mysql-initdb
+          configMap:
+            name: mysql-initdb-config
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: sst-database-pvc
   volumeClaimTemplates:
-  - metadata:
-      name: sst-database-pvc
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 2Gi
+    - metadata:
+        name: sst-database-pvc
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Gi
