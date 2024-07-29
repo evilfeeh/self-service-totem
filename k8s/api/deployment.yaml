@@ -20,8 +20,6 @@ spec:
         envFrom:
         - secretRef:
             name: sst-api-secrets
-        - configMapRef:
-            name: sst-env
       containers:
       - name: sst-api
         image: evilfeeh/self-service-totem:v1.0.5
@@ -30,8 +28,6 @@ spec:
         envFrom:
         - secretRef:
             name: sst-api-secrets
-        - configMapRef:
-            name: sst-env
         startupProbe:
           httpGet:
             path: /api/health
@@ -59,7 +55,7 @@ spec:
         resources:
           limits:
             memory: 256Mi
-            cpu: 300m
+            cpu: "400m"
           requests:
             memory: 128Mi
-            cpu: 100m
+            cpu: "400m"
