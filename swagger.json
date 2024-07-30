@@ -289,55 +289,28 @@
                         "description": "Internal server error"
                     }
                 }
-            },
-            "put": {
-                "summary": "Update an existing order",
+            }
+        },
+        "/order/list-all": {
+            "get": {
+                "summary": "List all orders",
                 "tags": ["Orders"],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the order to update",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "$ref": "#/components/schemas/OrderUpdateDTO"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
-                        "description": "Order updated successfully",
+                        "description": "Orders found",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "updated successfully"
-                                        },
-                                        "id": {
-                                            "type": "string",
-                                            "example": "1"
-                                        }
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OrderOutputDTO"
                                     }
                                 }
                             }
                         }
                     },
                     "400": {
-                        "description": "Product not found"
+                        "description": "Bad request: Unable to find orders"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -399,6 +372,141 @@
                     },
                     "400": {
                         "description": "Bad request: Missing or invalid parameters"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/order/prepare-order/{id}": {
+            "put": {
+                "summary": "Prepare an order",
+                "tags": ["Orders"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the order to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order updated successfully to Preparing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "updated successfully"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "1"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Product not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/order/finish-prepare-order/{id}": {
+            "put": {
+                "summary": "Finish preparing an order",
+                "tags": ["Orders"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the order to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order updated successfully to Ready",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "updated successfully"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "1"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Product not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/order/finish-order/{id}": {
+            "put": {
+                "summary": "Finish an order",
+                "tags": ["Orders"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the order to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order updated successfully to Finished",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "updated successfully"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "example": "1"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Product not found"
                     },
                     "500": {
                         "description": "Internal server error"
