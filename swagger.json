@@ -406,6 +406,31 @@
                 }
             }
         },
+        "/payment/": {
+            "get": {
+                "summary": "Get all payments",
+                "tags": ["Payments"],
+                "responses": {
+                    "200": {
+                        "description": "Payments found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/PaymentStatusDTO"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Payments not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/payment/{id}": {
             "get": {
                 "summary": "Get a payment by ID",

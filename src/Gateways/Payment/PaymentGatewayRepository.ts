@@ -8,6 +8,10 @@ export default class PaymentGatewayRepository
 {
     constructor(private readonly repository: IPaymentRepository) {}
 
+    async list(): Promise<Either<Error, Payment[]>> {
+        return this.repository.list()
+    }
+
     async checkout(payment: Payment): Promise<Either<Error, Payment>> {
         return this.repository.checkout(payment)
     }

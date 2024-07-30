@@ -6,6 +6,7 @@ import GetByIdUseCase from '../../../UseCases/Payment/getById/getById.usecase'
 import UpdateStatusUseCase from '../../../UseCases/Payment/updateStatus/uptateStatus.usecase'
 import OrderRepository from '../../Database/Repositories/DatabaseRepository/OrderRepository'
 import PaymentGatewayRepository from '../../../Gateways/Payment/PaymentGatewayRepository'
+import ListUseCase from '../../../UseCases/Payment/list/list.usecase'
 
 export default class PaymentRoutes {
     private readonly paymentRepository: PaymentRepository
@@ -14,6 +15,7 @@ export default class PaymentRoutes {
     private readonly checkoutUseCase: CheckoutUseCase
     private readonly getByIdUseCase: GetByIdUseCase
     private readonly updateStatusUseCase: UpdateStatusUseCase
+    private readonly listUseCase: ListUseCase
     private readonly paymentGatewayRepository: PaymentGatewayRepository
 
     constructor() {
@@ -30,15 +32,19 @@ export default class PaymentRoutes {
             this.paymentGatewayRepository
         )
 
+        this.listUseCase = new ListUseCase(this.paymentGatewayRepository)
+
         this.paymentController = new PaymentController(
             this.checkoutUseCase,
             this.getByIdUseCase,
-            this.updateStatusUseCase
+            this.updateStatusUseCase,
+            this.listUseCase
         )
     }
 
     buildRouter(): Router {
         const router = Router()
+        router.get('/', this.paymentController.list.bind(this))
         router.post('/checkout', this.paymentController.checkout.bind(this))
         router.get('/:id', this.paymentController.getById.bind(this))
         router.post(
