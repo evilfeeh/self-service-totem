@@ -8,6 +8,10 @@ import { Payment } from '../../../../Entities/Payment'
 import { Order as OrderModel } from '../../Models/Order'
 import { AxiosHeaders } from 'axios'
 import IOrderRepository from '../Contracts/IOrderRepository'
+import Order from '../../../../Entities/Order'
+import Customer from '../../../../Entities/Customer'
+import Product from '../../../../Entities/Product'
+import OrderItem from '../../../../Entities/OrderItem'
 
 export default class PaymentRepository implements IPaymentRepository {
     private repository: Repository<model>
@@ -16,6 +20,72 @@ export default class PaymentRepository implements IPaymentRepository {
     constructor(orderDbrepository: IOrderRepository) {
         this.repository = AppDataSource.getRepository(model)
         this.orderDbrepository = orderDbrepository
+    }
+
+    async list(): Promise<Either<Error, Payment[]>> {
+        try {
+            const paymentsFind = await this.repository.find({
+                relations: [
+                    'order',
+                    'order.orderItems',
+                    'order.orderItems.product',
+                ],
+            })
+
+            if (paymentsFind.length === 0) {
+                return Right<Payment[]>([])
+            }
+
+            const payments = paymentsFind.map((payment) => {
+                let customer: Customer | null = null
+
+                if (payment.order.customer) {
+                    customer = new Customer(
+                        payment.order.customer.name,
+                        payment.order.customer.cpf,
+                        payment.order.customer.email,
+                        payment.order.customer.id
+                    )
+                }
+
+                const customerName = payment.order.nameCustomer
+
+                const orderEntity = new Order(
+                    customer ?? customerName,
+                    payment.order.id,
+                    payment.order.status,
+                    payment.order.createdAt
+                )
+
+                for (const item of payment.order.orderItems) {
+                    const product: Product = new Product(
+                        item.product.id,
+                        item.product.name,
+                        item.product.category,
+                        item.product.price,
+                        item.product.description
+                    )
+
+                    const orderItem = new OrderItem(
+                        product,
+                        item.quantity,
+                        item.id
+                    )
+                    orderEntity.addItem(orderItem)
+                }
+
+                return new Payment(
+                    payment.id,
+                    payment.orderId,
+                    payment.status,
+                    orderEntity
+                )
+            })
+            return Right<Payment[]>(payments)
+        } catch (error) {
+            console.error(error)
+            return Left<Error>(error as Error)
+        }
     }
 
     async checkout(payment: Payment): Promise<Either<Error, Payment>> {
