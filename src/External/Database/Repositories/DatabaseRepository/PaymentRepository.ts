@@ -11,20 +11,18 @@ import IOrderRepository from '../Contracts/IOrderRepository'
 
 export default class PaymentRepository implements IPaymentRepository {
     private repository: Repository<model>
-    private orderRepository: Repository<OrderModel>
     private orderDbrepository: IOrderRepository
 
     constructor(orderDbrepository: IOrderRepository) {
         this.repository = AppDataSource.getRepository(model)
-        this.orderRepository = AppDataSource.getRepository(OrderModel)
         this.orderDbrepository = orderDbrepository
     }
 
     async checkout(payment: Payment): Promise<Either<Error, Payment>> {
         try {
-            const orderFind = await this.orderRepository.findOne({
+            const orderFind = await this.repository.findOne({
                 where: {
-                    id: payment.getOrderId(),
+                    orderId: payment.getOrderId(),
                 },
             })
 
@@ -60,14 +58,14 @@ export default class PaymentRepository implements IPaymentRepository {
             const request = new HttpRequest()
             const headers = new AxiosHeaders()
 
-            await request.post(
-                paymentSent.getWebhookUrl(),
-                headers,
-                paymentSent.toJSON()
-            )
+            await request.post(paymentSent.getWebhookUrl(), headers, {
+                paymentData: paymentSent.toJSON(),
+                notificationUrl: paymentSent.getNotificationUrl(),
+            })
 
             return Right<Payment>(paymentSent)
         } catch (error) {
+            console.error(error)
             return Left<Error>(error as Error)
         }
     }
@@ -129,6 +127,7 @@ export default class PaymentRepository implements IPaymentRepository {
 
             return Right(`Status de pagamento atualizado para: ${status}`)
         } catch (error) {
+            console.error(error)
             return Left<Error>(error as Error)
         }
     }
