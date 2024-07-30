@@ -4,11 +4,7 @@ metadata:
   name: sst-env
   namespace: fiap-soat
 data:
-  DB_TYPE: 'mysql'
-  DB_HOST: 'sst-db-svc'
-  DB_PORT: '3306'
-  DB_USERNAME: 'mcdonalds'
-  DB_PASSWORD: 'mcdonalds#1234'
-  DB_DATABASE: 'self-service'
   PORT: '3000'
   SWAGGER_URL: 'localhost'
+  URL_DEPLOY: 'http://34.95.232.166'
+  URL_PAYMENT_API: 'https://southamerica-east1-self-service-totem-428818.cloudfunctions.net/payment-fake'
