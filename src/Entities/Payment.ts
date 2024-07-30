@@ -24,8 +24,8 @@ export class Payment {
         this.status = status
         this.orderId = orderId
         this.externalReference = '12345'
-        this.webhookUrl = 'https://jsonplaceholder.typicode.com/posts'
-        this.notificationUrl = `http://www.yourserver.com/notification/${this.id}`
+        this.webhookUrl = process.env.URL_PAYMENT_API || ''
+        this.notificationUrl = `${process.env.URL_DEPLOY}/api/payment/update-status/${this.id}`
         this.sponsor_id = 662208785
         this.expirationDate = this.setExpirationDate()
     }
@@ -37,7 +37,11 @@ export class Payment {
     }
 
     getWebhookUrl(): string {
-        return this.webhookUrl
+        return this.webhookUrl || ''
+    }
+
+    getNotificationUrl(): string {
+        return this.notificationUrl
     }
 
     getId(): string {

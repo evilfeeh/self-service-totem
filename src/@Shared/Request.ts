@@ -25,7 +25,7 @@ export class HttpRequest implements IRequest {
         data?: unknown
     ): Promise<unknown> {
         return axios({
-            method: 'get',
+            method: 'post',
             url,
             headers,
             data,
@@ -33,7 +33,7 @@ export class HttpRequest implements IRequest {
     }
     put(url: string, headers?: AxiosHeaders, data?: unknown): Promise<unknown> {
         return axios({
-            method: 'get',
+            method: 'put',
             url,
             headers,
             data,
@@ -45,7 +45,7 @@ export class HttpRequest implements IRequest {
         data?: unknown
     ): Promise<unknown> {
         return axios({
-            method: 'get',
+            method: 'delete',
             url,
             headers,
             data,
