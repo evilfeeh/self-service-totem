@@ -66,3 +66,7 @@ To access the docs, access:
 ## PHASE 2 DIAGRAM
 
 ![Diagrama Comunicação entre componentes K8s](./diagrams/K8s_Component_Communication_Diagram.svg)
+
+## PHASE 2 VIDEO
+
+[![Watch explanatory video](https://img.youtube.com/vi/lnBXtZN1KF8/0.jpg)](https://www.youtube.com/watch?v=lnBXtZN1KF8)
