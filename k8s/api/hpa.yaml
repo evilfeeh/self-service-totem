@@ -10,4 +10,4 @@ spec:
     name: sst-api
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 75
+  targetCPUUtilizationPercentage: 70

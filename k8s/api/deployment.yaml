@@ -25,14 +25,6 @@ spec:
       containers:
       - name: sst-api
         image: evilfeeh/self-service-totem:v2.1.6
-        env:
-        - name: PORT
-          value: '3000'
-        - name: URL_DEPLOY
-          value: http://34.95.232.166
-        - name: URL_PAYMENT_API
-          value: >-
-            https://southamerica-east1-self-service-totem-428818.cloudfunctions.net/payment-fake
         ports:
         - containerPort: 3000
         envFrom:
