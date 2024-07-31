@@ -68,9 +68,18 @@ export default class OrderRoutes {
         router.get('/', this.orderController.listOrders.bind(this))
         router.get('/list-all', this.orderController.listAllOrders.bind(this))
         router.get('/:id', this.orderController.getOrder.bind(this))
-        router.put('/prepare-order/:id', this.orderController.prepareOrder.bind(this))
-        router.put('/finish-prepare/:id', this.orderController.finishPrepareOrder.bind(this))
-        router.put('/finish-order/:id', this.orderController.finishOrder.bind(this))
+        router.put(
+            '/prepare-order/:id',
+            this.orderController.prepareOrder.bind(this)
+        )
+        router.put(
+            '/finish-prepare-order/:id',
+            this.orderController.finishPrepareOrder.bind(this)
+        )
+        router.put(
+            '/finish-order/:id',
+            this.orderController.finishOrder.bind(this)
+        )
 
         return router
     }
