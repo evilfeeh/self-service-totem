@@ -9,7 +9,7 @@ A monolith backend Developed with TypeScript, Docker, DDD and hexagonal architec
 
 We're introducing an Software that aims to optimize the self-service process in fast-food restaurants. Through an interactive totem, customers can place their orders quickly, conveniently and autonomously, reducing queues and speeding up service.
 
-Our **Event Storming** can be found here: https://miro.com/app/board/uXjVKVP2yDY=/ 
+Our **Event Storming** can be found here: https://miro.com/app/board/uXjVKVP2yDY=/
 
 For more details about the project, access: https://github.com/evilfeeh/self-service-totem
 
@@ -27,12 +27,12 @@ For more details about the project, access: https://github.com/evilfeeh/self-ser
     -   [x] List orders
 
 ## ubiquitous Language Dictionary
-- Cliente (Customer): Person who will consume the order
-- Pedido (Order): The order with all customer's Items
-- Cozinha (Kitchen): Team preparing the items of order
-- Pagamento (Payment): Process to pay the order
-- Lanche, Acompanhamento, Bebida, Sobremesa: Items avaiable into the menu
 
+-   Cliente (Customer): Person who will consume the order
+-   Pedido (Order): The order with all customer's Items
+-   Cozinha (Kitchen): Team preparing the items of order
+-   Pagamento (Payment): Process to pay the order
+-   Lanche, Acompanhamento, Bebida, Sobremesa: Items avaiable into the menu
 
 ## PREREQUISITES
 
@@ -62,3 +62,7 @@ The apps runs into port 3000, it's possible to change the value port or other en
 
 To access the docs, access:
 `http://localhost:3000/api/docs`
+
+## PHASE 2 DIAGRAM
+
+![Diagrama Comunicação entre componentes K8s](./diagrams/K8s_Component_Communication_Diagram.svg)
