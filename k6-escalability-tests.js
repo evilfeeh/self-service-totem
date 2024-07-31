@@ -20,7 +20,7 @@ export const options = {
 }
 
 export default function () {
-    const response = http.get('http://localhost:34619/api/docs/')
+    const response = http.get('http://34.95.232.166/api/docs')
     check(response, {
         'status code should be 200': (res) => res.status === 200,
     })
