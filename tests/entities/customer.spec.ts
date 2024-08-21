@@ -25,4 +25,13 @@ describe('Customer Entities', () => {
         expect(customer.getName()).toBe('João Pereira')
         expect(customer.getEmail()).toBe('joao.pereira@gmail.com')
     })
+    it('should return an object', () => {
+        const customer = new Customer(
+            'João José',
+            '883.088.080-93',
+            'joao.jose@gmail.com'
+        )
+
+        expect(typeof customer.toJson()).toBe('object')
+    })
 })
