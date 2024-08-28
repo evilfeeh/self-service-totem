@@ -11,6 +11,7 @@
         "migration:down": "npx ts-node ./node_modules/.bin/typeorm migration:drop -d ./src/External/Database/MySqlAdapter.ts",
         "migration:generate": "npx ts-node node_modules/typeorm/cli.js migration:generate src/Adapters/Secondary/MySqlAdapter/migrations/FirstStatement -d ./src/Adapters/Secondary/MySqlAdapter/index.ts",
         "test": "jest",
+        "test:integration": "jest --runInBand",
         "test:unit": "jest --runInBand"
     },
     "keywords": [],
