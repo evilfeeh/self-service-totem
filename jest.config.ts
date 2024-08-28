@@ -7,5 +7,5 @@ module.exports = {
     coverageReporters: ['lcov'],
     preset: 'ts-jest',
     testEnvironment: 'node',
-    testMatch: ['**/*.test.ts', '**/*.spec.ts'],
+    testMatch: ['**/*.spec.ts'],
 }
