@@ -12,7 +12,8 @@
         "migration:generate": "npx ts-node node_modules/typeorm/cli.js migration:generate src/Adapters/Secondary/MySqlAdapter/migrations/FirstStatement -d ./src/Adapters/Secondary/MySqlAdapter/index.ts",
         "test": "jest",
         "test:integration": "jest --runInBand",
-        "test:unit": "jest --runInBand"
+        "test:unit": "jest --runInBand",
+        "test:coverage": "jest --coverage"
     },
     "keywords": [],
     "author": "",
