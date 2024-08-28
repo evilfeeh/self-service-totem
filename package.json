@@ -1,39 +1,42 @@
 {
-  "name": "self-service-totem",
-  "version": "1.0.0",
-  "description": "Project about Tech Challenge from FIAP",
-  "main": "src/App.ts",
-  "scripts": {
-    "build": "npx tsc",
-    "start": "node ./dist/src/External/Api/Server.js",
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/External/Api/Server.ts",
-    "migration:up": "npx ts-node ./node_modules/.bin/typeorm migration:run -d ./src/External/Database/MySqlAdapter.ts",
-    "migration:down": "npx ts-node ./node_modules/.bin/typeorm migration:drop -d ./src/External/Database/MySqlAdapter.ts",
-    "migration:generate": "npx ts-node node_modules/typeorm/cli.js migration:generate src/Adapters/Secondary/MySqlAdapter/migrations/FirstStatement -d ./src/Adapters/Secondary/MySqlAdapter/index.ts",
-    "test": "jest"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^1.6.8",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "mysql": "^2.18.1",
-    "reflect-metadata": "^0.2.2",
-    "swagger-ui-express": "^5.0.0",
-    "typeorm": "^0.3.20"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.11",
-    "@types/swagger-ui-express": "^4.1.6",
-    "jest": "^29.7.0",
-    "nodemon": "^3.1.0",
-    "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.4.5"
-  }
+    "name": "self-service-totem",
+    "version": "1.0.0",
+    "description": "Project about Tech Challenge from FIAP",
+    "main": "src/App.ts",
+    "scripts": {
+        "build": "npx tsc",
+        "start": "node ./dist/src/External/Api/Server.js",
+        "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/External/Api/Server.ts",
+        "migration:up": "npx ts-node ./node_modules/.bin/typeorm migration:run -d ./src/External/Database/MySqlAdapter.ts",
+        "migration:down": "npx ts-node ./node_modules/.bin/typeorm migration:drop -d ./src/External/Database/MySqlAdapter.ts",
+        "migration:generate": "npx ts-node node_modules/typeorm/cli.js migration:generate src/Adapters/Secondary/MySqlAdapter/migrations/FirstStatement -d ./src/Adapters/Secondary/MySqlAdapter/index.ts",
+        "test": "jest",
+        "test:integration": "jest --runInBand",
+        "test:unit": "jest --runInBand",
+        "test:coverage": "jest --coverage"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^1.6.8",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "mysql": "^2.18.1",
+        "reflect-metadata": "^0.2.2",
+        "swagger-ui-express": "^5.0.0",
+        "typeorm": "^0.3.20"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/jest": "^29.5.12",
+        "@types/node": "^20.12.11",
+        "@types/swagger-ui-express": "^4.1.6",
+        "jest": "^29.7.0",
+        "nodemon": "^3.1.0",
+        "ts-jest": "^29.1.2",
+        "ts-node": "^10.9.2",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.4.5"
+    }
 }
