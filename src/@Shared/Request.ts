@@ -1,4 +1,4 @@
-import axios, { AxiosHeaders } from 'axios'
+import axios, { AxiosHeaders, AxiosResponse } from 'axios'
 
 interface IRequest {
     get(url: string, headers?: AxiosHeaders): Promise<unknown>
@@ -12,7 +12,7 @@ interface IRequest {
 }
 
 export class HttpRequest implements IRequest {
-    async get(url: string, headers?: AxiosHeaders): Promise<unknown> {
+    async get(url: string, headers?: AxiosHeaders): Promise<AxiosResponse> {
         return axios({
             method: 'get',
             url,
@@ -23,7 +23,7 @@ export class HttpRequest implements IRequest {
         url: string,
         headers?: AxiosHeaders,
         data?: unknown
-    ): Promise<unknown> {
+    ): Promise<AxiosResponse> {
         return axios({
             method: 'post',
             url,

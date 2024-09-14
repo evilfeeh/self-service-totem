@@ -1,12 +1,9 @@
 import { Repository } from 'typeorm'
 import { Either, Left, Right, isLeft } from '../../../../@Shared/Either'
-import { HttpRequest } from '../../../../@Shared/Request'
 import { Payment as model } from '../../Models/Payment'
 import { AppDataSource } from '../../MySqlAdapter'
 import IPaymentRepository from '../Contracts/IPaymentRepository'
 import { Payment } from '../../../../Entities/Payment'
-import { Order as OrderModel } from '../../Models/Order'
-import { AxiosHeaders } from 'axios'
 import IOrderRepository from '../Contracts/IOrderRepository'
 import Order from '../../../../Entities/Order'
 import Customer from '../../../../Entities/Customer'
@@ -124,14 +121,6 @@ export default class PaymentRepository implements IPaymentRepository {
                 paymentSave.status,
                 order
             )
-
-            const request = new HttpRequest()
-            const headers = new AxiosHeaders()
-
-            await request.post(paymentSent.getWebhookUrl(), headers, {
-                paymentData: paymentSent.toJSON(),
-                notificationUrl: paymentSent.getNotificationUrl(),
-            })
 
             return Right<Payment>(paymentSent)
         } catch (error) {
