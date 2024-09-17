@@ -1,5 +1,6 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
+import { FirstStatement1716215951567 as createTables } from './Migrations/1716215951567-FirstStatement'
 import { AddProducts1716250566139 as AddProducts } from './Migrations/1716250566139-AddProducts'
 import { Customer } from './Models/Customer'
 import { Product } from './Models/Product'
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_DATABASE,
     logging: false,
     entities: [Customer, Product, Order, OrderItem, Payment],
-    migrations: [AddProducts],
+    migrations: [createTables, AddProducts],
     synchronize: true,
 })
 
