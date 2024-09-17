@@ -1,6 +1,28 @@
-version: '3.9'
-
 services:
+    init-app:
+        build: .
+        restart: on-failure
+        ports:
+            - 3000:3000
+        depends_on:
+            mysql_self:
+                condition: service_healthy
+        networks:
+            - backend
+        environment:
+            DB_TYPE: 'mysql'
+            DB_HOST: 'mysql_self'
+            DB_PORT: 3306
+            DB_USERNAME: 'mcdonalds'
+            DB_PASSWORD: 'MfDZk"rTtn[f>j%'
+            DB_DATABASE: 'self-service'
+            PORT: 3000
+        deploy:
+            resources:
+                limits:
+                    cpus: '1'
+                    memory: 1GB
+        command: sh -c "npm run migration:up"
     app:
         build: .
         restart: on-failure
