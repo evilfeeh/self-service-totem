@@ -7,9 +7,12 @@ import UpdateStatusUseCase from '../../../UseCases/Payment/updateStatus/uptateSt
 import OrderRepository from '../../Database/Repositories/DatabaseRepository/OrderRepository'
 import PaymentGatewayRepository from '../../../Gateways/Payment/PaymentGatewayRepository'
 import ListUseCase from '../../../UseCases/Payment/list/list.usecase'
+import ExternalPaymentGatewayRepository from '../../../Gateways/Payment/ExternalPaymentGatewayRepository'
+import { MercadoPagoExternal } from '../../Payment/MercadoPagoExternal'
 
 export default class PaymentRoutes {
     private readonly paymentRepository: PaymentRepository
+    private readonly mercadoPagoExternal: MercadoPagoExternal
     private readonly orderRepository: OrderRepository
     private readonly paymentController: PaymentController
     private readonly checkoutUseCase: CheckoutUseCase
@@ -17,19 +20,26 @@ export default class PaymentRoutes {
     private readonly updateStatusUseCase: UpdateStatusUseCase
     private readonly listUseCase: ListUseCase
     private readonly paymentGatewayRepository: PaymentGatewayRepository
+    private readonly externalPaymentRepository: ExternalPaymentGatewayRepository
 
     constructor() {
         this.orderRepository = new OrderRepository()
         this.paymentRepository = new PaymentRepository(this.orderRepository)
+        this.mercadoPagoExternal = new MercadoPagoExternal()
         this.paymentGatewayRepository = new PaymentGatewayRepository(
             this.paymentRepository
         )
+        this.externalPaymentRepository = new ExternalPaymentGatewayRepository(
+            this.mercadoPagoExternal
+        )
         this.checkoutUseCase = new CheckoutUseCase(
-            this.paymentGatewayRepository
+            this.paymentGatewayRepository,
+            this.externalPaymentRepository
         )
         this.getByIdUseCase = new GetByIdUseCase(this.paymentGatewayRepository)
         this.updateStatusUseCase = new UpdateStatusUseCase(
-            this.paymentGatewayRepository
+            this.paymentGatewayRepository,
+            this.externalPaymentRepository
         )
 
         this.listUseCase = new ListUseCase(this.paymentGatewayRepository)

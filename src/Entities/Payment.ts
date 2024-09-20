@@ -11,7 +11,7 @@ export class Payment {
     private value: number
     private expirationDate: string
     private order: Order | string
-    private webhookUrl: string
+    private paymentUrl: string
 
     constructor(
         id: string,
@@ -24,8 +24,8 @@ export class Payment {
         this.status = status
         this.orderId = orderId
         this.externalReference = '12345'
-        this.webhookUrl = process.env.URL_PAYMENT_API || ''
-        this.notificationUrl = `${process.env.URL_DEPLOY}/api/payment/update-status/${this.id}`
+        this.paymentUrl = process.env.URL_PAYMENT_QR_MERCADO_PAGO || ''
+        this.notificationUrl = `${process.env.URL_NGROK}/api/payment/update-status/${id}`
         this.sponsor_id = 662208785
         this.expirationDate = this.setExpirationDate()
     }
@@ -36,8 +36,8 @@ export class Payment {
         return now.toISOString()
     }
 
-    getWebhookUrl(): string {
-        return this.webhookUrl || ''
+    getPaymentUrl(): string {
+        return this.paymentUrl || ''
     }
 
     getNotificationUrl(): string {
@@ -80,6 +80,7 @@ export class Payment {
             expirationDate: this.expirationDate,
             external_reference: this.externalReference,
             items: this.products,
+            payment_url: this.paymentUrl,
             notification_url: this.notificationUrl,
             sponsor: {
                 id: this.sponsor_id,

@@ -3,7 +3,6 @@ import { isLeft } from '../@Shared/Either'
 import CheckoutUseCase from '../UseCases/Payment/checkout/checkout.usecase'
 import GetByIdUseCase from '../UseCases/Payment/getById/getById.usecase'
 import UpdateStatusUseCase from '../UseCases/Payment/updateStatus/uptateStatus.usecase'
-import Order from '../Entities/Order'
 import ListUseCase from '../UseCases/Payment/list/list.usecase'
 
 export default class PaymentController {
@@ -58,15 +57,28 @@ export default class PaymentController {
 
     async updateStatus(req: Request, res: Response): Promise<void> {
         const { id } = req.params
-        const { status } = req.body
-        const result = await this.updateStatusUseCase.execute({ id, status })
+        let externalPaymentId = null
 
-        if (isLeft(result)) {
-            res.status(400).json(result.value.message)
-        } else {
-            res.status(200).json({
-                message: result.value,
+        if (req.body.type === 'payment' && req.body.data && req.body.data.id) {
+            externalPaymentId = req.body.data.id
+
+            if (!externalPaymentId) {
+                res.status(400).json('Id de pagamento externo nulo')
+                return
+            }
+
+            const result = await this.updateStatusUseCase.execute({
+                id,
+                externalPaymentId,
             })
+
+            if (isLeft(result)) {
+                res.status(400).json(result.value.message)
+            } else {
+                res.status(200).json({
+                    message: result.value,
+                })
+            }
         }
     }
 }
