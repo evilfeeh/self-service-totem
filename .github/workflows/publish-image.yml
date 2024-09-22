@@ -6,6 +6,10 @@ on:
   
 env:
   IMAGE_NAME: evilfeeh/self-service-totem
+  EKS_CLUSTER_NAME: self-service-totem
+  AWS_REGION: us-east-1
+  REGISTRY: hub.docker.com
+  EKS_DEPLOYMENT_YAML: deployment.yaml
 
 jobs:
   push_to_registry:  
@@ -16,6 +20,7 @@ jobs:
       contents: read
       attestations: write
       id-token: write
+      pages: write
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -29,11 +34,11 @@ jobs:
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
-        with:
+        with:          
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           images: ${{ env.IMAGE_NAME}}
           tags: |
             type=semver,pattern={{version}},value=${{ github.event.release.tag_name }}
-      
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v6.7.0
@@ -44,35 +49,30 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v1
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [ push_to_registry ]
+    steps:
+      - name: Set short git commit SHA
+        id: commit
+        uses: prompt/actions-commit-hash@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          subject-name: ${{env.IMAGE_NAME}}/${{ env.IMAGE_NAME }}
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
-  # deploy:
-  #   name: Deploy
-  #   if: github.ref == 'refs/heads/main'
-  #   needs: [ push_to_registry ]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Set the Kubernetes context'
-  #       uses: azure/k8s-set-context@v2
-  #       with:
-  #         method: service-account
-  #         k8s-url: <server-url>
-  #         k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{env.AWS_REGION}}
 
-  #     - name: Checkout source code
-  #       uses: actions/checkout@v3
-
-  #     - name: Deploy to the Kubernetes cluster
-  #       uses: azure/k8s-deploy@v1
-  #       with:
-  #         namespace: default
-  #         manifests: |
-  #           kubernetes/deployment.yaml
-  #           kubernetes/ingress.yaml
-  #           kubernetes/service.yaml
-  #         images: |
-  #           ghcr.io/username/package:${{ github.sha }}
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name ${{env.EKS_CLUSTER_NAME}} --region ${{env.AWS_REGION}}
+    
+      - name: Deploy to EKS
+        env:
+          IMAGE_TAG: ${{ steps.commit.outputs.short }}
+        run: |
+          # sed -i.bak "s|DOCKER_IMAGE|${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}}|g" ${{env.EKS_DEPLOYMENT_YAML}} && \
+          kubectl set image deployment/${{env.EKS_CLUSTER_NAME}} mycontainer=${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}} && \
+          kubectl apply -f ${{env.EKS_DEPLOYMENT_YAML}}
