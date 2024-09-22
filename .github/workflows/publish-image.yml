@@ -6,6 +6,9 @@ on:
   
 env:
   IMAGE_NAME: evilfeeh/self-service-totem
+  EKS_CLUSTER_NAME: self-service-totem
+  AWS_REGION: us-east-1
+  REGISTRY: hub.docker.com
 
 jobs:
   push_to_registry:  
@@ -47,32 +50,31 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ${{env.IMAGE_NAME}}/${{ env.IMAGE_NAME }}
+          subject-name: ${{env.REGISTRY}}/${{ env.IMAGE_NAME }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
   # deploy:
   #   name: Deploy
+  #   runs-on: ubuntu-latest
   #   if: github.ref == 'refs/heads/main'
   #   needs: [ push_to_registry ]
-  #   runs-on: ubuntu-latest
   #   steps:
-  #     - name: Set the Kubernetes context'
-  #       uses: azure/k8s-set-context@v2
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
   #       with:
-  #         method: service-account
-  #         k8s-url: <server-url>
-  #         k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+  #         aws-region: ${{env.AWS_REGION}}
 
-  #     - name: Checkout source code
-  #       uses: actions/checkout@v3
-
-  #     - name: Deploy to the Kubernetes cluster
-  #       uses: azure/k8s-deploy@v1
-  #       with:
-  #         namespace: default
-  #         manifests: |
-  #           kubernetes/deployment.yaml
-  #           kubernetes/ingress.yaml
-  #           kubernetes/service.yaml
-  #         images: |
-  #           ghcr.io/username/package:${{ github.sha }}
+  #     - name: Update kube config
+  #       run: aws eks update-kubeconfig --name ${{env.EKS_CLUSTER_NAME}} --region ${{env.AWS_REGION}}
+    
+  #     - name: Deploy to EKS
+  #       env:
+  #         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
+  #         IMAGE_TAG: ${{ steps.commit.outputs.short }}
+  #       run: |
+  #         sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifests/hello-app-deployment.yaml && \
+  #         kubectl apply -f manifests/hello-app-deployment.yaml
+  #         kubectl apply -f manifests/hello-app-service.yaml
