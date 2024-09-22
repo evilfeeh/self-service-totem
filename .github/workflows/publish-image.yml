@@ -6,7 +6,6 @@ on:
   workflow_dispatch:
   
 env:
-  REGISTRY: hub.docker.com
   IMAGE_NAME: evilfeeh/self-service-totem
 
 jobs:
@@ -30,10 +29,12 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5.5.1
+        uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-
+          images: ${{ env.IMAGE_NAME}}
+          tags: |
+            type=semver,pattern={{version}},value=${{ github.event.release.tag_name }}
+      
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v6.7.0
@@ -47,32 +48,32 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-name: ${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-  deploy:
-    name: Deploy
-    if: github.ref == 'refs/heads/main'
-    needs: [ push_to_registry ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set the Kubernetes context'
-        uses: azure/k8s-set-context@v2
-        with:
-          method: service-account
-          k8s-url: <server-url>
-          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+  # deploy:
+  #   name: Deploy
+  #   if: github.ref == 'refs/heads/main'
+  #   needs: [ push_to_registry ]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Set the Kubernetes context'
+  #       uses: azure/k8s-set-context@v2
+  #       with:
+  #         method: service-account
+  #         k8s-url: <server-url>
+  #         k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
 
-      - name: Checkout source code
-        uses: actions/checkout@v3
+  #     - name: Checkout source code
+  #       uses: actions/checkout@v3
 
-      - name: Deploy to the Kubernetes cluster
-        uses: azure/k8s-deploy@v1
-        with:
-          namespace: default
-          manifests: |
-            kubernetes/deployment.yaml
-            kubernetes/ingress.yaml
-            kubernetes/service.yaml
-          images: |
-            ghcr.io/username/package:${{ github.sha }}
+  #     - name: Deploy to the Kubernetes cluster
+  #       uses: azure/k8s-deploy@v1
+  #       with:
+  #         namespace: default
+  #         manifests: |
+  #           kubernetes/deployment.yaml
+  #           kubernetes/ingress.yaml
+  #           kubernetes/service.yaml
+  #         images: |
+  #           ghcr.io/username/package:${{ github.sha }}
