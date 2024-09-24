@@ -52,7 +52,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     needs: [ push_to_registry ]
     steps:
       - name: Set short git commit SHA
