@@ -23,14 +23,13 @@ const orderRoutes = new OrderRoutes()
 const customerRoutes = new CustomerRoutes()
 
 app.use(
-    getApiRoute('docs'),
+    '/public/docs',
     swaggerUi.serve,
     swaggerUi.setup(swaggerDocument, {
         swaggerOptions: { url: `${process.env.SWAGGER_URL}` },
     })
 )
 app.use('/api', authMiddleware(verifyAuthToken))
-app.use(getApiRoute('docs'), swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(getApiRoute('product'), productRoutes.buildRouter())
 app.use(getApiRoute('payment'), paymentRoutes.buildRouter())
 app.use(getApiRoute('order'), orderRoutes.buildRouter())
