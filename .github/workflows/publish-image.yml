@@ -9,8 +9,6 @@ env:
   EKS_CLUSTER_NAME: self-service-totem
   AWS_REGION: us-east-1
   REGISTRY: hub.docker.com
-  EKS_DEPLOYMENT_YAML: deployment.yaml
-  IMAGE_TAG: latest
 
 jobs:
   push_to_registry:  
@@ -72,11 +70,20 @@ jobs:
 
       - name: Update kube config
         run: aws eks update-kubeconfig --name ${{env.EKS_CLUSTER_NAME}} --region ${{env.AWS_REGION}}
-    
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:          
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          images: ${{ env.IMAGE_NAME}}
+          tags: |
+            type=semver,pattern={{version}}
+
       - name: Update deployment image version to EKS
         run: |
-          kubectl set image deployment/sst-api --namespace=fiap-soat sst-api=${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}}
-          kubectl set image deployment/sst-api --namespace=fiap-soat migrate=${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{env.IMAGE_TAG}}
+          kubectl set image deployment/sst-api --namespace=fiap-soat sst-api=${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{ steps.meta.outputs.tags }}
+          kubectl set image deployment/sst-api --namespace=fiap-soat migrate=${{env.REGISTRY}}/${{env.IMAGE_NAME}}:${{ steps.meta.outputs.tags }}
 
       - name: restart deployment
         run: |
