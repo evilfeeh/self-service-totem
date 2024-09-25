@@ -82,8 +82,8 @@ jobs:
 
       - name: Update deployment image version to EKS
         run: |
-          kubectl set image deployment/sst-api --namespace=fiap-soat sst-api=${{env.IMAGE_NAME}}:${{ steps.meta.outputs.tags }}
-          kubectl set image deployment/sst-api --namespace=fiap-soat migrate=${{env.IMAGE_NAME}}/${{ steps.meta.outputs.tags }}
+          kubectl set image deployment/sst-api --namespace=fiap-soat sst-api=${{ steps.meta.outputs.tags }}
+          kubectl set image deployment/sst-api --namespace=fiap-soat migrate=${{ steps.meta.outputs.tags }}
 
       - name: restart deployment
         run: |
