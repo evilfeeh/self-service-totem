@@ -10,6 +10,7 @@ env:
   AWS_REGION: us-east-1
   REGISTRY: hub.docker.com
   EKS_DEPLOYMENT_YAML: deployment.yaml
+  IMAGE_TAG: latest
 
 jobs:
   push_to_registry:  
@@ -80,4 +81,3 @@ jobs:
       - name: restart deployment
         run: |
           kubectl rollout restart deployment sst-api --namespace=fiap-soat
-          kubectl rollout restart deployment migrate --namespace=fiap-soat
