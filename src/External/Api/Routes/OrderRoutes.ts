@@ -11,6 +11,7 @@ import PrepareOrderUseCase from '../../../UseCases/Order/prepare/prepare.usecase
 import ProductRepository from '../../Database/Repositories/DatabaseRepository/ProductRepository'
 import OrderGatewayRepository from '../../../Gateways/Order/OrderGatewayRepository'
 import CustomerRepository from '../../Database/Repositories/DatabaseRepository/CustomerRepository'
+import { RouteTypeEnum } from '../../../Entities/Enums/RouteType'
 
 export default class OrderRoutes {
     private readonly orderRepository: OrderRepository
@@ -65,19 +66,25 @@ export default class OrderRoutes {
         const router = Router()
 
         router.post('/', this.orderController.startOrder.bind(this))
-        router.get('/', this.orderController.listOrders.bind(this))
-        router.get('/list-all', this.orderController.listAllOrders.bind(this))
         router.get('/:id', this.orderController.getOrder.bind(this))
+        router.get(
+            `/${RouteTypeEnum.PROTECTED}`,
+            this.orderController.listOrders.bind(this)
+        )
+        router.get(
+            `/${RouteTypeEnum.PROTECTED}/list-all`,
+            this.orderController.listAllOrders.bind(this)
+        )
         router.put(
-            '/prepare-order/:id',
+            `/${RouteTypeEnum.PROTECTED}/prepare-order/:id`,
             this.orderController.prepareOrder.bind(this)
         )
         router.put(
-            '/finish-prepare-order/:id',
+            `/${RouteTypeEnum.PROTECTED}/finish-prepare-order/:id`,
             this.orderController.finishPrepareOrder.bind(this)
         )
         router.put(
-            '/finish-order/:id',
+            `/${RouteTypeEnum.PROTECTED}/finish-order/:id`,
             this.orderController.finishOrder.bind(this)
         )
 

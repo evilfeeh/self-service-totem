@@ -24,7 +24,7 @@ export default class OrderController {
         findOrderByIdUseCase: FindOrderByIdUseCase,
         prepareOrderUseCase: PrepareOrderUseCase,
         finishPrepareOrderUseCase: FinishPrepareOrderUseCase,
-        finishOrderUseCase: FinishOrderUseCase,
+        finishOrderUseCase: FinishOrderUseCase
     ) {
         this.createOrderUseCase = createOrderUseCase
         this.listOrdersUseCase = listOrdersUseCase
@@ -36,16 +36,16 @@ export default class OrderController {
     }
 
     async startOrder(req: Request, res: Response): Promise<void> {
-        const { name, cpf, products } = req.body
+        const { user_name, cpf, products } = req.body
 
-        if (!name) {
+        if (!user_name) {
             res.status(400).json({
-                message: 'name is required',
+                message: 'user_name is required',
             })
         }
 
         const result = await this.createOrderUseCase.execute({
-            name,
+            name: user_name,
             cpf,
             products,
         })
@@ -85,7 +85,7 @@ export default class OrderController {
 
     async getOrder(req: Request, res: Response): Promise<void> {
         const { id } = req.params
-        const result = await this.findOrderByIdUseCase.execute({id})
+        const result = await this.findOrderByIdUseCase.execute({ id })
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
@@ -97,7 +97,7 @@ export default class OrderController {
 
     async prepareOrder(req: Request, res: Response): Promise<void> {
         const { id } = req.params
-        const result = await this.prepareOrderUseCase.execute({id})
+        const result = await this.prepareOrderUseCase.execute({ id })
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
@@ -109,7 +109,7 @@ export default class OrderController {
 
     async finishPrepareOrder(req: Request, res: Response): Promise<void> {
         const { id } = req.params
-        const result = await this.finishPrepareOrderUseCase.execute({id})
+        const result = await this.finishPrepareOrderUseCase.execute({ id })
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)
@@ -121,7 +121,7 @@ export default class OrderController {
 
     async finishOrder(req: Request, res: Response): Promise<void> {
         const { id } = req.params
-        const result = await this.finishOrderUseCase.execute({id})
+        const result = await this.finishOrderUseCase.execute({ id })
 
         if (isLeft(result)) {
             res.status(400).json(result.value.message)

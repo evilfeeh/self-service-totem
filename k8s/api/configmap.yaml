@@ -9,3 +9,4 @@ data:
     URL_DEPLOY: 'http://34.95.232.166'
     URL_PAYMENT_API: 'https://southamerica-east1-self-service-totem-428818.cloudfunctions.net/payment-fake'
     ACCESS_TOKEN_MERCADO_PAGO: 'TEST-3167508601419918-090709-dac1032577cf83740fec34e70a77d290-196082435'
+    JWT_SECRET: '3k{${?^d45o1bja6you8d&k5m;+n)t$<${!]1d/:=(:6j=d*|4::)]:!5{`]z'
