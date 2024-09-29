@@ -9,6 +9,7 @@ import PaymentGatewayRepository from '../../../Gateways/Payment/PaymentGatewayRe
 import ListUseCase from '../../../UseCases/Payment/list/list.usecase'
 import ExternalPaymentGatewayRepository from '../../../Gateways/Payment/ExternalPaymentGatewayRepository'
 import { MercadoPagoExternal } from '../../Payment/MercadoPagoExternal'
+import { RouteTypeEnum } from '../../../Entities/Enums/RouteType'
 
 export default class PaymentRoutes {
     private readonly paymentRepository: PaymentRepository
@@ -54,11 +55,17 @@ export default class PaymentRoutes {
 
     buildRouter(): Router {
         const router = Router()
-        router.get('/', this.paymentController.list.bind(this))
+        router.get(
+            `/${RouteTypeEnum.PROTECTED}`,
+            this.paymentController.list.bind(this)
+        )
         router.post('/checkout', this.paymentController.checkout.bind(this))
-        router.get('/:id', this.paymentController.getById.bind(this))
+        router.get(
+            `/${RouteTypeEnum.PROTECTED}/:id`,
+            this.paymentController.getById.bind(this)
+        )
         router.post(
-            '/update-status/:id',
+            `/${RouteTypeEnum.INTEGRATION}/update-status/:id`,
             this.paymentController.updateStatus.bind(this)
         )
         return router

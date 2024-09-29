@@ -61,15 +61,16 @@ docker compose up
 The apps runs into port 3000, it's possible to change the value port or other environments inside a .env file
 
 To access the docs, access:
-`http://localhost:3000/api/docs`
+`http://localhost:3000/public/docs`
 
 ## HOW TO SETUP KUBERNETES:
 
 In your local environment, you'll need to use `Minikube` and `Kubectl` to implement our application locally.
 
 to see how it works, please follow these:
-- [links to MiniKube Documentation](https://minikube.sigs.k8s.io/docs/start)
-- [links to Kubectl Documentation](https://kubernetes.io/pt-br/docs/reference/kubectl/)
+
+-   [links to MiniKube Documentation](https://minikube.sigs.k8s.io/docs/start)
+-   [links to Kubectl Documentation](https://kubernetes.io/pt-br/docs/reference/kubectl/)
 
 After following this steps, you'll need run the namespace creation in the terminal:
 
@@ -86,15 +87,17 @@ After this, run the following commands to run the api and the database:
 ```
 
 This commands will create:
-- API deployment - containg our solution
-- Database statefulset
-- Load Balancer Service for API and a ClusterIP none for database
-- ConfigMap with with environment variables
-- Secrets with database credentials
-- HPA to scale the pods automatically
-- PV, PVC and StorageClass to create disk for the application
+
+-   API deployment - containg our solution
+-   Database statefulset
+-   Load Balancer Service for API and a ClusterIP none for database
+-   ConfigMap with with environment variables
+-   Secrets with database credentials
+-   HPA to scale the pods automatically
+-   PV, PVC and StorageClass to create disk for the application
 
 ## Accessing the API
+
 After running everything, you can use the `Kubectl` commands to ensure the pods are initialized. To access the Swagger aplication, you'll need to port fowarding the api.
 
 Specify the API's pod name and run:
@@ -104,6 +107,7 @@ kubectl port-forward <api-pod-name> 3000:3000
 ```
 
 ## Performance test:
+
 To see the pods scaling, we create a k6 perfomance test that can be found on `./k6-escalabity-tests.js`
 
 **Don't forget to install [K6](https://k6.io/docs/get-started/installation/) before execute this**

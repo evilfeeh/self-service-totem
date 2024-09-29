@@ -13,5 +13,5 @@ app.listen(port, () => {
 })
 
 app.get('/', (req, res) => {
-    res.redirect('/api/docs')
+    res.redirect('/public/docs')
 })

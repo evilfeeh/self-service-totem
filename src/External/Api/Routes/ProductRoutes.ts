@@ -6,6 +6,7 @@ import UpdateProductUseCase from '../../../UseCases/Product/update/update.usecas
 import DeleteProductUseCase from '../../../UseCases/Product/delete/delete.usecase'
 import FindProductsByCategoryUseCase from '../../../UseCases/Product/findByCategory/findProductsByCategory.usecase'
 import ProductGatewayRepository from '../../../Gateways/Product/ProductGatewayRepository'
+import { RouteTypeEnum } from '../../../Entities/Enums/RouteType'
 
 export default class ProductRoutes {
     private readonly productRepository: ProductRepository
@@ -43,14 +44,20 @@ export default class ProductRoutes {
 
     buildRouter(): Router {
         const router = Router()
-        router.post('/', this.productController.createProduct.bind(this))
-        router.put('/:id', this.productController.updateProduct.bind(this))
+        router.post(
+            `/${RouteTypeEnum.PROTECTED}`,
+            this.productController.createProduct.bind(this)
+        )
+        router.put(
+            `/${RouteTypeEnum.PROTECTED}/:id`,
+            this.productController.updateProduct.bind(this)
+        )
         router.get(
             '/:category',
             this.productController.getProductbyCategory.bind(this)
         )
         router.delete(
-            '/:id',
+            `/${RouteTypeEnum.PROTECTED}/:id`,
             this.productController.deleteProductById.bind(this)
         )
         return router
