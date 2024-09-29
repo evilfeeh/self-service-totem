@@ -42,6 +42,13 @@ jobs:
         run: npm run test:unit
       - name: 'Run Integration Tests'
         run: npm run test:integration
+  
+  coverage:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:  
+      - name: 'Jest coverage report'
+        uses: ArtiomTr/jest-coverage-report-action@v2.3.1
 
   build:
     needs: tests
