@@ -75,9 +75,12 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
 
-      - name: Update deployment image version to EKS
+      - name: Update deployment main image
         run: |
           kubectl set image deployment/sst-api --namespace=fiap-soat sst-api=${{ steps.meta.outputs.tags }}
+      
+      - name: Update deployment init container image
+        run: |
           kubectl set image deployment/sst-api --namespace=fiap-soat migrate=${{ steps.meta.outputs.tags }}
 
       - name: restart deployment
