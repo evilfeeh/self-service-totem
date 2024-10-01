@@ -66,15 +66,6 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name ${{env.EKS_CLUSTER_NAME}} --region ${{env.AWS_REGION}}
       
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:          
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          images: ${{ env.IMAGE_NAME}}
-          tags: |
-            type=semver,pattern={{version}}
-
       - name: Update deployment main image
         run: |
           kubectl set image deployment/sst-api --namespace=fiap-soat migrate=evilfeeh/self-service-totem:${{ github.event.release.tag_name }} sst-api=evilfeeh/self-service-totem:${{ github.event.release.tag_name }}
