@@ -25,7 +25,7 @@ export class Payment {
         this.orderId = orderId
         this.externalReference = '12345'
         this.paymentUrl = process.env.URL_PAYMENT_QR_MERCADO_PAGO || ''
-        this.notificationUrl = `https://ae2c-2804-14d-a484-9c31-2a6d-fccd-678c-950.ngrok-free.app/api/payment/integration/update-status/${id}`
+        this.notificationUrl = `http://a2e553796a07e4fb48f90ff8eb3c6a30-1123377257.us-east-1.elb.amazonaws.com/api/payment/integration/update-status/${id}`
         this.sponsor_id = 662208785
         this.expirationDate = this.setExpirationDate()
     }

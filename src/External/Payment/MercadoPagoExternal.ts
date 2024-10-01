@@ -46,7 +46,7 @@ export class MercadoPagoExternal implements IExternalPaymentGatewayRepository {
         try {
             const token =
                 process.env.ACCESS_TOKEN_MERCADO_PAGO ||
-                'TEST-3167508601419918-090709-dac1032577cf83740fec34e70a77d290-196082435'
+                'APP_USR-4073045658170575-091222-b346daaf2e3ff6082fe4bdf9ba556eba-1987490257'
             const mercadoPagoUrl =
                 process.env.MERCADO_PAGO_URL || 'https://api.mercadopago.com'
             const url = `${mercadoPagoUrl}/v1/payments/${externalPaymentId}`
