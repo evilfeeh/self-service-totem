@@ -14,10 +14,7 @@ const getApiRoute = (name: String) => `/api/${name}`
 const app: Express = express()
 app.use(express.json())
 
-//TODO: fix why dotenv is not working here
-const jwtSecret =
-    process.env.JWT_SECRET ||
-    'QXJxdWl0ZXR1cmFEZVNvZnR3YXJlNlNPQVRGYXNlM1RlY2hDaGFsbGVuZ2U='
+const jwtSecret = process.env.JWT_SECRET || ''
 
 const verifyAuthToken = new VerifyAuthToken(jwtSecret)
 
