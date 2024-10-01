@@ -75,6 +75,10 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
 
+      - name: echo tags
+        run: |
+          echo ${{ steps.meta.outputs.tags[0] }}
+
       - name: Update deployment main image
         run: |
           kubectl set image deployment/sst-api --namespace=fiap-soat migrate=${{ steps.meta.outputs.tags }} sst-api=${{ steps.meta.outputs.tags }}
