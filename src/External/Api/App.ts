@@ -35,6 +35,5 @@ app.use(
 app.use(getApiRoute('product'), productRoutes.buildRouter())
 app.use(getApiRoute('payment'), paymentRoutes.buildRouter())
 app.use(getApiRoute('order'), orderRoutes.buildRouter())
-app.use(getApiRoute('customer'), customerRoutes.buildRouter())
 
 export default app
