@@ -13,7 +13,7 @@ export class MercadoPagoExternal implements IExternalPaymentGatewayRepository {
             const payload = this.qrCodePayload(payment)
             const token =
                 process.env.ACCESS_TOKEN_MERCADO_PAGO ||
-                'TEST-3167508601419918-090709-dac1032577cf83740fec34e70a77d290-196082435'
+                'APP_USR-4073045658170575-091222-b346daaf2e3ff6082fe4bdf9ba556eba-1987490257'
             const mercadoPagoUrl =
                 process.env.MERCADO_PAGO_URL || 'https://api.mercadopago.com'
             const mercadoPagoUserId =
@@ -21,11 +21,14 @@ export class MercadoPagoExternal implements IExternalPaymentGatewayRepository {
             const mercadoPagoPosId =
                 process.env.MERCADO_PAGO_POS_ID ||
                 'SELFSERVICETOTEMSTOREMP01CAIXA01'
-            const url = `${mercadoPagoUrl}/instore/orders/qr/seller/collectors/${mercadoPagoUserId}/pos/${mercadoPagoPosId}/qrs`
-
+            // const url = `${mercadoPagoUrl}/instore/orders/qr/seller/collectors/${mercadoPagoUserId}/pos/${mercadoPagoPosId}/qrs`
+            const url =
+                'https://api.mercadopago.com/instore/orders/qr/seller/collectors/1987490257/pos/SELFSERVICETOTEMSTOREMP01CAIXA01/qrs'
             const request = new HttpRequest()
             const headers = new AxiosHeaders()
-            headers.setAuthorization(`Bearer ${token}`)
+            headers.setAuthorization(
+                `Bearer APP_USR-4073045658170575-091222-b346daaf2e3ff6082fe4bdf9ba556eba-1987490257`
+            )
 
             const result: AxiosResponse = await request.post(
                 url,
@@ -53,7 +56,9 @@ export class MercadoPagoExternal implements IExternalPaymentGatewayRepository {
 
             const request = new HttpRequest()
             const headers = new AxiosHeaders()
-            headers.setAuthorization(`Bearer ${token}`)
+            headers.setAuthorization(
+                `Bearer APP_USR-4073045658170575-091222-b346daaf2e3ff6082fe4bdf9ba556eba-1987490257`
+            )
 
             const result: AxiosResponse = await request.get(url, headers)
 
