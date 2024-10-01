@@ -19,3 +19,7 @@ app.get('/', (req, res) => {
 app.get('/ping', (req, res) => {
     res.send('pong')
 })
+
+app.get('/fiap', (req, res) => {
+    res.send('soat')
+})
