@@ -11,8 +11,17 @@ export class MercadoPagoExternal implements IExternalPaymentGatewayRepository {
     ): Promise<Either<Error, String>> {
         try {
             const payload = this.qrCodePayload(payment)
-            const token = process.env.ACCESS_TOKEN_MERCADO_PAGO || ''
-            const url = `${process.env.MERCADO_PAGO_URL}/instore/orders/qr/seller/collectors/${process.env.MERCADO_PAGO_USER_ID}/pos/${process.env.MERCADO_PAGO_POS_ID}/qrs`
+            const token =
+                process.env.ACCESS_TOKEN_MERCADO_PAGO ||
+                'TEST-3167508601419918-090709-dac1032577cf83740fec34e70a77d290-196082435'
+            const mercadoPagoUrl =
+                process.env.MERCADO_PAGO_URL || 'https://api.mercadopago.com'
+            const mercadoPagoUserId =
+                process.env.MERCADO_PAGO_USER_ID || '1987490257'
+            const mercadoPagoPosId =
+                process.env.MERCADO_PAGO_POS_ID ||
+                'SELFSERVICETOTEMSTOREMP01CAIXA01'
+            const url = `${mercadoPagoUrl}/instore/orders/qr/seller/collectors/${mercadoPagoUserId}/pos/${mercadoPagoPosId}/qrs`
 
             const request = new HttpRequest()
             const headers = new AxiosHeaders()
@@ -35,8 +44,12 @@ export class MercadoPagoExternal implements IExternalPaymentGatewayRepository {
         externalPaymentId: String
     ): Promise<Either<Error, String>> {
         try {
-            const token = process.env.ACCESS_TOKEN_MERCADO_PAGO || ''
-            const url = `${process.env.MERCADO_PAGO_URL}/v1/payments/${externalPaymentId}`
+            const token =
+                process.env.ACCESS_TOKEN_MERCADO_PAGO ||
+                'TEST-3167508601419918-090709-dac1032577cf83740fec34e70a77d290-196082435'
+            const mercadoPagoUrl =
+                process.env.MERCADO_PAGO_URL || 'https://api.mercadopago.com'
+            const url = `${mercadoPagoUrl}/v1/payments/${externalPaymentId}`
 
             const request = new HttpRequest()
             const headers = new AxiosHeaders()
