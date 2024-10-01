@@ -77,7 +77,7 @@ jobs:
 
       - name: Update deployment main image
         run: |
-          kubectl set image deployment/sst-api --namespace=fiap-soat migrate=evilfeeh/self-service-totem:${{ github.event.release.tag_name }} sst-api=evilfeeh/self-service-totem${{ github.event.release.tag_name }}
+          kubectl set image deployment/sst-api --namespace=fiap-soat migrate=evilfeeh/self-service-totem:${{ github.event.release.tag_name }} sst-api=evilfeeh/self-service-totem:${{ github.event.release.tag_name }}
 
       - name: restart deployment
         run: |
