@@ -11,24 +11,14 @@ export class MercadoPagoExternal implements IExternalPaymentGatewayRepository {
     ): Promise<Either<Error, String>> {
         try {
             const payload = this.qrCodePayload(payment)
-            const token =
-                process.env.ACCESS_TOKEN_MERCADO_PAGO ||
-                'APP_USR-4073045658170575-091222-b346daaf2e3ff6082fe4bdf9ba556eba-1987490257'
-            const mercadoPagoUrl =
-                process.env.MERCADO_PAGO_URL || 'https://api.mercadopago.com'
-            const mercadoPagoUserId =
-                process.env.MERCADO_PAGO_USER_ID || '1987490257'
-            const mercadoPagoPosId =
-                process.env.MERCADO_PAGO_POS_ID ||
-                'SELFSERVICETOTEMSTOREMP01CAIXA01'
-            // const url = `${mercadoPagoUrl}/instore/orders/qr/seller/collectors/${mercadoPagoUserId}/pos/${mercadoPagoPosId}/qrs`
-            const url =
-                'https://api.mercadopago.com/instore/orders/qr/seller/collectors/1987490257/pos/SELFSERVICETOTEMSTOREMP01CAIXA01/qrs'
+            const token = process.env.ACCESS_TOKEN_MERCADO_PAGO || ''
+            const mercadoPagoUrl = process.env.MERCADO_PAGO_URL || ''
+            const mercadoPagoUserId = process.env.MERCADO_PAGO_USER_ID || ''
+            const mercadoPagoPosId = process.env.MERCADO_PAGO_POS_ID || ''
+            const url = `${mercadoPagoUrl}/instore/orders/qr/seller/collectors/${mercadoPagoUserId}/pos/${mercadoPagoPosId}/qrs`
             const request = new HttpRequest()
             const headers = new AxiosHeaders()
-            headers.setAuthorization(
-                `Bearer APP_USR-4073045658170575-091222-b346daaf2e3ff6082fe4bdf9ba556eba-1987490257`
-            )
+            headers.setAuthorization(`Bearer ${token}`)
 
             const result: AxiosResponse = await request.post(
                 url,
@@ -47,18 +37,13 @@ export class MercadoPagoExternal implements IExternalPaymentGatewayRepository {
         externalPaymentId: String
     ): Promise<Either<Error, String>> {
         try {
-            const token =
-                process.env.ACCESS_TOKEN_MERCADO_PAGO ||
-                'APP_USR-4073045658170575-091222-b346daaf2e3ff6082fe4bdf9ba556eba-1987490257'
-            const mercadoPagoUrl =
-                process.env.MERCADO_PAGO_URL || 'https://api.mercadopago.com'
+            const token = process.env.ACCESS_TOKEN_MERCADO_PAGO || ''
+            const mercadoPagoUrl = process.env.MERCADO_PAGO_URL || ''
             const url = `${mercadoPagoUrl}/v1/payments/${externalPaymentId}`
 
             const request = new HttpRequest()
             const headers = new AxiosHeaders()
-            headers.setAuthorization(
-                `Bearer APP_USR-4073045658170575-091222-b346daaf2e3ff6082fe4bdf9ba556eba-1987490257`
-            )
+            headers.setAuthorization(`Bearer ${token}`)
 
             const result: AxiosResponse = await request.get(url, headers)
 
