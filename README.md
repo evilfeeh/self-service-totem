@@ -125,3 +125,12 @@ k6 run k6-escalabity-tests.js
 ## PHASE 2 VIDEO
 
 [![Watch explanatory video](https://img.youtube.com/vi/lnBXtZN1KF8/0.jpg)](https://www.youtube.com/watch?v=lnBXtZN1KF8)
+
+
+# PHASE 4 JUSTIFICATIVA BANCO DE DADOS
+O projeto Self Service Totem utiliza o RDS MySQL para armazenar dados de Product, Payment e Order, devido à necessidade de consistência transacional e relacionamentos complexos entre essas entidades, características bem suportadas por bancos relacionais. Já o DynamoDB é utilizado para armazenar informações de usuários, aproveitando sua alta escalabilidade e baixa latência para consultas frequentes e acesso rápido. A segurança é reforçada pelo uso de um Lambda Authorizer no fluxo de autenticação via API Gateway, garantindo controle de acesso eficiente e integrado com o restante da arquitetura serverless.
+
+## RDS MySql
+![MER BANDO DE DADOS](./diagrams/mer-database.png)
+## DynamoDB
+![MER BANDO DE DADOS](./diagrams/mer-auth-database.png)
