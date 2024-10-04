@@ -15,6 +15,7 @@ Our **Event Storming** can be found here: https://miro.com/app/board/uXjVKVP2yDY
 For more details about the project, access: https://github.com/evilfeeh/self-service-totem
 
 ## POSTGRADUATION PHASES
+
 As this projects are being built due the FIAP postgraduation, we use the [github wiki](https://github.com/evilfeeh/self-service-totem/wiki) to documentation the details of each phase and also provide more information if necessary.
 
 ## FEATURES
@@ -77,11 +78,14 @@ Specify the API's pod name and run:
 kubectl port-forward <api-pod-name> 3000:3000
 ```
 
-
 # PHASE 3 DATABASE JUSTIFICATION
+
 The Self Service Totem project uses MySQL RDS for storing Product, Payment, and Order data due to the need for transactional consistency and complex relationships between these entities, which relational databases handle well. DynamoDB is used to store user information, leveraging its high scalability and low latency for frequent queries and fast access. Security is enhanced through a Lambda Authorizer integrated with API Gateway for efficient access control within the serverless architecture.
 
 ## RDS MySql
+
 ![MER BANDO DE DADOS](./diagrams/mer-database.png)
+
 ## DynamoDB
+
 ![MER BANDO DE DADOS](./diagrams/mer-auth-database.png)
