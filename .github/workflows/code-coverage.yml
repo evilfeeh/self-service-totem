@@ -15,13 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 'Coveraging'
+      - name: 'Install Dependencies'
+        run: npm ci
+      - name: 'Run Unit Tests'
         run: npm run test:coverage
 
       - name: Code Coverage Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: coverage/**/cobertura_coverage.xml
+          filename: coverage/cobertura_coverage.xml
           badge: true
           fail_below_min: true
           format: markdown
