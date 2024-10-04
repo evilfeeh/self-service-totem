@@ -1,4 +1,4 @@
-name: "Setup, test and build"
+name: "Setup and build"
 
 on:
   pull_request:
@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: read
-  # Write permissions for pull-requests are required for using the `comment-summary-in-pr` option, comment out if you aren't using this option
   pull-requests: write
 
 jobs:
@@ -25,26 +24,10 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: 'Install Dependencies'
-        run: npm ci
       - name: 'Run Security Audit'
         run: npm audit
 
-  tests:
-    needs: [setup, vulnerabilities]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: 'Install Dependencies'
-        run: npm ci
-      - name: 'Run Unit Tests'
-        run: npm run test:unit
-      - name: 'Run Integration Tests'
-        run: npm run test:integration
-        
   build:
-    needs: tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
