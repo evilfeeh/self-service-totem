@@ -68,7 +68,7 @@ describe('Product Entity', () => {
         })
     })
 
-    describe('Getting properties of product', () => {
+    describe('Getting prorperties of product', () => {
         it('should return the product id', () => {
             expect(product.getId()).toBe('1')
         })
