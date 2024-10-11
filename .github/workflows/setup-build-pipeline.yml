@@ -1,8 +1,8 @@
 name: 'Setup and build'
 
-# on:
-#   pull_request:
-#     branches: [ "main", "development" ]
+on:
+  pull_request:
+    branches: [ "main", "development" ]
 
 permissions:
     contents: read
