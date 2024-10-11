@@ -1,8 +1,6 @@
 # SELF SERVICE TOTEM
 
-<img alt="Node Version" src="https://img.shields.io/badge/Node_Version-20.18-green"> [![Setup, test and build](https://github.com/evilfeeh/self-service-totem/actions/workflows/setup-test-build-pipeline.yml/badge.svg)](https://github.com/evilfeeh/self-service-totem/actions/workflows/setup-test-build-pipeline.yml)
-![](https://camo.githubusercontent.com/97085d7b3ac685c5226b5ecebc9333d2303cdbbf384d55abe5dcccd19fd62007/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f6465253230436f7665726167652d392532352d637269746963616c3f7374796c653d666c6174)
-<img alt="Node Version" src="https://img.shields.io/badge/Node_Version-20.18-green"> [![Setup, test and build](https://github.com/evilfeeh/self-service-totem/actions/workflows/setup-test-build-pipeline.yml/badge.svg)](https://github.com/evilfeeh/self-service-totem/actions/workflows/setup-test-build-pipeline.yml)
+<img alt="Node Version" src="https://img.shields.io/badge/Node_Version-20.18-green"> [![Setup and build](https://github.com/evilfeeh/self-service-totem/actions/workflows/setup-build-pipeline.yml/badge.svg)](https://github.com/evilfeeh/self-service-totem/actions/workflows/setup-build-pipeline.yml)
 ![](https://camo.githubusercontent.com/97085d7b3ac685c5226b5ecebc9333d2303cdbbf384d55abe5dcccd19fd62007/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f6465253230436f7665726167652d392532352d637269746963616c3f7374796c653d666c6174)
 
 This Project about Tech Challenge from FIAP
