@@ -1,6 +1,7 @@
 # SELF SERVICE TOTEM
 
-<img alt="Node Version" src="https://img.shields.io/badge/Node_Version-20.18-green"> <img src="https://img.shields.io/github/actions/workflow/status/evilfeeh/self-service-totem/node.js.yml?label=Node%20Build"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/evilfeeh/self-service-totem/dependency-review.yml?label=Dependecy%20Review"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/evilfeeh/self-service-totem/codeql.yml?label=Code%20Security">
+<img alt="Node Version" src="https://img.shields.io/badge/Node_Version-20.18-green"> [![Setup, test and build](https://github.com/evilfeeh/self-service-totem/actions/workflows/setup-test-build-pipeline.yml/badge.svg)](https://github.com/evilfeeh/self-service-totem/actions/workflows/setup-test-build-pipeline.yml)
+![](https://camo.githubusercontent.com/97085d7b3ac685c5226b5ecebc9333d2303cdbbf384d55abe5dcccd19fd62007/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f6465253230436f7665726167652d392532352d637269746963616c3f7374796c653d666c6174)
 
 This Project about Tech Challenge from FIAP
 A monolith backend Developed with TypeScript, Docker, DDD and hexagonal architecture.
@@ -12,6 +13,9 @@ We're introducing an Software that aims to optimize the self-service process in 
 Our **Event Storming** can be found here: https://miro.com/app/board/uXjVKVP2yDY=/
 
 For more details about the project, access: https://github.com/evilfeeh/self-service-totem
+
+## POSTGRADUATION PHASES
+As this projects are being built due the FIAP postgraduation, we use the [github wiki](https://github.com/evilfeeh/self-service-totem/wiki) to documentation the details of each phase and also provide more information if necessary.
 
 ## FEATURES
 
@@ -63,39 +67,6 @@ The apps runs into port 3000, it's possible to change the value port or other en
 To access the docs, access:
 `http://localhost:3000/public/docs`
 
-## HOW TO SETUP KUBERNETES:
-
-In your local environment, you'll need to use `Minikube` and `Kubectl` to implement our application locally.
-
-to see how it works, please follow these:
-
--   [links to MiniKube Documentation](https://minikube.sigs.k8s.io/docs/start)
--   [links to Kubectl Documentation](https://kubernetes.io/pt-br/docs/reference/kubectl/)
-
-After following this steps, you'll need run the namespace creation in the terminal:
-
-```bash
-    cd k8s/
-    kubectl apply -f namespace.yaml
-```
-
-After this, run the following commands to run the api and the database:
-
-```bash
-    kubectl apply -f api/
-    kubectl apply -f mysql/
-```
-
-This commands will create:
-
--   API deployment - containg our solution
--   Database statefulset
--   Load Balancer Service for API and a ClusterIP none for database
--   ConfigMap with with environment variables
--   Secrets with database credentials
--   HPA to scale the pods automatically
--   PV, PVC and StorageClass to create disk for the application
-
 ## Accessing the API
 
 After running everything, you can use the `Kubectl` commands to ensure the pods are initialized. To access the Swagger aplication, you'll need to port fowarding the api.
@@ -106,29 +77,9 @@ Specify the API's pod name and run:
 kubectl port-forward <api-pod-name> 3000:3000
 ```
 
-## Performance test:
 
-To see the pods scaling, we create a k6 perfomance test that can be found on `./k6-escalabity-tests.js`
-
-**Don't forget to install [K6](https://k6.io/docs/get-started/installation/) before execute this**
-
-Run it and get the pods to se how its scale:
-
-```bash
-k6 run k6-escalabity-tests.js
-```
-
-## PHASE 2 DIAGRAM
-
-![Diagrama Comunicação entre componentes K8s](./diagrams/K8s_Component_Communication_Diagram.svg)
-
-## PHASE 2 VIDEO
-
-[![Watch explanatory video](https://img.youtube.com/vi/lnBXtZN1KF8/0.jpg)](https://www.youtube.com/watch?v=lnBXtZN1KF8)
-
-
-# PHASE 4 JUSTIFICATIVA BANCO DE DADOS
-O projeto Self Service Totem utiliza o RDS MySQL para armazenar dados de Product, Payment e Order, devido à necessidade de consistência transacional e relacionamentos complexos entre essas entidades, características bem suportadas por bancos relacionais. Já o DynamoDB é utilizado para armazenar informações de usuários, aproveitando sua alta escalabilidade e baixa latência para consultas frequentes e acesso rápido. A segurança é reforçada pelo uso de um Lambda Authorizer no fluxo de autenticação via API Gateway, garantindo controle de acesso eficiente e integrado com o restante da arquitetura serverless.
+# PHASE 3 DATABASE JUSTIFICATION
+The Self Service Totem project uses MySQL RDS for storing Product, Payment, and Order data due to the need for transactional consistency and complex relationships between these entities, which relational databases handle well. DynamoDB is used to store user information, leveraging its high scalability and low latency for frequent queries and fast access. Security is enhanced through a Lambda Authorizer integrated with API Gateway for efficient access control within the serverless architecture.
 
 ## RDS MySql
 ![MER BANDO DE DADOS](./diagrams/mer-database.png)
