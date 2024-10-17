@@ -24,6 +24,8 @@ jobs:
         needs: setup
         runs-on: ubuntu-latest
         steps:
+            - name: 'Checkout repository'
+              run: npm ci
             - name: 'Run Security Audit'
               run: npm audit
 
