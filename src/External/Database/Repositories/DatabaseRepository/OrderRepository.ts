@@ -60,7 +60,7 @@ export default class OrderRepository implements IOrderRepository {
                 const orderItemModel = new OrderItemModel()
 
                 orderItemModel.product = productModel as ProductModel
-                orderItemModel.quantity = item.toJson().quantity
+                orderItemModel.quantity = item.toJSON().quantity
                 orderItemModel.order = orderModel
 
                 orderModel.orderItems.push(orderItemModel)
@@ -124,7 +124,7 @@ export default class OrderRepository implements IOrderRepository {
                     const orderItemModel = new OrderItemModel()
 
                     orderItemModel.product = productModel as ProductModel
-                    orderItemModel.quantity = item.toJson().quantity
+                    orderItemModel.quantity = item.toJSON().quantity
                     orderItemModel.order = orderToUpdate
 
                     orderToUpdate.orderItems.push(orderItemModel)

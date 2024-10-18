@@ -32,6 +32,6 @@ describe('Customer Entities', () => {
             'joao.jose@gmail.com'
         )
 
-        expect(typeof customer.toJson()).toBe('object')
+        expect(typeof customer.toJSON()).toBe('object')
     })
 })

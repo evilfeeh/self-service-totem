@@ -44,7 +44,7 @@ export default class Order {
             )
 
             if (productFind) {
-                productFind.updateQuantity(quantity)
+                productFind.updateQuantity(quantity + productFind.getQuantity())
             } else {
                 const item = new OrderItem(product, quantity)
                 this.items.push(item)
@@ -165,7 +165,7 @@ export default class Order {
     toJSON() {
         return {
             id: this.id,
-            items: this.items.map((item) => item.toJson()),
+            items: this.items.map((item) => item.toJSON()),
             customer: this.customer,
             total: this.getTotalOrderValue(),
             closed: this.closed,
