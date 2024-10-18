@@ -14,7 +14,7 @@ export default class FindOrderByIdUseCase {
         if (isLeft(order)) {
             return order
         }
-        
+
         return Right<OutputFindOrderByIdDTO>(order.value.toJSON())
     }
 }
