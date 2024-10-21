@@ -47,7 +47,7 @@ export default class Customer {
         return this.email.getValue()
     }
 
-    toJson() {
+    toJSON() {
         return {
             id: this.id || '',
             name: this.name,

@@ -1,4 +1,3 @@
-
 import ProductPriceGT0Exception from '../@Shared/ProductPriceGreaterThan0'
 import ProductQuantityGT0Exception from '../@Shared/ProductQuantityGreaterThan0'
 import Product from './Product'
@@ -53,7 +52,7 @@ export default class OrderItem {
         this.totalValue = this.product.getPrice() * this.quantity
     }
 
-    toJson() {
+    toJSON() {
         return {
             id: this.id,
             product: this.product.toJSON(),

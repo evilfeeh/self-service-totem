@@ -24,6 +24,6 @@ export default class FindCustomerByCpfUseCase {
             throw new CpfNotFoundException()
         }
 
-        return Right({ ...customerSaved.value.toJson() })
+        return Right({ ...customerSaved.value.toJSON() })
     }
 }

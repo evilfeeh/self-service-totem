@@ -55,7 +55,7 @@ export default class CheckoutUseCase {
             status: paymentResult.value.getStatus(),
             total: total,
             orderId: paymentResult.value.getOrderId(),
-            items: items.map((item) => item.toJson()),
+            items: items.map((item) => item.toJSON()),
             qr_code_data: qrCodeString.value,
         }
 
