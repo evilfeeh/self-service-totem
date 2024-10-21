@@ -24,7 +24,6 @@ jobs:
         needs: setup
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
             - name: 'install dependencies'
               uses: npm i
             - name: 'Checkout repository'
