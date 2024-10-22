@@ -1,6 +1,7 @@
 import { Either, isLeft, Left, Right } from '../../../@Shared/Either'
 import { PaymentStatus } from '../../../Entities/Enums/PaymentStatusEnum'
 import Order from '../../../Entities/Order'
+import { StatusEnum } from '../../../Entities/Enums/StatusEnum'
 import { Payment } from '../../../Entities/Payment'
 import IExternalPaymentGatewayRepository from '../../../Gateways/contracts/IExternalPaymentGatewayRepository'
 import IPaymentGatewayRepository from '../../../Gateways/contracts/IPaymentGatewayRepository'
@@ -19,7 +20,7 @@ export default class CheckoutUseCase {
             'TempId',
             input.orderId,
             PaymentStatus.INITIALIZED,
-            'TempOrder'
+            new Order('Jorginho', '1', StatusEnum.Received, new Date())
         )
 
         const paymentResult = await this.paymentRepository.checkout(payment)
