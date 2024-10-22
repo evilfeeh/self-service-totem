@@ -10,15 +10,10 @@ export class Payment {
     private orderId: string
     private value: number
     private expirationDate: string
-    private order: Order | string
+    private order: Order
     private paymentUrl: string
 
-    constructor(
-        id: string,
-        orderId: string,
-        status: string,
-        order: Order | string
-    ) {
+    constructor(id: string, orderId: string, status: string, order: Order) {
         this.order = order
         this.id = id
         this.status = status
@@ -56,7 +51,7 @@ export class Payment {
     getProducts(): any[] {
         return this.products
     }
-    getOrder(): Order | string {
+    getOrder(): Order {
         return this.order
     }
     setValue(value: number): void {
