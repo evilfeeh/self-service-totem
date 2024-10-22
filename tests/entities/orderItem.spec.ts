@@ -30,4 +30,23 @@ describe('OrderItem entity', () => {
     it('should return the total value of the order item', () => {
         expect(orderItem.getTotalValue()).toBe(10)
     })
+
+    it('should return an object', () => {
+        expect(orderItem.toJson()).toEqual({
+            id: null,
+            product: {
+                id: '1',
+                name: 'Hamburguer Classic',
+                category: CategoryEnum.Sandwich,
+                price: 10,
+                description: 'Muito suculento',
+            },
+            quantity: 1,
+            totalValue: 10,
+        })
+    })
+
+    it('should return the id', () => {
+        expect(orderItem.getId()).toBeNull()
+    })
 })
