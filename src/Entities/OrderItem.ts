@@ -41,11 +41,11 @@ export default class OrderItem {
     }
 
     private validator(): void {
-        if (this.quantity === 0) {
+        if (this.quantity <= 0) {
             throw new ProductQuantityGT0Exception()
         }
 
-        if (this.product.getPrice() === 0) {
+        if (this.product.getPrice() <= 0) {
             throw new ProductPriceGT0Exception()
         }
 

@@ -42,11 +42,37 @@ describe('OrderItem entity', () => {
                 description: 'Muito suculento',
             },
             quantity: 1,
-            totalValue: 10,
+            total: 10,
         })
     })
 
     it('should return the id', () => {
         expect(orderItem.getId()).toBeNull()
+    })
+
+    it('should throw an error when quantity is zero', () => {
+        expect(() => {
+            orderItem.updateQuantity(0)
+        }).toThrow()
+    })
+
+    it('should throw an error when quantity is negative', () => {
+        expect(() => {
+            orderItem.updateQuantity(-1)
+        }).toThrow()
+    })
+
+    it('should throw an error when price is negative', () => {
+        const product = new Product(
+            '1',
+            'Hamburguer Classic',
+            CategoryEnum.Sandwich,
+            10,
+            'Muito suculento'
+        )
+        expect(() => {
+            product.setPrice(-1)
+            orderItem = new OrderItem(product, 1)
+        }).toThrow()
     })
 })
