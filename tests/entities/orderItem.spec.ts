@@ -32,7 +32,7 @@ describe('OrderItem entity', () => {
     })
 
     it('should return an object', () => {
-        expect(orderItem.toJson()).toEqual({
+        expect(orderItem.toJSON()).toEqual({
             id: null,
             product: {
                 id: '1',

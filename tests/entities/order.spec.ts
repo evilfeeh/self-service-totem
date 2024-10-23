@@ -1,6 +1,9 @@
 import Order from '../../src/Entities/Order'
 import OrderItem from '../../src/Entities/OrderItem'
 import { StatusEnum } from '../../src/Entities/Enums/StatusEnum'
+import Product from '../../src/Entities/Product'
+
+import { CategoryEnum } from '../../src/Entities/Enums/CategoryEnum'
 
 import StatusOrderException from '../../src/@Shared/StatusOrderException'
 import { createMockProduct } from '../mocks/product.mock'
@@ -18,12 +21,12 @@ describe('Order entity', () => {
 
         expect(order.toJSON()).toEqual({
             id: order.getId(),
-            closed: order.isClosed(), 
-            createdAt: order.getCreatedAt(), 
-            customer: order.getCustomer(), 
+            closed: order.isClosed(),
+            createdAt: order.getCreatedAt(),
+            customer: order.getCustomer(),
             items: order.getItems().map((item) => item.toJSON()),
-            status: order.getStatus(), 
-            total: order.getTotalOrderValue()
+            status: order.getStatus(),
+            total: order.getTotalOrderValue(),
         })
     })
 
@@ -115,4 +118,30 @@ describe('Order entity', () => {
         }).toThrow(StatusOrderException)
     })
 
+    it('changing products of the order', () => {
+        const chocolate = new Product(
+            '1',
+            'Chocolate',
+            CategoryEnum.Drink,
+            10,
+            'Chocolate amargo'
+        )
+
+        const pudim = new Product(
+            '2',
+            'Pudim',
+            CategoryEnum.Sandwich,
+            15,
+            'Pudim de leite condensado'
+        )
+
+        order.addProduct(chocolate, 1)
+        expect(order.getItems().length).toBe(1)
+
+        order.addProduct(pudim, 1)
+        expect(order.getItems().length).toBe(2)
+
+        order.clearItems()
+        expect(order.getItems().length).toBe(0)
+    })
 })
