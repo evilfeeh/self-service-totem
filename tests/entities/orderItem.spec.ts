@@ -71,8 +71,9 @@ describe('OrderItem entity', () => {
             'Muito suculento'
         )
         expect(() => {
-            product.setPrice(-1)
+            product['price'] = -1
             orderItem = new OrderItem(product, 1)
         }).toThrow()
     })
+
 })
