@@ -1,3 +1,4 @@
+import ProductPriceGT0Exception from '../../src/@Shared/ProductPriceGreaterThan0'
 import { CategoryEnum } from '../../src/Entities/Enums/CategoryEnum'
 import OrderItem from '../../src/Entities/OrderItem'
 import Product from '../../src/Entities/Product'
@@ -73,7 +74,6 @@ describe('OrderItem entity', () => {
         expect(() => {
             product['price'] = -1
             orderItem = new OrderItem(product, 1)
-        }).toThrow()
+        }).toThrow(ProductPriceGT0Exception)
     })
-
 })
