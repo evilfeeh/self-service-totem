@@ -8,6 +8,7 @@ describe('Customer Entities', () => {
             'joao.jose@gmail.com'
         )
 
+        expect(customer.getId()).toBeNull()
         expect(customer.getName()).toBe('João José')
         expect(customer.getCpf()).toBe('88308808093')
         expect(customer.getEmail()).toBe('joao.jose@gmail.com')
@@ -33,5 +34,17 @@ describe('Customer Entities', () => {
         )
 
         expect(typeof customer.toJSON()).toBe('object')
+    })
+
+    it('should change the cpf', () => {
+        const customer = new Customer(
+            'João José',
+            '883.088.080-93',
+            'joao.jose@gmail.com'
+        )
+
+        customer.setCpf('825.750.770-95')
+
+        expect(customer.getCpf()).toBe('82575077095')
     })
 })

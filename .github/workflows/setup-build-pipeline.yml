@@ -24,8 +24,8 @@ jobs:
         needs: setup
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - uses: npm i
+            - name: 'install dependencies'
+              uses: npm i
             - name: 'Checkout repository'
               run: npm ci
             - name: 'Run Security Audit'
