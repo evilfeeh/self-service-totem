@@ -25,7 +25,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: 'install dependencies'
-              uses: npm i
+              run: npm i
             - name: 'Checkout repository'
               run: npm ci
             - name: 'Run Security Audit'
