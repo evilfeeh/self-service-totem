@@ -3,6 +3,8 @@ name: 'Setup and build'
 on:
   pull_request:
     branches: [ "main", "development" ]
+  push:
+    branches: [ "main" ]
 
 permissions:
     contents: read
@@ -14,7 +16,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - name: 'Checkout repository'
-              run: npm ci
+              run: npm ci 
             - name: 'Dependency Review'
               uses: actions/dependency-review-action@v4
               with:
