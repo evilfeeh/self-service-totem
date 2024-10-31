@@ -20,9 +20,9 @@ jobs:
             - name: 'Dependency Review'
               uses: actions/dependency-review-action@v4
               with:
-                  comment-summary-in-pr: always
-
-                
+                  base-ref: main
+                  head-ref: ${{ github.event.pull_request.head.sha }}
+                  comment-summary-in-pr: always               
     vulnerabilities:
         needs: setup
         runs-on: ubuntu-latest
