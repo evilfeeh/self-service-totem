@@ -5,7 +5,7 @@ export default defineConfig({
     test: {
         globals: true,
         environment: 'node',
-        include: ['**/*.spec.ts'],
+        include: ['tests/**/*.spec.ts'],
         poolOptions: {
             threads: {
                 maxThreads: 1,
