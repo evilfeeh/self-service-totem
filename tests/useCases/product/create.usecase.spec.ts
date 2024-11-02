@@ -16,7 +16,7 @@ describe('Create Product UseCase', () => {
     })
 
     it('should create a new product with valid fields', async () => {
-        mockProductRepository.create.mockResolvedValue(Right<string>('Product has been created'))
+        mockProductRepository.create.mockResolvedValue(Right('Product has been created'))
         const result = await usecase.execute(createMockInputProduct())
         expect(isRight(result)).toBeTruthy()
         expect(result.value).toBe('Product has been created')
