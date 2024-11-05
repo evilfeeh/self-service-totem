@@ -50,7 +50,7 @@ jobs:
                 auth: ${{ secrets.GIST_SECRET }}
                 gistID: b08eb2c7df611955dd487f17d2a4c340
                 filename: coverage.json
-                label: Coverage
+                label: Code Coverage
                 message: ${{ env.ANSWER }}
                 valColorRange: ${{ env.ANSWER }}
                 maxColorRange: 100
