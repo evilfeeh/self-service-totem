@@ -42,7 +42,7 @@ jobs:
             
             - name: 'Save Coverage Report to Env'
               run: |
-                echo "ANSWER=$(cat code-coverage-results.md)" >> $GITHUB_ENV
+                echo "ANSWER=$(head -n 1 code-coverage-results.md | cut -c63-65)" >> $GITHUB_ENV
                     
             - name: Create Awesome Badge
               uses: schneegans/dynamic-badges-action@v1.7.0
