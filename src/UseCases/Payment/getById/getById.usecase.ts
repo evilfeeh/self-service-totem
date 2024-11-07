@@ -1,5 +1,4 @@
 import { Either, isLeft, Left, Right } from '../../../@Shared/Either'
-import { Payment } from '../../../Entities/Payment'
 import IPaymentGatewayRepository from '../../../Gateways/contracts/IPaymentGatewayRepository'
 import { InputGetByIdDTO, OutputGetByIdDTO } from './getById.dto'
 
