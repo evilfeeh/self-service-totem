@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { IOrderGatewayRepository } from '../../../src/Gateways/contracts/IOrderGatewayRepository'
-import { isRight, Right } from '../../../src/@Shared/Either'
+import { isLeft, isRight, Left, Right } from '../../../src/@Shared/Either'
 import Order from '../../../src/Entities/Order'
 import { StatusEnum } from '../../../src/Entities/Enums/StatusEnum'
 import StatusOrderException from '../../../src/@Shared/StatusOrderException'
@@ -20,6 +20,23 @@ describe('FinishPrepareOrderUseCase', () => {
         finishPrepareOrderUseCase = new FinishPrepareOrderUseCase(
             mockOrderRepository as IOrderGatewayRepository
         )
+    })
+
+    it('should return an error if the order does not exist', async () => {
+        const orderId = 'nonexistent-order-id'
+
+        mockOrderRepository.get = vi
+            .fn()
+            .mockResolvedValue(Left<Error>(new Error('Order not found')))
+
+        const input: InputFinishPrepareOrderDTO = { id: orderId }
+        const result = await finishPrepareOrderUseCase.execute(input)
+
+        expect(isLeft(result)).toBe(true)
+        if (isLeft(result)) {
+            expect(result.value.message).toBe('Order not found')
+        }
+        expect(mockOrderRepository.get).toHaveBeenCalledWith(orderId)
     })
 
     it('should update the order status to "Ready" when the order is "Preparing"', async () => {
