@@ -42,6 +42,7 @@ export default class OrderController {
             res.status(400).json({
                 message: 'user_name is required',
             })
+            return
         }
 
         const result = await this.createOrderUseCase.execute({
