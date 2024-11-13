@@ -61,7 +61,7 @@ describe('RegisterCustomerUseCase', () => {
         )
     })
 
-    it('should return generic error if unexpected exception occurs', async () => {
+    it('should return generic error if unexpected non-Error exception occurs', async () => {
         const input: InputRegisterCustomerDTO = {
             name: 'John Doe',
             email: 'john@example.com',
@@ -77,6 +77,26 @@ describe('RegisterCustomerUseCase', () => {
         expect(isLeft(result)).toBe(true)
         if (isLeft(result)) {
             expect(result.value).toEqual(new Error('Internal Server Error'))
+        }
+    })
+
+    it('should return specific error if unexpected Error instance occurs', async () => {
+        const input: InputRegisterCustomerDTO = {
+            name: 'John Doe',
+            email: 'john@example.com',
+            cpf: '49315582080',
+        }
+
+        const specificError = new Error('Specific Error')
+        mockCustomerRepository.create = vi.fn().mockImplementation(() => {
+            throw specificError
+        })
+
+        const result = await registerCustomerUseCase.execute(input)
+
+        expect(isLeft(result)).toBe(true)
+        if (isLeft(result)) {
+            expect(result.value).toBe(specificError)
         }
     })
 })
