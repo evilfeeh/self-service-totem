@@ -7,6 +7,7 @@ import ProductQuantityGT0Exception from '../../src/Entities/Exceptions/ProductQu
 import CpfAlreadyRegistered from '../../src/Entities/Exceptions/CpfAlreadyRegistered'
 import CpfNotFoundException from '../../src/Entities/Exceptions/CpfNotFoundException'
 import NotFoundException from '../../src/Entities/Exceptions/NotFoundException'
+import InvalidEmailException from '../../src/@Shared/InvalidEmailException'
 
 describe('Testing Exceptions', () => {
     it('InvalidCpfException', () => {
@@ -55,5 +56,10 @@ describe('Testing Exceptions', () => {
             'Product quantity must be greater than 0'
         )
         expect(exception.name).toBe('ProductQuantityGT0Exception')
+    })
+    it('InvalidEmailException', () => {
+        const exception = new InvalidEmailException()
+        expect(exception.message).toBe('Invalid email')
+        expect(exception.name).toBe('InvalidEmailException')
     })
 })
