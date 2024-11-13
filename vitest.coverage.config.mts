@@ -15,6 +15,7 @@ export default defineConfig({
                 '**/Gateways/*',
                 '**/Repositories/*',
                 '**/Migrations/*',
+                '**/External/Api/*',
             ],
         },
     },
